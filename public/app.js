@@ -12,14 +12,18 @@ function googleLogin(){
 
         .then(result => {
             const user = result.user;
+<<<<<<< HEAD
             document.write('Hello ' + user.displayName);
+=======
+>>>>>>> SignOut Button
             console.log(user)
         })
         .catch(console.log)
 };
 
 function googleLogout(){
-    firebase.auth().signOut().then(function(){
+    firebase.auth().signOut().then(result =>{
+        document.write("Sign Out Successful")
 
 
     }).catch(function(error){
