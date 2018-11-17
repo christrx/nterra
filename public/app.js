@@ -12,10 +12,7 @@ function googleLogin(){
 
         .then(result => {
             const user = result.user;
-<<<<<<< HEAD
-            document.write('Hello ' + user.displayName);
-=======
->>>>>>> SignOut Button
+
             console.log(user)
         })
         .catch(console.log)
