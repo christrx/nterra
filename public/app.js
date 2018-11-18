@@ -13,6 +13,8 @@ function googleLogin(){
         .then(result => {
             const user = result.user;
 
+            
+
             console.log(user)
         })
         .catch(console.log)

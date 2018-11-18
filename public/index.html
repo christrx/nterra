@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>nterra Fuhrparkverwaltung</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.5.8/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/5.5.8/firebase-auth.js"></script>
-    <script defer src="/__/firebase/5.5.8/firebase-firestore.js"></script>
-    <script defer src="/__/firebase/5.5.8/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/5.5.8/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="app.js"> </script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nterra Fuhrparkverwaltung</title>
 
-  </head>
-  <body>
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/5.5.8/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/5.5.8/firebase-auth.js"></script>
+  <script defer src="/__/firebase/5.5.8/firebase-firestore.js"></script>
+  <script defer src="/__/firebase/5.5.8/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/5.5.8/firebase-storage.js"></script>
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
+  <script src="app.js"> </script>
 
-    <button style="background-color: #0672ce; height: 50px; height: 50px; border: #f5a748" onclick = "googleLogin()">
-      Google Sign-In
-    </button>
-    <button onclick = "googleLogout()">
-      Google Sign-Out
-    </button>
+</head>
+<header>
+  <img src="images/logo.jpg" height="100" width="100" />
+  <h1>Fuhrparkverwaltung</h1>
+</header>
+
+<body>
+
+  <button onclick="googleLogin()">
+    Google Sign-In
+  </button>
+  <button onclick="googleLogout()">
+    Google Sign-Out
+  </button>
+  <a href="index.html"> Dashboard </a>
+  <a href="pages/datenbankverwaltung.html"> Datenbank </a>
+  <a href="pages/fuehrerschein.html"> Führerschein</a>
 
 
-    
 
-  </body>
+
+
+</body>
+
 </html>
