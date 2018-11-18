@@ -83,13 +83,13 @@ ul li{
     border: 1px solid #f5a748;    
 }
 
-.forms form button{
+button{
     background: #589ce9;
     border: 0;
     text-transform: uppercase;
 }
 
-.forms form button:hover, .forms form button:focus{
+button:hover, button:focus{
     background: #f5a748;
     color: #fff;
     outline: 0;
