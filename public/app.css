@@ -98,7 +98,7 @@ button:hover, button:focus{
 .alert{
     text-align: center;
     padding: 10px;
-    background: green;
+    background: #17a345;
     color: white;
     margin-bottom: 10px;
     display: none
