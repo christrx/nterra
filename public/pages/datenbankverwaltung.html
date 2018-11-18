@@ -13,16 +13,15 @@
 <body>
     <div class="container">
         <header class="kopfzeile">
-            <h1 class="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
+            <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
             <nav>
                 <ul>
                     <li><button onclick="window.location.href='../index.html'"> Dashboard </button></li>
                     <li><button onclick="window.location.href='datenbankverwaltung.html'"> Datenbank </button></li>
-                    <li> <button onclick="window.location.href='fuehrerschein.html'"> Führerschein </button></li>
+                    <li><button onclick="window.location.href='fuehrerschein.html'"> Führerschein </button></li>
                     <li><button onclick="googleLogin()"> Google Sign-In </button></li>
                 </ul>
             </nav>
-        </header>
         </header>
         <div class="wrapper">
             <div class="info">
@@ -32,7 +31,7 @@
                 <div class="alert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
                 <form id="carform">
                     <p>
-                        <label>Model</label>
+                        <label>Modell</label>
                         <input type="text" name="model" id="model" required>
                     </p>
                     <p>

@@ -1,7 +1,7 @@
 *{
     box-sizing: border-box;
 }
-
+/* Styling Hintergrund, Schriftart */
 body{
     background: #a5a7a8;
     color: #000000;
@@ -9,7 +9,7 @@ body{
     line-height: 1.6;
     padding: 1em;
 }
-
+/* Styling Formular Container*/
 .container{
     max-width: 1170px;
     margin-left: auto;
@@ -17,16 +17,28 @@ body{
     padding: 1em;
 }
 
-ul li{
+/* Styling Kopfleiste*/
+
+header{
+    background: rgb(34,34,34,0.5);
+    color: #fff;
+    padding: 1em;
+}
+header li{
     list-style: none;
     padding: 0;
     display: inline;
-    align-items: center;
+}
+
+#title span{
+    color: #0672ce;
+
 }
 
 .kopfzeile{
     grid-template-columns: 1fr, 1fr;
 }
+
 
 .kopfzeile button{
     border: none;
@@ -34,12 +46,13 @@ ul li{
     color: white;
     background-color: #0672ce;
     height: 40px;
-    width: 200px;
+    width: 115px;
 
 }
 
+/* Styling Kopfzeile des Formulars*/
 .wrapper{
-    box-shadow: 0 0 20px rgb(6, 114, 206, 0.7);
+    box-shadow: 0 0 20px rgb(6, 114, 206, 0.25);
 }
 
 .wrapper > *{
@@ -47,7 +60,8 @@ ul li{
 }
 
 .info{
-    background: #0672ce;
+    background-image: url("images/car.jpg");
+    background-size: auto;
     color: #fff;
 }
 
@@ -55,6 +69,8 @@ ul li{
     text-align: center;
     margin: 0 0 1rem 0;
 }
+
+/*Styling des Formulars*/
 
 .forms{
     background: #c4d6e6
@@ -93,7 +109,7 @@ button:hover, button:focus{
     background: #f5a748;
     color: #fff;
     outline: 0;
-    transition: background-color 1s ease-out;
+    transition: background-color 0.25s ease-out;
 }
 .alert{
     text-align: center;
@@ -102,11 +118,6 @@ button:hover, button:focus{
     color: white;
     margin-bottom: 10px;
     display: none
-}
-
-.title span{
-    color: #0672ce;
-
 }
 
 @media(min-width: 700px){
