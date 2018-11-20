@@ -80,11 +80,11 @@ function getInputValues(id){
 // Save car to firestore
 function saveFirmenwagen(model,kennzeichen,fahrer,blp,vnummer,zuzahlung){
     firmenwagenRef.add({
-        Model: model,
+        Modell: model,
         Kennzeichen: kennzeichen,
         Fahrer: fahrer,
-        BLP: blp,
-        vnummer: vnummer,
-        zuzahlung: zuzahlung
+        BLP: blp + " €",
+        Versicherungsnummer: vnummer,
+        Zuzahlung: zuzahlung + " €"
     });
 }
