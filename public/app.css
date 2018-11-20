@@ -15,26 +15,28 @@ body{
     background: #949494;
     color: #000000;
     font-family: 'RBCR','DroidSans';
-    line-height: 1.6;
-    padding: 1em;
-    margin-top: 75px;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
 }
 /* Styling Formular Container*/
 .container{
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1em;
 }
 
 /* Styling Kopfleiste*/
 
-header{
+.kopfzeile{
     background: rgb(34, 34, 34,0.5);
     color: #fff;
     padding: 1em;
+    border-bottom: #f5a748 3px solid;
 }
-header li{
+
+.kopfzeile ul{
+    padding: 0;
+    margin:0;
+}
+.kopfzeile li{
     list-style: none;
     padding: 0;
     display: inline;
@@ -70,7 +72,7 @@ header li{
 }
 
 .info{
-    background: rgb(245, 167, 72,0.75);
+    background: rgb(245, 167, 72, 0.75);
     color: #fff;
 }
 
