@@ -1,17 +1,27 @@
 *{
     box-sizing: border-box;
 }
+
+@font-face{
+    font-family: 'DroidSans';
+    src: url("fonts/DroidSans.ttf");
+}
+@font-face{
+    font-family: 'RBCR';
+    src: url("fonts/RobotoCondensed-Regular.ttf");
+}
 /* Styling Hintergrund, Schriftart */
 body{
-    background: #a5a7a8;
+    background: #949494;
     color: #000000;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'RBCR','DroidSans';
     line-height: 1.6;
     padding: 1em;
+    margin-top: 75px;
 }
 /* Styling Formular Container*/
 .container{
-    max-width: 1170px;
+    max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
     padding: 1em;
@@ -20,7 +30,7 @@ body{
 /* Styling Kopfleiste*/
 
 header{
-    background: rgb(34,34,34,0.5);
+    background: rgb(34, 34, 34,0.5);
     color: #fff;
     padding: 1em;
 }
@@ -60,8 +70,7 @@ header li{
 }
 
 .info{
-    background-image: url("images/car.jpg");
-    background-size: auto;
+    background: rgb(245, 167, 72,0.75);
     color: #fff;
 }
 
