@@ -16,24 +16,28 @@ function googleLogin(){
 
     firebase.auth().signInWithPopup(provider)
 
-        .then(result => {
-            const user = result.user;
+        .then(function(result) {
+            var user = result.user;
 
-            
-
-            console.log(user)
+            console.log(user.name)
         })
         .catch(console.log)
 };
 
 function googleLogout(){
-    firebase.auth().signOut().then(result =>{
-        document.write("Sign Out Successful")
+    firebase.auth().signOut();
+}
 
-
-    }).catch(function(error){
-
-});}
+function initFirebaseAuth(){
+    firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+            window.location = "pages/datenbankverwaltung.html"
+        }
+        else{
+            window.location = "index.html"
+        }
+    });
+}
 
 //Reference Firmenwagen collection
 var firmenwagenRef = db.collection('Fahrzeuge');
