@@ -20,14 +20,16 @@
                     <li><button onclick="window.location.href='../index.html'"> Dashboard </button></li>
                     <li><button onclick="window.location.href='datenbankverwaltung.html'"> Datenbank </button></li>
                     <li><button onclick="window.location.href='fuehrerschein.html'"> Führerschein </button></li>
-                    <li><button class="libutton"onclick="googleLogin()"> Google Sign-In </button></li>
-                    <li><button class="lobutton"onclick="googleLogout()" hidden> Google Sign-Out</button></li>
+                    <li><button id='libutton' onclick="googleLogin()"> Google Sign-In </button></li>
+                    <li><button id='lobutton' onclick="googleLogout()" hidden> Google Sign-Out</button></li>
+                    <li><p id='username' hidden></p></li>
                 </ul>
             </nav>
         </header>
         <div class="wrapper">
             <div class="info">
                 <h3>Fuhrparkverwaltung</h3>
+                <h1 id='namename'></h1>
             </div>
             <div class="forms">
                 <div class="alert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>

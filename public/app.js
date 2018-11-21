@@ -13,18 +13,16 @@ var config = {
 
 function googleLogin(){
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-    .then(function(result){
-        var user = result.user;
-        console.log(user.displayName);
-    })
+    firebase.auth().signInWithPopup(provider);
+    var user = firebase.auth().currentUser;
+    console.log(user.displayName);
+    
 }
 
 //Sign-out
 
 function googleLogout(){
     firebase.auth().signOut();
-    console.log(user.displayName);
 }
 
 //Initiate Firebase Auth
@@ -39,23 +37,35 @@ function isUserSignedIn(){
     return !!firebase.auth().currentUser;
 }
 
+//Returns User name
+function getUserName(){
+    return firebase.auth().currentUser.displayName;
+}
+
 //Triggers when the Auth State changes for instance when the user signs in or out
 
 function authStateObserver(user){
+    console.log('Authi')
     if(user){
+        var username = getUserName();
         //TODO: profile pic und user name
         //TODO: SI button ausblenden SO button einblenden
-        getElementsByClassName("lobutton").removeAttribute("hidden");
-        getElementsByClassName("libutton").syle.display = "hidden";
+        document.getElementById('lobutton').removeAttribute('hidden');
+        document.getElementById('libutton').setAttribute('hidden','true');
+        document.getElementById('username').style.display = 'inline';
+        document.getElementById('username').textContent = username;
     }
     else{
+        document.getElementById('libutton').removeAttribute('hidden');
+        document.getElementById('lobutton').setAttribute('hidden','true');
+        document.getElementById('username').setAttribute('hidden','true');
     }
 }
 
 
 
 //Reference Firestore Database
-  var db = firebase.firestore();
+var db = firebase.firestore();
 
 //Reference Firmenwagen collection
 var firmenwagenRef = db.collection('Fahrzeuge');
