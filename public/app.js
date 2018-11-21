@@ -13,8 +13,11 @@ var config = {
 
 function googleLogin(){
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
-    var user = firebase.auth().currentUser;
+    firebase.auth().signInWithPopup(provider)
+    .then(function(){
+        var user = firebase.auth().currentUser;
+        window.location.href = 'pages/datenbankverwaltung.html';
+    });
     console.log(user.displayName);
     
 }
