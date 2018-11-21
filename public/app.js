@@ -9,35 +9,51 @@ var config = {
   };
   firebase.initializeApp(config);
 
-var db = firebase.firestore();
+//Sign-in to Google
 
 function googleLogin(){
-    const provider = new firebase.auth.GoogleAuthProvider();
-
+    var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
+    .then(function(result){
+        var user = result.user;
+        console.log(user.displayName);
+    })
+}
 
-        .then(function(result) {
-            var user = result.user;
-
-            console.log(user.name)
-        })
-        .catch(console.log)
-};
+//Sign-out
 
 function googleLogout(){
     firebase.auth().signOut();
+    console.log(user.displayName);
 }
 
+//Initiate Firebase Auth
+
 function initFirebaseAuth(){
-    firebase.auth().onAuthStateChanged(user =>{
-        if(user){
-            window.location = "pages/datenbankverwaltung.html"
-        }
-        else{
-            window.location = "index.html"
-        }
-    });
+    firebase.auth().onAuthStateChanged(authStateObserver);
 }
+
+//Returns true if User is signed-in
+
+function isUserSignedIn(){
+    return !!firebase.auth().currentUser;
+}
+
+//Triggers when the Auth State changes for instance when the user signs in or out
+
+function authStateObserver(user){
+    if(user){
+        //TODO: profile pic und user name
+        //TODO: SI button ausblenden SO button einblenden
+    }
+    else{
+    }
+}
+
+
+
+//Reference Firestore Database
+  var db = firebase.firestore();
 
 //Reference Firmenwagen collection
 var firmenwagenRef = db.collection('Fahrzeuge');
@@ -92,3 +108,5 @@ function saveFirmenwagen(model,kennzeichen,fahrer,blp,vnummer,zuzahlung){
         Zuzahlung: zuzahlung + " €"
     });
 }
+
+initFirebaseAuth();

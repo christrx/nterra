@@ -13,15 +13,18 @@
 
 <body>
     <div class="container">
-        <div class="kopfzeile">
-            <p id="title"> Fuhrparkverwaltung</p>
-            <ul>
-                <li><button onclick="window.location.href='../index.html'"> Dashboard </button></li>
-                <li><button onclick="window.location.href='datenbankverwaltung.html'"> Datenbank </button></li>
-                <li> <button onclick="window.location.href='fuehrerschein.html'"> Führerschein </button></li>
-                <li><button onclick="googleLogin()"> Google Sign-In </button></li>
-            </ul>
-        </div>
+        <header class="kopfzeile">
+            <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
+            <nav>
+                <ul>
+                    <li><button onclick="window.location.href='../index.html'"> Dashboard </button></li>
+                    <li><button onclick="window.location.href='datenbankverwaltung.html'"> Datenbank </button></li>
+                    <li><button onclick="window.location.href='fuehrerschein.html'"> Führerschein </button></li>
+                    <li><button class="libutton"onclick="googleLogin()"> Google Sign-In </button></li>
+                    <li><button class="lobutton"onclick="googleLogout()"> Google Sign-Out</button></li>
+                </ul>
+            </nav>
+        </header>
         <div class="wrapper">
 
         </div>
