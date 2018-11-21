@@ -45,6 +45,8 @@ function authStateObserver(user){
     if(user){
         //TODO: profile pic und user name
         //TODO: SI button ausblenden SO button einblenden
+        getElementsByClassName("lobutton").removeAttribute("hidden");
+        getElementsByClassName("libutton").syle.display = "hidden";
     }
     else{
     }
