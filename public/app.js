@@ -48,7 +48,7 @@ function getUserName(){
 //Triggers when the Auth State changes for instance when the user signs in or out
 
 function authStateObserver(user){
-    console.log('Authi')
+    console.log('Authi');
     if(user){
         var username = getUserName();
         //TODO: profile pic und user name
@@ -74,13 +74,14 @@ var db = firebase.firestore();
 var firmenwagenRef = db.collection('Fahrzeuge');
 
 // Listen for form submit
-document.getElementById('carform').addEventListener('submit', submitForm)
+document.getElementById('carform').addEventListener('submit', submitForm);
 
 // Submit Form
 function submitForm(e){
     e.preventDefault();
 
      //Get values
+     var art = getRadioValues();
      var model = getInputValues('model');
      var kennzeichen = getInputValues('kennzeichen');
      var fahrer = getInputValues('fahrer');
@@ -90,7 +91,7 @@ function submitForm(e){
 
      // Save Firmenwagen
 
-     saveFirmenwagen(model,kennzeichen,fahrer,blp,vnummer,zuzahlung);
+     saveFirmenwagen(art,model,kennzeichen,fahrer,blp,vnummer,zuzahlung);
 
      // Show alert
      document.querySelector('.alert').style.display = 'block';
@@ -112,9 +113,15 @@ function getInputValues(id){
     return document.getElementById(id).value;
 }
 
+// Function to get radio values
+function getRadioValues(){
+    return document.querySelector('input[name="fahrzeugart"]:checked').value;
+}
+
 // Save car to firestore
-function saveFirmenwagen(model,kennzeichen,fahrer,blp,vnummer,zuzahlung){
-    firmenwagenRef.add({
+function saveFirmenwagen(art,model,kennzeichen,fahrer,blp,vnummer,zuzahlung){
+    firmenwagenRef.doc(kennzeichen).set({
+        Fahrzeugart: art,
         Modell: model,
         Kennzeichen: kennzeichen,
         Fahrer: fahrer,

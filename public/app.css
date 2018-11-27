@@ -61,6 +61,10 @@ body{
 
 }
 
+.home{
+    display: none;
+}
+
 /* Styling Kopfzeile des Formulars*/
 .wrapper{
     box-shadow: 0 0 20px rgb(6, 114, 206, 0.25);

@@ -2,37 +2,86 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>nterra Fuhrparkverwaltung</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nterra Fuhrparkverwaltung</title>
 
-  <link rel="stylesheet" href="app.css">
-  <link rel="icon" href="images/logo.jpg">
+    <link rel="stylesheet" href="app.css">
+    <link rel="icon" href="images/logo.jpg">
 
-  <body>
+<body>
     <div class="container">
         <header class="kopfzeile">
             <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
             <nav>
                 <ul>
-                    <li><button onclick="window.location.href='index.html'"> Dashboard </button></li>
-                    <li><button onclick="window.location.href='pages/datenbankverwaltung.html'"> Datenbank </button></li>
+                    <li><button onclick="window.location.href='index.html'"> Home </button></li>
+                    <li><button onclick="window.location.href='pages/datenbankverwaltung.html'"> Fahrzeuge </button></li>
                     <li><button onclick="window.location.href='pages/fuehrerschein.html'"> Führerschein </button></li>
-                    <li><button id='libutton' onclick="googleLogin()"> Google Sign-In </button></li>
-                    <li><button id='lobutton' onclick="googleLogout()" hidden> Google Sign-Out</button></li>
-                    <li><p id='username' hidden></p></li>
+                    <li><button> Datenbank </button></li>
+                    <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
+                    <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
+                    <li>
+                        <p id='username' hidden></p>
+                    </li>
                 </ul>
             </nav>
         </header>
-          <div class="wrapper">
-              <h1 id="namename"></h1>
-  
-          </div>
-      </div>
-      <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+        <div class="page home">
+            <div class="info">
+                <h3>Home</h3>
+            </div>
+            <h1 id="namename"></h1>
+        </div>
 
-      <script src="app.js"> </script>
-  
-  </body>
-  
-  </html>
+        <div class="wrapper page fahrzeuge">
+            <div class="info">
+                <h3>Fuhrparkverwaltung</h3>
+                <h1 id='namename'></h1>
+            </div>
+            <div class="forms">
+                <div class="alert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
+                <form id="carform">
+                    <p class="full">
+                        <label class="full">Fahrzeugart</label>
+                        <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" checked>Mietwagen
+                        <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen">Firmenwagen
+                    </p>
+                    <p>
+                        <label>Kennzeichen</label>
+                        <input type="text" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000" required>
+                    </p>
+                    <p>
+                        <label>Modell</label>
+                        <input type="text" name="model" id="model" required>
+                    </p>
+                    <p>
+                        <label>Fahrer</label>
+                        <input type="text" name="fahrer" id="fahrer" required>
+                    </p>
+                    <p>
+                        <label>Bruttolistenpreis in €</label>
+                        <input type="text" name="blp" id="blp" required>
+                    </p>
+                    <p>
+                        <label>KFZ Versicherungsnummer</label>
+                        <input type="text" name="vnummer" id="vnummer" placeholder="xx-xxxx-xxxx-xx" required>
+                    </p>
+                    <p>
+                        <label>Zuzahlung in €</label>
+                        <input type="text" name="zuzahlung" id="zuzahlung" required>
+                    </p>
+                    <p class="full">
+                        <button type="submit">Absenden</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+    <script src="app.js"> </script>
+
+</body>
+
+</html>
