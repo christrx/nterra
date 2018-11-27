@@ -65,7 +65,7 @@ function authStateObserver(user){
     }
 }
 
-
+//Test Kommentar
 
 //Reference Firestore Database
 var db = firebase.firestore();
