@@ -21,9 +21,7 @@
                     <li><button> Datenbank </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
                     <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
-                    <li>
-                        <p id='username' hidden></p>
-                    </li>
+                    <li><p id='username' hidden></p></li>
                 </ul>
             </nav>
         </header>
@@ -43,33 +41,33 @@
                 <div class="alert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
                 <form id="carform">
                     <p class="full">
-                        <label class="full">Fahrzeugart</label>
-                        <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" checked>Mietwagen
-                        <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen">Firmenwagen
+                        <label>Fahrzeugart:</label>
+                        <label><input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" checked/>Mietwagen</label>
+                        <label><input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen"/>Firmenwagen</label>
                     </p>
                     <p>
                         <label>Kennzeichen</label>
-                        <input type="text" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000" required>
+                        <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000" required>
                     </p>
                     <p>
                         <label>Modell</label>
-                        <input type="text" name="model" id="model" required>
+                        <input type="text" class="big" name="model" id="model" required>
                     </p>
                     <p>
                         <label>Fahrer</label>
-                        <input type="text" name="fahrer" id="fahrer" required>
+                        <input type="text" class="big" name="fahrer" id="fahrer" required>
                     </p>
                     <p>
                         <label>Bruttolistenpreis in €</label>
-                        <input type="text" name="blp" id="blp" required>
+                        <input type="text" class="big" name="blp" id="blp" required>
                     </p>
                     <p>
                         <label>KFZ Versicherungsnummer</label>
-                        <input type="text" name="vnummer" id="vnummer" placeholder="xx-xxxx-xxxx-xx" required>
+                        <input type="text" class="big" name="vnummer" id="vnummer" placeholder="xx-xxxx-xxxx-xx" required>
                     </p>
                     <p>
                         <label>Zuzahlung in €</label>
-                        <input type="text" name="zuzahlung" id="zuzahlung" required>
+                        <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
                     </p>
                     <p class="full">
                         <button type="submit">Absenden</button>
