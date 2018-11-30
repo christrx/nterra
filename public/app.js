@@ -73,6 +73,9 @@ var db = firebase.firestore();
 //Reference Firmenwagen collection
 var firmenwagenRef = db.collection('Fahrzeuge');
 
+// TODO: Listener für Radio Button
+// TODO: Alternative Submit Methode
+
 // Listen for form submit
 document.getElementById('carform').addEventListener('submit', submitForm);
 
