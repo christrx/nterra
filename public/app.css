@@ -12,7 +12,7 @@
 }
 /* Styling Hintergrund, Schriftart */
 body{
-    background: #949494;
+    background: rgb(102, 102, 102, 0.5);
     color: #000000;
     font-family: 'RBCR','DroidSans';
     line-height: 1.5;
@@ -25,7 +25,7 @@ body{
 /* Styling Kopfleiste*/
 
 .kopfzeile{
-    background: rgb(34, 34, 34,0.5);
+    background: rgb(102, 102, 102);
     color: #fff;
     padding: 1em;
 }

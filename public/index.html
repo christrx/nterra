@@ -14,6 +14,7 @@
         <header class="kopfzeile">
             <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
             <nav>
+                <!--TODO: Kopfleiste ausrichten/Login button einzeln/Logoutbutton + user bild + user name-->
                 <ul>
                     <li><button onclick="window.location.href='index.html'"> Home </button></li>
                     <li><button onclick="window.location.href='pages/datenbankverwaltung.html'"> Fahrzeuge </button></li>
@@ -40,33 +41,40 @@
             <div class="forms">
                 <div class="alert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
                 <form id="carform">
-                    <p class="full">
+                    <p class="fahrzeugart">
                         Fahrzeugart:<br />
                         <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen" checked/> Firmenwagen
                         <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen"/> Mietwagen
                     </p>
-                    <p>
+                    <p class="üdatum" style="visibility: hidden">
+                        <label>Übergabedatum</label>
+                        <input type="date" class="big" name="üdatum" id="üdatum">
+                    </p>
+                    <p class="kennzeichen">
                         <label>Kennzeichen</label>
                         <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000" required>
                     </p>
-                    <p>
+                    <p class="model">
                         <label>Modell</label>
                         <input type="text" class="big" name="model" id="model" required>
                     </p>
-                    <p>
+                    <p class="fahrer">
                         <label>Fahrer</label>
                         <input type="text" class="big" name="fahrer" id="fahrer" required>
                     </p>
-                    <p>
+                    <p class="blp">
                         <label>Bruttolistenpreis in €</label>
                         <input type="text" class="big" name="blp" id="blp" required>
                     </p>
-                    <p>
+                    <p class="vnummer">
                         <label>KFZ Versicherungsnummer</label>
-                        <input type="text" class="big" name="vnummer" id="vnummer" placeholder="xx-xxxx-xxxx-xx" required>
+                        <input type="text" class="big" name="vnummer" id="vnummer" placeholder="xx-xxxx-xxxx-xx">
                     </p>
-                    <!-- TODO: Alternatives Feld erstellen -->
-                    <p>
+                    <p class="fklasse" hidden>
+                        <label>Fahrzeugklasse</label>
+                        <input type="text" class="big" name="fklasse" id="fklasse">
+                    </p>
+                    <p class="zuzahlung">
                         <label>Zuzahlung in €</label>
                         <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
                     </p>
