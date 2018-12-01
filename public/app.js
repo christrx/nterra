@@ -10,32 +10,23 @@ var config = {
 firebase.initializeApp(config);
 
 // Sign-in to Google
-
 function googleLogin() {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-        .then(function () {
-            var user = firebase.auth().currentUser;
-            window.location.href = 'pages/datenbankverwaltung.html';
-        });
-    console.log(user.displayName);
-
+    firebase.auth().signInWithPopup(provider);
+    var user = firebase.auth().currentUser;
 }
 
 // Sign-out
-
 function googleLogout() {
     firebase.auth().signOut();
 }
 
 // Initiate Firebase Auth
-
 function initFirebaseAuth() {
     firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
 // Returns true if User is signed-in
-
 function isUserSignedIn() {
     return !!firebase.auth().currentUser;
 }
@@ -45,23 +36,31 @@ function getUserName() {
     return firebase.auth().currentUser.displayName;
 }
 
-// Triggers when the Auth State changes for instance when the user signs in or out
+// Returns user pic
+function getUserPicUrl(){
+    return firebase.auth().currentUser.photoURL;
+}
 
-function authStateObserver(user) {
-    console.log('Authi');
-    if (user) {
+// Triggers when the Auth State changes for instance when the user signs in or out
+function authStateObserver(user){
+    console.log('hi');
+    if(user){
         var username = getUserName();
-        //TODO: profile pic und user name
-        //TODO: SI button ausblenden SO button einblenden
-        document.getElementById('lobutton').removeAttribute('hidden');
-        document.getElementById('libutton').setAttribute('hidden', 'true');
-        document.getElementById('username').style.display = 'inline';
+        var userPicUrl = getUserPicUrl();
+
         document.getElementById('username').textContent = username;
+        document.getElementById('userpic').style.backgroundImage = 'url(' + userPicUrl + ')';
+
+        document.getElementById('libutton').style.display = 'none';
+        document.getElementById('lobutton').style.display = 'inline';
+        document.getElementById('username').style.display = 'inline';
+        document.getElementById('userpic').style.display = 'inline-block';
     }
-    else {
-        document.getElementById('libutton').removeAttribute('hidden');
-        document.getElementById('lobutton').setAttribute('hidden', 'true');
-        document.getElementById('username').setAttribute('hidden', 'true');
+    else{
+        document.getElementById('libutton').style.display = 'inline';
+        document.getElementById('lobutton').style.display = 'none';
+        document.getElementById('username').style.display = 'none';
+        document.getElementById('userpic').style.display = 'none';
     }
 }
 
@@ -79,6 +78,11 @@ function changeFormFirm(e) {
     document.getElementsByClassName('üdatum')[0].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
     document.getElementsByClassName('vnummer')[0].style.display = 'block';
+    document.getElementsByClassName('vdaten')[0].style.display ='block';
+    document.getElementsByClassName('cnummer')[0].style.display = 'block';
+    document.getElementsByClassName('cende')[0].style.display = 'block';
+    document.getElementsByClassName('mileage')[0].style.display = 'block';
+    document.getElementsByClassName('odatum')[0].style.display = 'block';
 }
 
 // Listen for click on the form radio buttons
@@ -89,7 +93,13 @@ function changeFormMiet(e) {
     document.getElementsByClassName('üdatum')[0].style.visibility = 'visible';
     document.getElementsByClassName('fklasse')[0].style.display = 'block';
     document.getElementsByClassName('vnummer')[0].style.display = 'none';
+    document.getElementsByClassName('vdaten')[0].style.display ='none';
+    document.getElementsByClassName('cnummer')[0].style.display = 'none';
+    document.getElementsByClassName('cende')[0].style.display = 'none';
+    document.getElementsByClassName('mileage')[0].style.display = 'none';
+    document.getElementsByClassName('odatum')[0].style.display = 'none';
 }
+
 // Listen for form submit
 document.getElementById('carform').addEventListener('submit', submitForm);
 
@@ -106,10 +116,13 @@ function submitForm(e) {
         var blp = getInputValues('blp');
         var vnummer = getInputValues('vnummer');
         var zuzahlung = getInputValues('zuzahlung');
+        var odatum = getInputValues('odatum');
+        var mileage = getInputValues('mileage');
+        var cende = getInputValues('cende');
+        var cnummer = getInputValues('cnummer');
 
         // Save Firmenwagen to the database
-
-        saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlung);
+        saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlung, odatum, mileage, cende, cnummer);
     }
     else {
         var art = getRadioValues();
@@ -122,26 +135,21 @@ function submitForm(e) {
         var zuzahlung = getInputValues('zuzahlung');
 
         // Save mietwagen to the database
-
         saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung);
     }
 
     // Show alert
-
     document.querySelector('.alert').style.display = 'block';
 
     // Hide alert after 3 seconds
-
     setTimeout(function () {
         document.querySelector('.alert').style.display = 'none';
     }, 3000);
 
     // Clear Document after submission
-
     document.getElementById('carform').reset();
 
     // Reset the form fields
-
     resetCarform();
 
 }
@@ -156,9 +164,8 @@ function getRadioValues() {
     return document.querySelector('input[name="fahrzeugart"]:checked').value;
 }
 
-// Save company car to firestore
-// TODO: Vertrags Collection und Verträge anlegen
-function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlung) {
+// Save company car and its contract information to firestore
+function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlung, odatum, mileage, cende, cnummer) {
     fahrzeugeRef.doc(kennzeichen).set({
         Fahrzeugart: art,
         Modell: model,
@@ -168,8 +175,15 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
         Versicherungsnummer: vnummer,
         Zuzahlung: zuzahlung + " €"
     });
+    fahrzeugeRef.doc(kennzeichen).collection('Vertrag').doc(cnummer).set({
+        Bestelldatum: odatum,
+        Laufleistung: mileage + " km",
+        Vertragsende: cende,
+        Vertragsnummer: cnummer
+    })
 }
 
+// Save rented car to firestore
 function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung) {
     fahrzeugeRef.doc(kennzeichen).set({
         Fahrzeugart: art,
@@ -184,11 +198,16 @@ function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zu
 }
 
 // reset the fields after successful submission
-
 function resetCarform() {
     document.getElementsByClassName('üdatum')[0].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
     document.getElementsByClassName('vnummer')[0].style.display = 'block';
+    document.getElementsByClassName('vdaten')[0].style.display ='block';
+    document.getElementsByClassName('cnummer')[0].style.display = 'block';
+    document.getElementsByClassName('cende')[0].style.display = 'block';
+    document.getElementsByClassName('mileage')[0].style.display = 'block';
+    document.getElementsByClassName('odatum')[0].style.display = 'block';
+
 }
 
 initFirebaseAuth();

@@ -22,7 +22,9 @@
                     <li><button onclick="window.location.href='pages/datenbank.html'"> Datenbank </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
                     <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
-                    <li><p id='username' hidden></p></li>
+                    <li id="buffer" style="visibility: hidden">bla</li>
+                    <li hidden id="username"></li>
+                    <li id="userpic"></li>
                 </ul>
             </nav>
         </header>
@@ -35,7 +37,7 @@
 
         <div class="wrapper page fahrzeuge">
             <div class="info">
-                <h3>Fuhrparkverwaltung</h3>
+                <h2>Fahrzeuge</h2>
                 <h1 id='namename'></h1>
             </div>
             <div class="forms">
@@ -77,6 +79,23 @@
                     <p class="zuzahlung">
                         <label>Zuzahlung in €</label>
                         <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
+                    </p>
+                    <h4 class="full vdaten">Vertragsdaten</h4>
+                    <p class="cnummer">
+                        <label>Vertragsnummer</label>
+                        <input type="text" class="big" name="cnummer" id="cnummer">
+                    </p>
+                    <p class="odatum">
+                        <label>Bestelldatum</label>
+                        <input type="date" class="big" name="odatum" id="odatum">
+                    </p>
+                    <p class="mileage">
+                        <label>Laufleistung in km</label>
+                        <input type="text" class="big" name="mileage" id="mileage">
+                    </p>
+                    <p class="cende">
+                        <label>Vertragsende</label>
+                        <input type="date" class="big" name="cende" id="cende">
                     </p>
                     <p class="full">
                         <button type="submit">Absenden</button>
