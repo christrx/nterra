@@ -9,7 +9,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-//Sign-in to Google
+// Sign-in to Google
 
 function googleLogin() {
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -22,30 +22,30 @@ function googleLogin() {
 
 }
 
-//Sign-out
+// Sign-out
 
 function googleLogout() {
     firebase.auth().signOut();
 }
 
-//Initiate Firebase Auth
+// Initiate Firebase Auth
 
 function initFirebaseAuth() {
     firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
-//Returns true if User is signed-in
+// Returns true if User is signed-in
 
 function isUserSignedIn() {
     return !!firebase.auth().currentUser;
 }
 
-//Returns User name
+// Returns User name
 function getUserName() {
     return firebase.auth().currentUser.displayName;
 }
 
-//Triggers when the Auth State changes for instance when the user signs in or out
+// Triggers when the Auth State changes for instance when the user signs in or out
 
 function authStateObserver(user) {
     console.log('Authi');
@@ -65,24 +65,26 @@ function authStateObserver(user) {
     }
 }
 
-//Test Kommentar
-
-//Reference Firestore Database
+// Reference Firestore Database
 var db = firebase.firestore();
 
-//Reference Firmenwagen collection
+// Reference Firmenwagen collection
 var fahrzeugeRef = db.collection('Fahrzeuge');
 
+// Listen for click on the form radio buttons
 document.getElementById('firmenwagen').addEventListener('click', changeFormFirm);
 
+// Updates the form if the Firmenwagen radio is clicked
 function changeFormFirm(e) {
     document.getElementsByClassName('üdatum')[0].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
     document.getElementsByClassName('vnummer')[0].style.display = 'block';
 }
 
+// Listen for click on the form radio buttons
 document.getElementById('mietwagen').addEventListener('click', changeFormMiet);
 
+// Updates the form if the Mietwagen radio is clicked
 function changeFormMiet(e) {
     document.getElementsByClassName('üdatum')[0].style.visibility = 'visible';
     document.getElementsByClassName('fklasse')[0].style.display = 'block';
@@ -95,7 +97,7 @@ document.getElementById('carform').addEventListener('submit', submitForm);
 function submitForm(e) {
     e.preventDefault();
 
-    //Get values
+    // Get values of the input fields
     if (getRadioValues() == "Firmenwagen") {
         var art = getRadioValues();
         var model = getInputValues('model');
@@ -105,7 +107,7 @@ function submitForm(e) {
         var vnummer = getInputValues('vnummer');
         var zuzahlung = getInputValues('zuzahlung');
 
-        // Save Firmenwagen
+        // Save Firmenwagen to the database
 
         saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlung);
     }
@@ -119,10 +121,13 @@ function submitForm(e) {
         var fklasse = getInputValues('fklasse');
         var zuzahlung = getInputValues('zuzahlung');
 
+        // Save mietwagen to the database
+
         saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung);
     }
 
     // Show alert
+
     document.querySelector('.alert').style.display = 'block';
 
     // Hide alert after 3 seconds
@@ -131,7 +136,7 @@ function submitForm(e) {
         document.querySelector('.alert').style.display = 'none';
     }, 3000);
 
-    // Clear Document
+    // Clear Document after submission
 
     document.getElementById('carform').reset();
 
@@ -152,6 +157,7 @@ function getRadioValues() {
 }
 
 // Save company car to firestore
+// TODO: Vertrags Collection und Verträge anlegen
 function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlung) {
     fahrzeugeRef.doc(kennzeichen).set({
         Fahrzeugart: art,
@@ -164,7 +170,7 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
     });
 }
 
-function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung){
+function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung) {
     fahrzeugeRef.doc(kennzeichen).set({
         Fahrzeugart: art,
         Modell: model,
@@ -177,9 +183,9 @@ function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zu
     })
 }
 
-// reset the fields
+// reset the fields after successful submission
 
-function resetCarform(){
+function resetCarform() {
     document.getElementsByClassName('üdatum')[0].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
     document.getElementsByClassName('vnummer')[0].style.display = 'block';
