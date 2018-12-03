@@ -104,7 +104,7 @@ function changeFormMiet(e) {
 document.getElementById('carform').addEventListener('submit', submitForm);
 
 // Listen for form submit
-//TODO
+//TODO ID noch falsch
 document.getElementById('askDataSet').addEventListener('choice', placeholder);
 
 // Submit Form
@@ -213,5 +213,8 @@ function resetCarform() {
     document.getElementsByClassName('odatum')[0].style.display = 'block';
 
 }
+
+function getDataMask(Datensatz)
+    
 
 initFirebaseAuth();
