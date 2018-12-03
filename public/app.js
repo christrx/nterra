@@ -214,7 +214,10 @@ function resetCarform() {
 
 }
 
-function getDataMask(Datensatz)
-    
+    //gets the InputWindow for the key of the desired Dataset
+    function getDataMask(Datensatz) {
+        console.log(Datensatz);
+        document.getElementById("insertKey").style.display = 'block';
+    }
 
 initFirebaseAuth();

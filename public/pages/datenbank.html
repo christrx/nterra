@@ -42,26 +42,36 @@
                     <p class = "Placeholder">
                     </p>
                     <p>
-                        <button onclick="" class="full" type="choice">Mitarbeiter</button>
+                        <button onclick= "getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
                     </p>
                     <p>
-                        <button class="full" type="choice">Fahrzeug</button>
+                        <button class="full" type="button">Fahrzeug</button>
                     </p>
                     <p>
-                        <button class="full" type="choice">Führerschein</button>
+                        <button class="full" type="button">Führerschein</button>
                     </p>
                     <p>
-                        <button class="full" type="choice">Vertrag</button>
+                        <button class="full" type="button">Vertrag</button>
                     </p>
                 </form>
             </div>
 
         </div>
 
+        <div class = "forms" id = "insertKey" style="display: none;">
+            <p>
+                Bitte geben sie den Schlüssel ein
+            </p>
+            <p>
+            <label>Schlüssel</label><br />
+            <input type="text" class="big" name="keyinsert" id="keyinsert">
+            </p>
+        </div>
+
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-    <script src="app.js"></script>
+    <script src="../app.js"></script>
 
 </body>
 
