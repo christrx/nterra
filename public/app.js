@@ -216,8 +216,22 @@ function resetCarform() {
 
     //gets the InputWindow for the key of the desired Dataset
     function getDataMask(Datensatz) {
-        console.log(Datensatz);
-        document.getElementById("insertKey").style.display = 'block';
+        if (Datensatz == "Mitarbeiter") {
+            document.getElementById("insertKey").style.display = 'block';
+            document.getElementById("keyLabel").innerHTML = "Name";
+            }
+        if (Datensatz == "Fahrzeug") {
+            document.getElementById("insertKey").style.display = 'block';
+            document.getElementById("keyLabel").innerHTML = "Kennzeichen";
+            }
+        if (Datensatz == "Führerschein") {
+            document.getElementById("insertKey").style.display = 'block';
+            document.getElementById("keyLabel").innerHTML = "Name des Besitzers";
+            }
+        if (Datensatz == "Vertrag") {
+            document.getElementById("insertKey").style.display = 'block';
+            document.getElementById("keyLabel").innerHTML = "Vertragsnummer";
+            }
     }
 
 initFirebaseAuth();

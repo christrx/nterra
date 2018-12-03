@@ -45,13 +45,13 @@
                         <button onclick= "getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
                     </p>
                     <p>
-                        <button class="full" type="button">Fahrzeug</button>
+                        <button onclick= "getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
                     </p>
                     <p>
-                        <button class="full" type="button">Führerschein</button>
+                        <button onclick= "getDataMask('Führerschein')" class="full" type="button">Führerschein</button>
                     </p>
                     <p>
-                        <button class="full" type="button">Vertrag</button>
+                        <button onclick= "getDataMask('Vertrag')" class="full" type="button">Vertrag</button>
                     </p>
                 </form>
             </div>
@@ -63,9 +63,12 @@
                 Bitte geben sie den Schlüssel ein
             </p>
             <p>
-            <label>Schlüssel</label><br />
+            <label id = "keyLabel">Schlüssel</label><br />
             <input type="text" class="big" name="keyinsert" id="keyinsert">
             </p>
+            <P>
+                <button onclick="searchDatabase" class="full" type="submit" id="btSearch">Suchen</button>
+            </P>
         </div>
 
     </div>
