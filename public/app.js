@@ -103,10 +103,6 @@ function changeFormMiet(e) {
 // Listen for form submit
 document.getElementById('carform').addEventListener('submit', submitForm);
 
-// Listen for form submit
-//TODO ID noch falsch
-document.getElementById('askDataSet').addEventListener('choice', placeholder);
-
 // Submit Form
 function submitForm(e) {
     e.preventDefault();
