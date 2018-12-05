@@ -53,8 +53,8 @@ function authStateObserver(user){
 
         document.getElementById('libutton').style.display = 'none';
         document.getElementById('lobutton').style.display = 'inline';
-        document.getElementById('username').style.display = 'inline';
         document.getElementById('userpic').style.display = 'inline-block';
+        document.getElementById('username').style.display = 'inline';
     }
     else{
         document.getElementById('libutton').style.display = 'inline';
