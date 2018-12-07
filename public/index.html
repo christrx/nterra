@@ -34,7 +34,152 @@
                 <h3>Home</h3>
             </div>
         </div>
-        <div class="page fahrzeuge" style="display: none">
+
+        <div class="page fuehrerschein" style="display: none">
+                <div class="info">
+                    <h3>Editor</h3>
+                </div>
+                    <!--hier unsichtbar-->
+                    <div class="forms" id="Fahrzeug-Edit" style="display: none">
+                        <div class="formalert"> </div>
+                        <form id="editorform">
+                            <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
+                            <p class="uedatum" style="visibility: hidden">
+                                <label>Übergabedatum</label>
+                                <input type="date" class="big" name="uedatum" id="uedatum">
+                            </p>
+                            <p class="kennzeichen">
+                                <label>Kennzeichen</label>
+                                <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000"
+                                    required>
+                            </p>
+                            <p class="model">
+                                <label>Modell</label>
+                                <input type="text" class="big" name="model" id="model" required>
+                            </p>
+                            <p class="fahrer">
+                                <label>Fahrer</label>
+                                <input type="text" class="big" name="fahrer" id="fahrer" required>
+                            </p>
+                            <p class="blp">
+                                <label>Bruttolistenpreis in €</label>
+                                <input type="text" class="big" name="blp" id="blp" required>
+                            </p>
+                            <p class="vnummer">
+                                <label>Kfz-Versicherungsnummer</label>
+                                <input type="text" class="big" name="vnummer" id="vnummer" placeholder="xx-xxxx-xxxx-xx">
+                            </p>
+                            <p class="fklasse" hidden>
+                                <label>Fahrzeugklasse</label>
+                                <input type="text" class="big" name="fklasse" id="fklasse">
+                            </p>
+                            <p class="zuzahlung">
+                                <label>Zuzahlung in €</label>
+                                <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
+                            </p>
+                            <h4 class="full vdaten">Vertragsdaten</h4>
+                            <p class="cnummer">
+                                <label>Vertragsnummer</label>
+                                <input type="text" class="big" name="cnummer" id="cnummer">
+                            </p>
+                            <p class="odatum">
+                                <label>Bestelldatum</label>
+                                <input type="date" class="big" name="odatum" id="odatum">
+                            </p>
+                            <p class="mileage">
+                                <label>Laufleistung in km</label>
+                                <input type="text" class="big" name="mileage" id="mileage">
+                            </p>
+                            <p class="cende">
+                                <label>Vertragsende</label>
+                                <input type="date" class="big" name="cende" id="cende">
+                            </p>
+                            <p class="full">
+                                <button type="submit">Absenden</button>
+                            </p>
+                        </form>
+                    </div>
+                
+                <!--Ab hier Mitarbeiter-Form-->
+
+                <div class="forms" id="Mitarbeiter-Edit" style="display: none"></div>
+                        <div class="formalert"> </div>
+                        <form id="editorform">
+                            <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
+                            <p class="placeholder"></p>
+                            <p class="name">
+                                <label>Name</label>
+                                <input type="text" class="big" name="Name" id="txtname" required>
+                            </p>
+                            <p class="nterraID">
+                                <label>nterra ID</label>
+                                <input type="text" class="big" name="nterraID" id="kennzeichen" required>
+                            </p>
+                            <h4 class="Führerschein-Status">Führerschein-Status</h4>
+                            <p class="lastUpload">
+                                <label>letzter Upload</label>
+                            </p>
+                            <p class="lastCheck">
+                                <label>letzter Check</label>
+                            </p>
+                            <h4 class="Bürofahrten">Fahrten ins Büro</h4>
+                            <p class="Bürofahrten">
+                                <label>Fahrten ins Büro im letzten Kalenderjahr</label>
+                            </p>
+                            <p class="full">
+                                <button type="submit">Absenden</button>
+                            </p>
+                        </form>
+                    </div>
+        </div>
+
+
+
+        <!--Datenbank Page-->
+        <div class="page datenbank" style="display: none">
+            <div class="info">
+                <h3>Datenbank</h3>
+            </div>
+            <div class="forms">
+                <div class="formalert"> 
+                    Änderungen wurden gespeichert 
+                </div>
+                    <form id="databaseEdit">
+                        <p class = "askDataSet">
+                            Welche Daten möchten sie ändern oder einsehen?
+                        </p>
+                        <p class = "Placeholder">
+                        </p>
+                        <p>
+                            <button onclick= "getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
+                        </p>
+                        <p>
+                            <button onclick= "getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
+                        </p>
+                    </form>
+            </div>
+
+            <div class="info" id= "insertInfo" style="display: none">
+            </div>
+
+            <div class = "forms" id = "insertKey" style="display: none;">
+                    <p>
+                        Bitte geben sie den Schlüssel ein
+                    </p>
+                    <p>
+                    <label id = "keyLabel">Schlüssel</label><br />
+                    <input type="text" class="big" name="keyinsert" id="keyinsert">
+                    </p>
+                    <P>
+                        <button onclick="searchDatabase" class="full" type="submit" id="btSearch">Suchen</button>
+                    </P>
+            </div>
+     </div>
+
+
+            <!-- hier den Code von datenbank.html einfügen-->
+
+    <div class="page fahrzeuge" style="display: none">
             <div class="info">
                 <h3>Fahrzeuge</h3>
             </div>
@@ -103,17 +248,10 @@
                 </form>
             </div>
         </div>
-        <div class="page fuehrerschein" style="display: none">
-            <div class="info">
-                <h3>Führerschein</h3>
-            </div>
-            <h1>Hallo bei Führerschein</h1>
-        </div>
-        <div class="page datenbank" style="display: none">
-            <div class="info">
-                <h3>Datenbank</h3>
-            </div>
-            <!-- hier den Code von datenbank.html einfügen-->
+        
+
+
+
         </div>
         <div class="page error" style="display: none">
             <h1>Oops something must have went wrong :(</h1>

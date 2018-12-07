@@ -269,20 +269,14 @@ function resetCarform() {
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
     if (Datensatz == "Mitarbeiter") {
+        document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Name";
     }
     if (Datensatz == "Fahrzeug") {
+        document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Kennzeichen";
-    }
-    if (Datensatz == "Führerschein") {
-        document.getElementById("insertKey").style.display = 'block';
-        document.getElementById("keyLabel").innerHTML = "Name des Besitzers";
-    }
-    if (Datensatz == "Vertrag") {
-        document.getElementById("insertKey").style.display = 'block';
-        document.getElementById("keyLabel").innerHTML = "Vertragsnummer";
     }
 }
 
