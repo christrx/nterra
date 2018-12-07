@@ -76,11 +76,11 @@ body{
 }
 
 /* Styling Kopfzeile des Formulars*/
-.wrapper{
+.page{
     box-shadow: 0 0 20px rgb(6, 114, 206, 0.25);
 }
 
-.wrapper > *{
+.page > *{
     padding: 1em;
 }
 
@@ -131,6 +131,11 @@ body{
     border: none;
 }
 
+.error{
+    background: #f5a748;
+    color: white;
+}
+
 button{
     background: #589ce9;
     border: 0;
@@ -143,7 +148,7 @@ button:hover, button:focus{
     outline: 0;
     transition: background-color 0.25s ease-out;
 }
-.alert{
+.formalert{
     text-align: center;
     padding: 10px;
     background: #17a345;
@@ -151,13 +156,22 @@ button:hover, button:focus{
     margin-bottom: 10px;
     display: none
 }
+
+.useralert{
+    text-align: center;
+    padding: 10px;
+    background: #f5a748;
+    color: white;
+    display: none;
+    font-size: 25px;
+}
 @media(min-width: 700px){
-    .wrapper{
+    .page{
         display: grid;
         grid-template-columns: 1fr 2fr;
     }
 
-    .wrapper > *{
+    .page > *{
         padding: 2em;
     }
 

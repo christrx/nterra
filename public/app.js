@@ -12,8 +12,10 @@ firebase.initializeApp(config);
 // Sign-in to Google
 function googleLogin() {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
-    var user = firebase.auth().currentUser;
+    firebase.auth().signInWithPopup(provider).then(function(){
+        var user = firebase.auth().currentUser;
+        window.location.hash = "home";
+    })
 }
 
 // Sign-out
@@ -37,14 +39,14 @@ function getUserName() {
 }
 
 // Returns user pic
-function getUserPicUrl(){
+function getUserPicUrl() {
     return firebase.auth().currentUser.photoURL;
 }
 
 // Triggers when the Auth State changes for instance when the user signs in or out
-function authStateObserver(user){
+function authStateObserver(user) {
     console.log('hi');
-    if(user){
+    if (user) {
         var username = getUserName();
         var userPicUrl = getUserPicUrl();
 
@@ -56,14 +58,68 @@ function authStateObserver(user){
         document.getElementById('userpic').style.display = 'inline-block';
         document.getElementById('username').style.display = 'inline';
     }
-    else{
+    else {
         document.getElementById('libutton').style.display = 'inline';
         document.getElementById('lobutton').style.display = 'none';
         document.getElementById('username').style.display = 'none';
         document.getElementById('userpic').style.display = 'none';
+        hideAllPages();
+        window.location.hash = "welcome";
+    }
+}
+// TODO: Funktion, die bei angeklicktem Datensatz Codewort + ID des Datensatzes als hash setzt
+
+// Triggers when the windows hash value changes and updates the ui accordingly
+window.onhashchange = function() {
+    hideAllPages();
+    var currentHash = window.location.hash;
+    if(!firebase.auth().currentUser){
+        currentHash = "#welcome";
+    }
+    if(currentHash == '#home'){
+        document.getElementsByClassName('home')[0].style.display = 'grid';
+    }
+    else if(currentHash == '#fahrzeuge'){
+        document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
+    }
+    else if(currentHash == '#fuehrerschein'){
+        document.getElementsByClassName('fuehrerschein')[0].style.display = 'grid';
+    }
+    else if(currentHash == '#datenbank'){
+        document.getElementsByClassName('datenbank')[0].style.display = 'grid';
+    }
+    else if(currentHash == '#welcome'){
+        return;
+    }
+    else{
+        document.getElementsByClassName('error')[0].style.display = 'grid';
+    }
+};
+
+// Sets the windows hash value according to which button is pressed in the bavigation bar
+function setHash(page) {
+    if (!isUserSignedIn()) {
+        // Show alert
+        document.querySelector('.useralert').style.display = 'block';
+
+        // Hide alert after 3 seconds
+        setTimeout(function () {
+            document.querySelector('.useralert').style.display = 'none';
+        }, 5000);
+        return;
+    }
+    else {
+        window.location.hash = page;
     }
 }
 
+// Hides all pages
+function hideAllPages(){
+    var pages = document.getElementsByClassName("page")
+    for (let i = 0; i < pages.length; i++) {
+        pages[i].style.display = 'none';
+    }
+}
 // Reference Firestore Database
 var db = firebase.firestore();
 
@@ -75,10 +131,10 @@ document.getElementById('firmenwagen').addEventListener('click', changeFormFirm)
 
 // Updates the form if the Firmenwagen radio is clicked
 function changeFormFirm(e) {
-    document.getElementsByClassName('üdatum')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('uedatum')[0].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
     document.getElementsByClassName('vnummer')[0].style.display = 'block';
-    document.getElementsByClassName('vdaten')[0].style.display ='block';
+    document.getElementsByClassName('vdaten')[0].style.display = 'block';
     document.getElementsByClassName('cnummer')[0].style.display = 'block';
     document.getElementsByClassName('cende')[0].style.display = 'block';
     document.getElementsByClassName('mileage')[0].style.display = 'block';
@@ -90,10 +146,10 @@ document.getElementById('mietwagen').addEventListener('click', changeFormMiet);
 
 // Updates the form if the Mietwagen radio is clicked
 function changeFormMiet(e) {
-    document.getElementsByClassName('üdatum')[0].style.visibility = 'visible';
+    document.getElementsByClassName('uedatum')[0].style.visibility = 'visible';
     document.getElementsByClassName('fklasse')[0].style.display = 'block';
     document.getElementsByClassName('vnummer')[0].style.display = 'none';
-    document.getElementsByClassName('vdaten')[0].style.display ='none';
+    document.getElementsByClassName('vdaten')[0].style.display = 'none';
     document.getElementsByClassName('cnummer')[0].style.display = 'none';
     document.getElementsByClassName('cende')[0].style.display = 'none';
     document.getElementsByClassName('mileage')[0].style.display = 'none';
@@ -126,7 +182,7 @@ function submitForm(e) {
     }
     else {
         var art = getRadioValues();
-        var üdate = getInputValues('üdatum');
+        var uedate = getInputValues('uedatum');
         var model = getInputValues('model');
         var kennzeichen = getInputValues('kennzeichen');
         var fahrer = getInputValues('fahrer');
@@ -135,15 +191,15 @@ function submitForm(e) {
         var zuzahlung = getInputValues('zuzahlung');
 
         // Save mietwagen to the database
-        saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung);
+        saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung);
     }
 
     // Show alert
-    document.querySelector('.alert').style.display = 'block';
+    document.querySelector('.formalert').style.display = 'block';
 
     // Hide alert after 3 seconds
     setTimeout(function () {
-        document.querySelector('.alert').style.display = 'none';
+        document.querySelector('.formalert').style.display = 'none';
     }, 3000);
 
     // Clear Document after submission
@@ -184,12 +240,12 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
 }
 
 // Save rented car to firestore
-function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung) {
+function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zuzahlung) {
     fahrzeugeRef.doc(kennzeichen).set({
         Fahrzeugart: art,
         Modell: model,
         Kennzeichen: kennzeichen,
-        Übergabedatum: üdate,
+        Übergabedatum: uedate,
         Fahrer: fahrer,
         Bruttolistenpreis: blp + " €",
         Fahrzeugklasse: fklasse,
@@ -199,10 +255,10 @@ function saveMietwagen(art, üdate, model, kennzeichen, fahrer, blp, fklasse, zu
 
 // reset the fields after successful submission
 function resetCarform() {
-    document.getElementsByClassName('üdatum')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('uedatum')[0].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
     document.getElementsByClassName('vnummer')[0].style.display = 'block';
-    document.getElementsByClassName('vdaten')[0].style.display ='block';
+    document.getElementsByClassName('vdaten')[0].style.display = 'block';
     document.getElementsByClassName('cnummer')[0].style.display = 'block';
     document.getElementsByClassName('cende')[0].style.display = 'block';
     document.getElementsByClassName('mileage')[0].style.display = 'block';
@@ -210,24 +266,24 @@ function resetCarform() {
 
 }
 
-    //gets the InputWindow for the key of the desired Dataset
-    function getDataMask(Datensatz) {
-        if (Datensatz == "Mitarbeiter") {
-            document.getElementById("insertKey").style.display = 'block';
-            document.getElementById("keyLabel").innerHTML = "Name";
-            }
-        if (Datensatz == "Fahrzeug") {
-            document.getElementById("insertKey").style.display = 'block';
-            document.getElementById("keyLabel").innerHTML = "Kennzeichen";
-            }
-        if (Datensatz == "Führerschein") {
-            document.getElementById("insertKey").style.display = 'block';
-            document.getElementById("keyLabel").innerHTML = "Name des Besitzers";
-            }
-        if (Datensatz == "Vertrag") {
-            document.getElementById("insertKey").style.display = 'block';
-            document.getElementById("keyLabel").innerHTML = "Vertragsnummer";
-            }
+//gets the InputWindow for the key of the desired Dataset
+function getDataMask(Datensatz) {
+    if (Datensatz == "Mitarbeiter") {
+        document.getElementById("insertKey").style.display = 'block';
+        document.getElementById("keyLabel").innerHTML = "Name";
     }
+    if (Datensatz == "Fahrzeug") {
+        document.getElementById("insertKey").style.display = 'block';
+        document.getElementById("keyLabel").innerHTML = "Kennzeichen";
+    }
+    if (Datensatz == "Führerschein") {
+        document.getElementById("insertKey").style.display = 'block';
+        document.getElementById("keyLabel").innerHTML = "Name des Besitzers";
+    }
+    if (Datensatz == "Vertrag") {
+        document.getElementById("insertKey").style.display = 'block';
+        document.getElementById("keyLabel").innerHTML = "Vertragsnummer";
+    }
+}
 
 initFirebaseAuth();
