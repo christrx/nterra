@@ -14,12 +14,12 @@
         <header class="kopfzeile">
             <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
             <nav>
-                <!--TODO: Kopfleiste ausrichten/Login button einzeln/Logoutbutton + user bild + user name-->
+
                 <ul>
-                    <li><button onclick="window.location.href='index.html'"> Home </button></li>
-                    <li><button onclick="window.location.href='pages/datenbankverwaltung.html'"> Fahrzeuge </button></li>
-                    <li><button onclick="window.location.href='pages/fuehrerschein.html'"> Führerschein </button></li>
-                    <li><button onclick="window.location.href='pages/datenbank.html'"> Datenbank </button></li>
+                    <li><button onclick="setHash('home')"> Home </button></li>
+                    <li><button onclick="setHash('fahrzeuge')"> Fahrzeuge </button></li>
+                    <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
+                    <li><button onclick="setHash('datenbank')"> Datenbank </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
                     <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
                     <li id="buffer" style="visibility: hidden">bla</li>
@@ -28,33 +28,33 @@
                 </ul>
             </nav>
         </header>
-        <div class="page home">
+        <div class="useralert">Bitte melden Sie sich zunächst mit ihrem nterra Google Konto an</div>
+        <div class="page home" style="display: none">
             <div class="info">
                 <h3>Home</h3>
             </div>
-            <h1 id="namename"></h1>
         </div>
-
-        <div class="wrapper page fahrzeuge">
+        <div class="page fahrzeuge" style="display: none">
             <div class="info">
-                <h2>Fahrzeuge</h2>
-                <h1 id='namename'></h1>
+                <h3>Fahrzeuge</h3>
             </div>
             <div class="forms">
-                <div class="alert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
+                <div class="formalert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
                 <form id="carform">
                     <p class="fahrzeugart">
                         Fahrzeugart:<br />
-                        <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen" checked/> Firmenwagen
-                        <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen"/> Mietwagen
+                        <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen" checked />
+                        Firmenwagen
+                        <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" /> Mietwagen
                     </p>
-                    <p class="üdatum" style="visibility: hidden">
+                    <p class="uedatum" style="visibility: hidden">
                         <label>Übergabedatum</label>
-                        <input type="date" class="big" name="üdatum" id="üdatum">
+                        <input type="date" class="big" name="uedatum" id="uedatum">
                     </p>
                     <p class="kennzeichen">
                         <label>Kennzeichen</label>
-                        <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000" required>
+                        <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000"
+                            required>
                     </p>
                     <p class="model">
                         <label>Modell</label>
@@ -103,7 +103,21 @@
                 </form>
             </div>
         </div>
-        <div class="page datenbank"></div>
+        <div class="page fuehrerschein" style="display: none">
+            <div class="info">
+                <h3>Führerschein</h3>
+            </div>
+            <h1>Hallo bei Führerschein</h1>
+        </div>
+        <div class="page datenbank" style="display: none">
+            <div class="info">
+                <h3>Datenbank</h3>
+            </div>
+            <!-- hier den Code von datenbank.html einfügen-->
+        </div>
+        <div class="page error" style="display: none">
+            <h1>Oops something must have went wrong :(</h1>
+        </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 
