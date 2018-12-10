@@ -290,7 +290,7 @@ function getEditor(Datensatz, Key) {
     setHash('fuehrerschein')
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("Mitarbeiter-Edit").style.display = 'block';
-        //getFunction für Datenbank-Werte
+        searchDatabase(Key, false)
     }
     if (Datensatz =="Fahrzeug") {
         document.getElementById("Fahrzeug-Edit").style.display = 'block';
@@ -304,11 +304,10 @@ function searchDatabase(key, bool){
     } else{
         var docRef = mitarbeiterRef.doc(key)
     }
-    console.log(key);
         docRef.get().then(function(doc) {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
-                FillEditMask(doc, bool);
+                FillEditMask(doc, bool, key);
             } else {
                 //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
                 console.log("No such document!");
@@ -318,8 +317,12 @@ function searchDatabase(key, bool){
         });
     }
 
-function FillEditMask(doc, bool) {
+var startdate = new Date (new Date().getFullYear(), 0, 1)
+var enddate = new Date (new Date().getFullYear() + 1, 0, 1)
+
+function FillEditMask(doc, bool, key) {
     if (bool) {
+        document.getElementById('editfahrzeugart').value = doc.data().Fahrzeugart;
         document.getElementById('editkennzeichen').value = doc.data().Kennzeichen;
         document.getElementById('editmodel').value = doc.data().Modell;
         document.getElementById('editfahrer').value = doc.data().Fahrer;
@@ -327,8 +330,13 @@ function FillEditMask(doc, bool) {
         document.getElementById('editvnummer').value = doc.data().Versicherungsnummer;
         document.getElementById('editzuzahlung').value = doc.data().Zuzahlung;
     } else {
-
-        
+        var numberdays
+        document.getElementById('editname').value = doc.data().Name;
+        document.getElementById('editnterraid').value = key;
+        mitarbeiterRef.where ('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
+            console.log(snap.size)
+        })
+        //TODO
     }
     
 
