@@ -280,4 +280,17 @@ function getDataMask(Datensatz) {
     }
 }
 
+//opens the Editor-Page
+function getEditor(Datensatz, Key) {
+    setHash('fuehrerschein')
+    if (Datensatz == "Mitarbeiter") {
+        document.getElementById("Mitarbeiter-Edit").style.display = 'block';
+        //getFunction für Datenbank-Werte
+    }
+    if (Datensatz =="Fahrzeug") {
+        document.getElementById("Fahrzeug-Edit").style.display = 'block';
+        //getFunction
+    }
+}
+
 initFirebaseAuth();

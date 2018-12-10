@@ -102,7 +102,7 @@
                 
                 <!--Ab hier Mitarbeiter-Form-->
 
-                <div class="forms" id="Mitarbeiter-Edit" style="display: none"></div>
+                <div class="forms" id="Mitarbeiter-Edit" style="display: none">
                         <div class="formalert"> </div>
                         <form id="editorform">
                             <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
@@ -130,7 +130,7 @@
                                 <button type="submit">Absenden</button>
                             </p>
                         </form>
-                    </div>
+                </div>
         </div>
 
 
@@ -171,7 +171,7 @@
                     <input type="text" class="big" name="keyinsert" id="keyinsert">
                     </p>
                     <P>
-                        <button onclick="searchDatabase" class="full" type="submit" id="btSearch">Suchen</button>
+                        <button onclick= "getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', 'Filler' )" class="full" type="submit" id="btSearch">Suchen</button>
                     </P>
             </div>
      </div>
