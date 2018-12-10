@@ -126,6 +126,9 @@ var db = firebase.firestore();
 // Reference Firmenwagen collection
 var fahrzeugeRef = db.collection('Fahrzeuge');
 
+// Reference Mitarbeiter collection
+var mitarbeiterRef = db.collection('Mitarbeiter');
+
 // Listen for click on the form radio buttons
 document.getElementById('firmenwagen').addEventListener('click', changeFormFirm);
 
@@ -272,11 +275,13 @@ function getDataMask(Datensatz) {
         document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Name";
+        document.getElementById("keyinsert").placeholder = "jens.zuo@nterra.com";
     }
     if (Datensatz == "Fahrzeug") {
         document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Kennzeichen";
+        document.getElementById("keyinsert").placeholder = "DA NT 100";
     }
 }
 
@@ -289,8 +294,45 @@ function getEditor(Datensatz, Key) {
     }
     if (Datensatz =="Fahrzeug") {
         document.getElementById("Fahrzeug-Edit").style.display = 'block';
-        //getFunction
+        searchDatabase(Key, true);
     }
+}
+
+function searchDatabase(key, bool){
+    if (bool) {
+        var docRef = fahrzeugeRef.doc(key);
+    } else{
+        var docRef = mitarbeiterRef.doc(key)
+    }
+    console.log(key);
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                FillEditMask(doc, bool);
+            } else {
+                //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    }
+
+function FillEditMask(doc, bool) {
+    if (bool) {
+        document.getElementById('editkennzeichen').value = doc.data().Kennzeichen;
+        document.getElementById('editmodel').value = doc.data().Modell;
+        document.getElementById('editfahrer').value = doc.data().Fahrer;
+        document.getElementById('editblp').value = doc.data().Bruttolistenpreis;
+        document.getElementById('editvnummer').value = doc.data().Versicherungsnummer;
+        document.getElementById('editzuzahlung').value = doc.data().Zuzahlung;
+    } else {
+
+        
+    }
+    
+
+
 }
 
 initFirebaseAuth();
