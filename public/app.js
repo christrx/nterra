@@ -329,18 +329,29 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editblp').value = doc.data().Bruttolistenpreis;
         document.getElementById('editvnummer').value = doc.data().Versicherungsnummer;
         document.getElementById('editzuzahlung').value = doc.data().Zuzahlung;
-    } else {
+        if (doc.data().Fahrzeugart == "Firmenwagen") {
+                document.getElementById('editvertragsdaten').style = 'block'
+                document.getElementById('editnummerid').style = 'block'
+                document.getElementById('edittodatumid').style = 'block'
+                document.getElementById('editmileageid').style = 'block'
+                document.getElementById('editcendeid').style = 'block'
+        } else {
+            document.getElementById('editdatumid').style = 'block'
+            document.getElementById('editklasseid').style = 'block'
+        }
+    }
+
+        else {
         var numberdays
         document.getElementById('editname').value = doc.data().Name;
         document.getElementById('editnterraid').value = key;
         mitarbeiterRef.where ('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
+            //TODO, menge wird noch falsch angezeigt
             console.log(snap.size)
         })
-        //TODO
     }
-    
-
-
 }
+
+
 
 initFirebaseAuth();
