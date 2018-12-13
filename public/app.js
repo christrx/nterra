@@ -83,7 +83,10 @@ window.onhashchange = function() {
         document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
     }
     else if(currentHash == '#fuehrerschein'){
-        document.getElementsByClassName('fuehrerschein')[0].style.display = 'grid';
+        document.getElementsByClassName('fuehrerschein')[0].style.display = 'block';
+    }
+    else if(currentHash == '#editor'){
+        document.getElementsByClassName('editor')[0].style.display = 'grid';
     }
     else if(currentHash == '#datenbank'){
         document.getElementsByClassName('datenbank')[0].style.display = 'grid';

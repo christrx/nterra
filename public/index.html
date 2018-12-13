@@ -19,6 +19,7 @@
                     <li><button onclick="setHash('home')"> Home </button></li>
                     <li><button onclick="setHash('fahrzeuge')"> Fahrzeuge </button></li>
                     <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
+                    <li><button onclick="setHash('editor')">Editor</button></li>
                     <li><button onclick="setHash('datenbank')"> Datenbank </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
                     <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
@@ -31,173 +32,173 @@
         <div class="useralert">Bitte melden Sie sich zunächst mit ihrem nterra Google Konto an</div>
         <div class="page home" style="display: none">
             <div class="info">
-                <h3>Home</h3>
+                <h2>Home</h2>
             </div>
         </div>
 
-    <div class="page fuehrerschein" style="display: none">
+        <div class="page editor" style="display: none">
             <div class="info">
-                <h3>Editor</h3>
+                <h2>Editor</h2>
             </div>
-                <div class="forms" id="Fahrzeug-Edit" style="display: none">
-                    <div class="formalert"> </div>
-                    <form id="editorform">
-                        <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
-                        <p class = "placeholder"></p>
-                        <p class="Fahrzeugart">
-                            <label>Fahrzeugart</label>
-                            <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart">
-                        </p>
-                        <p class="kennzeichen">
-                            <label>Kennzeichen</label>
-                            <input type="text" class="big" name="kennzeichen" id="editkennzeichen" placeholder="DA NT 0000"
-                                required>
-                        </p>
-                        <p class="model">
-                            <label>Modell</label>
-                            <input type="text" class="big" name="model" id="editmodel" required>
-                        </p>
-                        <p class="fahrer">
-                            <label>Fahrer</label>
-                            <input type="text" class="big" name="fahrer" id="editfahrer" required>
-                        </p>
-                        <p class="blp">
-                            <label>Bruttolistenpreis in €</label>
-                            <input type="text" class="big" name="blp" id="editblp" required>
-                        </p>
-                        <p class="vnummer">
-                            <label>Kfz-Versicherungsnummer</label>
-                            <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx">
-                        </p>
-                        <p class="fklasse" hidden>
-                            <label>Fahrzeugklasse</label>
-                            <input type="text" class="big" name="fklasse" id="editfklasse">
-                        </p>
-                        <p class="zuzahlung">
-                            <label>Zuzahlung in €</label>
-                            <input type="text" class="big" name="zuzahlung" id="editzuzahlung" required>
-                        </p>
-                        <p class="Fahrzeugklasse" id="editklasseid" style="display: none">
-                            <label>Fahrzeugklasse</label>
-                            <input type="text" class="big" name="Fahrzeugklasse" id="editfahrzeugklasse" required>
-                        </p>
-                        <p class="uedatum" id="editdatumid" style="display: none">
-                            <label>Übergabedatum</label>
-                            <input type="text" class="big" name="uedatum" id="edituedatum" required>
-                        </p>
-                        
-                        <!--TODO hier noch die Beschriftung für Vertragsdaten-->
-                        <p class="Vertragsdaten" id="editnummerid" style="display: none">
-                            <label>Vertragsnummer</label>
-                            <input type="text" class="big" name="cnummer" id="editcnummer">
-                        </p>
-                        <p class="Vertragsdaten" id="edittodatumid" style="display: none">
-                            <label>Bestelldatum</label>
-                            <input type="date" class="big" name="odatum" id="editodatum">
-                        </p>
-                        <p class="Vertragsdaten" id="editmileageid" style="display: none">
-                            <label>Laufleistung in km</label>
-                            <input type="text" class="big" name="mileage" id="editmileage">
-                        </p>
-                        <p class="Vertragsdaten" id="editcendeid" style="display: none">
-                            <label>Vertragsende</label>
-                            <input type="date" class="big" name="cende" id="editcende">
-                        </p>
+            <div class="forms" id="Fahrzeug-Edit" style="display: none">
+                <div class="formalert"></div>
+                <form id="editorform">
+                    <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
+                    <p class="placeholder"></p>
+                    <p class="Fahrzeugart">
+                        <label>Fahrzeugart</label>
+                        <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart">
+                    </p>
+                    <p class="kennzeichen">
+                        <label>Kennzeichen</label>
+                        <input type="text" class="big" name="kennzeichen" id="editkennzeichen" placeholder="DA NT 0000"
+                            required>
+                    </p>
+                    <p class="model">
+                        <label>Modell</label>
+                        <input type="text" class="big" name="model" id="editmodel" required>
+                    </p>
+                    <p class="fahrer">
+                        <label>Fahrer</label>
+                        <input type="text" class="big" name="fahrer" id="editfahrer" required>
+                    </p>
+                    <p class="blp">
+                        <label>Bruttolistenpreis in €</label>
+                        <input type="text" class="big" name="blp" id="editblp" required>
+                    </p>
+                    <p class="vnummer">
+                        <label>Kfz-Versicherungsnummer</label>
+                        <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx">
+                    </p>
+                    <p class="fklasse" hidden>
+                        <label>Fahrzeugklasse</label>
+                        <input type="text" class="big" name="fklasse" id="editfklasse">
+                    </p>
+                    <p class="zuzahlung">
+                        <label>Zuzahlung in €</label>
+                        <input type="text" class="big" name="zuzahlung" id="editzuzahlung" required>
+                    </p>
+                    <p class="Fahrzeugklasse" id="editklasseid" style="display: none">
+                        <label>Fahrzeugklasse</label>
+                        <input type="text" class="big" name="Fahrzeugklasse" id="editfahrzeugklasse" required>
+                    </p>
+                    <p class="uedatum" id="editdatumid" style="display: none">
+                        <label>Übergabedatum</label>
+                        <input type="text" class="big" name="uedatum" id="edituedatum" required>
+                    </p>
+
+                    <!--TODO hier noch die Beschriftung für Vertragsdaten-->
+                    <p class="Vertragsdaten" id="editnummerid" style="display: none">
+                        <label>Vertragsnummer</label>
+                        <input type="text" class="big" name="cnummer" id="editcnummer">
+                    </p>
+                    <p class="Vertragsdaten" id="edittodatumid" style="display: none">
+                        <label>Bestelldatum</label>
+                        <input type="date" class="big" name="odatum" id="editodatum">
+                    </p>
+                    <p class="Vertragsdaten" id="editmileageid" style="display: none">
+                        <label>Laufleistung in km</label>
+                        <input type="text" class="big" name="mileage" id="editmileage">
+                    </p>
+                    <p class="Vertragsdaten" id="editcendeid" style="display: none">
+                        <label>Vertragsende</label>
+                        <input type="date" class="big" name="cende" id="editcende">
+                    </p>
 
 
-                        <p class="full">
-                            <button type="submit">Absenden</button>
-                        </p>
-                    </form>
-                </div>
-            
+                    <p class="full">
+                        <button type="submit">Absenden</button>
+                    </p>
+                </form>
+            </div>
+
             <!--Ab hier Mitarbeiter-Form-->
 
             <div class="forms" id="Mitarbeiter-Edit" style="display: none">
-                    <div class="formalert"> </div>
-                    <form id="editorform">
-                        <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
-                        <p class="placeholder"></p>
-                        <p class="name">
-                            <label>Name</label>
-                            <input type="text" class="big" name="Name" id="editname" required>
-                        </p>
-                        <p class="nterraID">
-                            <label>nterra ID</label>
-                            <input type="text" class="big" name="nterraID" id="editnterraid" required>
-                        </p>
-                        <h4 class="Führerschein-Status">Führerschein-Status</h4>
-                        <br />
-                        <p class="lastUpload">
-                            <label>letzter Upload: keine Daten</label>
-                        </p>
-                        <br />
-                        <p class="lastCheck">
-                            <label>letzter Check: keine Daten</label>
-                        </p>
-                        <br />
-                        <h4 class="Bürofahrten">Fahrten ins Büro</h4>
-                        <br />
-                        <p class="Bürofahrten">
-                            <label>Fahrten ins Büro im letzten Kalenderjahr: </label>
-                        </p>
-                        <p class="full">
-                            <button type="submit">Absenden</button>
-                        </p>
-                    </form>
+                <div class="formalert"></div>
+                <form id="editorform">
+                    <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
+                    <p class="placeholder"></p>
+                    <p class="name">
+                        <label>Name</label>
+                        <input type="text" class="big" name="Name" id="editname" required>
+                    </p>
+                    <p class="nterraID">
+                        <label>nterra ID</label>
+                        <input type="text" class="big" name="nterraID" id="editnterraid" required>
+                    </p>
+                    <h4 class="Führerschein-Status">Führerschein-Status</h4>
+                    <br />
+                    <p class="lastUpload">
+                        <label>letzter Upload: keine Daten</label>
+                    </p>
+                    <br />
+                    <p class="lastCheck">
+                        <label>letzter Check: keine Daten</label>
+                    </p>
+                    <br />
+                    <h4 class="Bürofahrten">Fahrten ins Büro</h4>
+                    <br />
+                    <p class="Bürofahrten">
+                        <label>Fahrten ins Büro im letzten Kalenderjahr: </label>
+                    </p>
+                    <p class="full">
+                        <button type="submit">Absenden</button>
+                    </p>
+                </form>
             </div>
-    </div>
+        </div>
 
 
 
         <!--Datenbank Page-->
         <div class="page datenbank" style="display: none">
             <div class="info">
-                <h3>Datenbank</h3>
+                <h2>Datenbank</h2>
             </div>
             <div class="forms">
-                <div class="formalert"> 
-                    Änderungen wurden gespeichert 
+                <div class="formalert">
+                    Änderungen wurden gespeichert
                 </div>
-                    <form id="databaseEdit">
-                        <p class = "askDataSet">
-                            Welche Daten möchten sie ändern oder einsehen?
-                        </p>
-                        <p class = "Placeholder">
-                        </p>
-                        <p>
-                            <button onclick= "getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
-                        </p>
-                        <p>
-                            <button onclick= "getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
-                        </p>
-                    </form>
-            </div>
-
-            <div class="info" id= "insertInfo" style="display: none">
-            </div>
-
-            <div class = "forms" id = "insertKey" style="display: none;">
-                    <p>
-                        Bitte geben sie den Schlüssel ein
+                <form id="databaseEdit">
+                    <p class="askDataSet">
+                        Welche Daten möchten sie ändern oder einsehen?
+                    </p>
+                    <p class="Placeholder">
                     </p>
                     <p>
-                    <label id = "keyLabel">Schlüssel</label><br />
+                        <button onclick="getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
+                    </p>
+                    <p>
+                        <button onclick="getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
+                    </p>
+                </form>
+            </div>
+
+            <div class="info" id="insertInfo" style="display: none">
+            </div>
+
+            <div class="forms" id="insertKey" style="display: none;">
+                <p>
+                    Bitte geben sie den Schlüssel ein
+                </p>
+                <p>
+                    <label id="keyLabel">Schlüssel</label><br />
                     <input type="text" class="big" name="keyinsert" id="keyinsert">
-                    </p>
-                    <P>
-                        <button onclick= "getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))" 
+                </p>
+                <P>
+                    <button onclick="getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))"
                         class="full" type="submit" id="btSearch">Suchen</button>
-                    </P>
+                </P>
             </div>
-     </div>
+        </div>
 
 
-            <!-- hier den Code von datenbank.html einfügen-->
+        <!-- hier den Code von datenbank.html einfügen-->
 
-    <div class="page fahrzeuge" style="display: none">
+        <div class="page fahrzeuge" style="display: none">
             <div class="info">
-                <h3>Fahrzeuge</h3>
+                <h2>Fahrzeuge</h2>
             </div>
             <div class="forms">
                 <div class="formalert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
@@ -264,14 +265,29 @@
                 </form>
             </div>
         </div>
-        
-
-
-
+    </div>
+    <div class="page fuehrerschein" style="display: none">
+        <div class="info">
+            <h2>Führerschein</h2>
         </div>
-        <div class="page error" style="display: none">
-            <h1>Oops something must have went wrong :(</h1>
+        <div class="licensealert">Führerschein wurde bestätigt</div>
+        <div class="denyalert">Führerschein wurde abgelehnt</div>
+        <div class="license-box">
+            <p id="license-user">Name:</p>
+            <p id="license-date">Datum:</p>
+            <div class="picture-buttons">
+                <button id="back-pic">Rückseite</button>
+                <button id="front-pic">Vorderseite</button>
+            </div>
+            <div class="decision-buttons">
+                <button id="nobutton">Ablehnen</button>
+                <button id="yesbutton">Bestätigen</button>
+            </div>
         </div>
+    </div>
+    <div class="page error" style="display: none">
+        <h1>Oops something must have went wrong :(</h1>
+    </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 
