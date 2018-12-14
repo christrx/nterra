@@ -290,7 +290,7 @@ function getDataMask(Datensatz) {
 
 //opens the Editor-Page
 function getEditor(Datensatz, Key) {
-    setHash('fuehrerschein')
+    setHash('editor')
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("Mitarbeiter-Edit").style.display = 'block';
         searchDatabase(Key, false)
@@ -333,14 +333,28 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editvnummer').value = doc.data().Versicherungsnummer;
         document.getElementById('editzuzahlung').value = doc.data().Zuzahlung;
         if (doc.data().Fahrzeugart == "Firmenwagen") {
-                document.getElementById('editvertragsdaten').style = 'block'
-                document.getElementById('editnummerid').style = 'block'
-                document.getElementById('edittodatumid').style = 'block'
-                document.getElementById('editmileageid').style = 'block'
-                document.getElementById('editcendeid').style = 'block'
+            //TODO: klären, unter welchen IDs wir aktuelle Verträge speichern
+                //document.getElementById('editvertragsdaten').style = 'block';
+                document.getElementById('editnummerid').style = 'block';
+                document.getElementById('edittodatumid').style = 'block';
+                document.getElementById('editmileageid').style = 'block';
+                document.getElementById('editcendeid').style = 'block';
+                fahrzeugeRef.doc(key).collection('Vertrag').doc('12345678').get().then(function (Vertragsref) {
+                if (Vertragsref.exists) {
+                    document.getElementById('editcnummer').value = Vertragsref.data().Vertragsnummer;
+                    document.getElementById('editodatum').value = Vertragsref.data().Bestelldatum;
+                    document.getElementById('editmileage').value = Vertragsref.data().Laufleistung;
+                    document.getElementById('editcende').value = Vertragsref.data().Vertragsende;
+                } else {
+                    console.log("No such document!");
+                }
+                }
+                )
         } else {
-            document.getElementById('editdatumid').style = 'block'
-            document.getElementById('editklasseid').style = 'block'
+            document.getElementById('editdatumid').style = 'block';
+            document.getElementById('editklasseid').style = 'block';
+            document.getElementById('edituedatum').value = doc.data().Übergabedatum;
+            document.getElementById('editfahrzeugklasse').value = doc.data().Fahrzeugklasse;
         }
     }
 
@@ -355,6 +369,63 @@ function FillEditMask(doc, bool, key) {
     }
 }
 
+function EditFahrzeug(Key, Fahrzeugart) {
+    if (Fahrzeugart == "Firmenwagen") {
+        db.collection('Fahrzeuge').doc(Key).set({
+        Fahrzeugart: Fahrzeugart,
+        Kennzeichen: Key,
+        Modell: document.getElementById('editmodel').value,
+        Fahrer: document.getElementById('editfahrer').value,
+        Bruttolistenpreis: document.getElementById('editblp').value,
+        Versicherungsnummer: document.getElementById('editvnummer').value,
+        Zuzahlung: document.getElementById('editzuzahlung').value
+        })
+        .then(function() {
+            document.getElementById('editsuccess').style = 'block'
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            document.getElementById('editfailed').style = 'block'
+            console.error("Error writing document: ", error);
+        });
+    } else {
+        db.collection('Fahrzeuge').doc(Key).set({
+            Fahrzeugart: Fahrzeugart,
+            Kennzeichen: Key,
+            Modell: document.getElementById('editmodel').value,
+            Fahrer: document.getElementById('editfahrer').value,
+            Bruttolistenpreis: document.getElementById('editblp').value,
+            Versicherungsnummer: document.getElementById('editvnummer').value,
+            Zuzahlung: document.getElementById('editzuzahlung').value,
+            Übergabedatum: document.getElementById('edituedatum').value,
+            Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
+            })
+            .then(function() {
+                document.getElementById('editsuccess').style = 'block'
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                document.getElementById('editfailed').style = 'block'
+                console.error("Error writing document: ", error);
+            });
+    }
+}
+
+function EditMitarbeiter(Key) {
+    db.collection('Mitarbeiter').doc(Key).set({
+        Name: document.getElementById('editname').value,
+        })
+        .then(function() {
+            document.getElementById('editsuccess').style = 'block'
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            document.getElementById('editfailed').style = 'block'
+            console.error("Error writing document: ", error);
+        });
+}
+
+//TODOS:
 
 
 initFirebaseAuth();

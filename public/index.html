@@ -40,11 +40,18 @@
             <div class="info">
                 <h2>Editor</h2>
             </div>
+            <div class="formalert" id="editsuccess" style="display: none">
+                <strong>Daten erfolreich überschrieben!</strong>
+            </div>
+            <div class="denyalert" id="editfailed" style="display: none">
+                <strong>Etwas ist falsch gelaufen!</strong>
+            </div>
             <div class="forms" id="Fahrzeug-Edit" style="display: none">
                 <div class="formalert"></div>
                 <form id="editorform">
                     <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
                     <p class="placeholder"></p>
+                    <!--hier nur Miet- oder Firmenwagen zulassen-->
                     <p class="Fahrzeugart">
                         <label>Fahrzeugart</label>
                         <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart">
@@ -69,10 +76,6 @@
                     <p class="vnummer">
                         <label>Kfz-Versicherungsnummer</label>
                         <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx">
-                    </p>
-                    <p class="fklasse" hidden>
-                        <label>Fahrzeugklasse</label>
-                        <input type="text" class="big" name="fklasse" id="editfklasse">
                     </p>
                     <p class="zuzahlung">
                         <label>Zuzahlung in €</label>
@@ -107,7 +110,8 @@
 
 
                     <p class="full">
-                        <button type="submit">Absenden</button>
+                        <button onclick ="EditFahrzeug(document.getElementById('editkennzeichen').value, 
+                        document.getElementById('editfahrzeugart').value)" type="button">Absenden</button>
                     </p>
                 </form>
             </div>
@@ -143,7 +147,7 @@
                         <label>Fahrten ins Büro im letzten Kalenderjahr: </label>
                     </p>
                     <p class="full">
-                        <button type="submit">Absenden</button>
+                        <button onclick="EditMitarbeiter(document.getElementById('editnterraid'))" type="button">Absenden</button>
                     </p>
                 </form>
             </div>
