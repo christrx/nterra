@@ -423,19 +423,6 @@ function EditMitarbeiter(Key) {
         });
 }
 
-var fuehrerscheinRef = db.collection('Fuehrerschein');
-
-var fuehrerscheinQuery = fuehrerscheinRef.get().then(function(querySnapshot){
-    if(querySnapshot.empty){
-        console.log('no documents found');
-    }
-    else{
-        querySnapshot.forEach(function (documentSnapshot){
-            console.log(documentSnapshot.data());
-        });
-    }
-})
-
 //TODOS:
 
 
