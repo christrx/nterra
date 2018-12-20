@@ -8,6 +8,8 @@ var config = {
     messagingSenderId: "95164735355"
 };
 firebase.initializeApp(config);
+const db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true});
 
 // Sign-in to Google
 function googleLogin() {
@@ -123,8 +125,6 @@ function hideAllPages(){
         pages[i].style.display = 'none';
     }
 }
-// Reference Firestore Database
-var db = firebase.firestore();
 
 // Reference Firmenwagen collection
 var fahrzeugeRef = db.collection('Fahrzeuge');
@@ -422,6 +422,19 @@ function EditMitarbeiter(Key) {
             console.error("Error writing document: ", error);
         });
 }
+
+var fuehrerscheinRef = db.collection('Fuehrerschein');
+
+var fuehrerscheinQuery = fuehrerscheinRef.get().then(function(querySnapshot){
+    if(querySnapshot.empty){
+        console.log('no documents found');
+    }
+    else{
+        querySnapshot.forEach(function (documentSnapshot){
+            console.log(documentSnapshot.data());
+        });
+    }
+})
 
 //TODOS:
 
