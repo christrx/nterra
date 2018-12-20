@@ -235,14 +235,12 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
         Fahrer: fahrer,
         Bruttolistenpreis: blp + " €",
         Versicherungsnummer: vnummer,
-        Zuzahlung: zuzahlung + " €"
-    });
-    fahrzeugeRef.doc(kennzeichen).collection('Vertrag').doc(cnummer).set({
-        Bestelldatum: odatum,
-        Laufleistung: mileage + " km",
+        Zuzahlung: zuzahlung + " €",
+        Vertragsbestelldatum: odatum,
+        Vertragslaufleistung: mileage + " km",
         Vertragsende: cende,
         Vertragsnummer: cnummer
-    })
+    });
 }
 
 // Save rented car to firestore
