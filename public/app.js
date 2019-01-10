@@ -424,7 +424,7 @@ function EditMitarbeiter(Key) {
         });
 }
 
-//Aufruf wenn die Editor Page aufgerufen wird, resettet Forms und Divisions
+//Aufruf wenn die Editor Page aufgerufen wird, resettet Forms und Divisions test
 function ResetEditor() {
     document.getElementById("Mitarbeiter-Edit").reset();
     document.getElementById("Mitarbeiter-Edit").style.display = 'none';
