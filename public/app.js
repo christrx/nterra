@@ -372,10 +372,11 @@ function getDataMask(Datensatz) {
 
 //opens the Editor-Page
 function getEditor(Datensatz, Key) {
+    ResetEditor();
     setHash('editor')
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("Mitarbeiter-Edit").style.display = 'block';
-        searchDatabase(Key, false)
+        searchDatabase(Key, false);
     }
     if (Datensatz == "Fahrzeug") {
         document.getElementById("Fahrzeug-Edit").style.display = 'block';
@@ -507,7 +508,12 @@ function EditMitarbeiter(Key) {
         });
 }
 
-//TODOS:
-
+//Aufruf wenn die Editor Page aufgerufen wird, resettet Forms und Divisions
+function ResetEditor() {
+    document.getElementById("Mitarbeiter-Edit").reset();
+    document.getElementById("Mitarbeiter-Edit").style.display = 'none';
+    document.getElementById("Fahrzeug-Edit").style.display = 'none';
+    console.log("i was here");
+}
 
 initFirebaseAuth();
