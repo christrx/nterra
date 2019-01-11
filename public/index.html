@@ -273,18 +273,17 @@
     <div class="page fuehrerschein" style="display: none">
         <div class="info">
             <h2>Führerschein</h2>
+            <button id="license-search">Nach Führerscheinen suchen</button>
         </div>
         <div class="licensealert">Führerschein wurde bestätigt</div>
         <div class="denyalert">Führerschein wurde abgelehnt</div>
-        <div class="license-content">
-            <ul id="license-list"></ul>
-        </div>
-        <div class="license-box">
+        <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
+        <div class="license-box" id="license-box" style="display: none">
             <p id="license-user">Name:</p>
             <p id="license-date">Datum: </p>
             <div class="picture-buttons">
-                <button id="back-pic">Rückseite</button>
-                <button id="front-pic">Vorderseite</button>
+                <a id="back-pic" target="_blank">Rückseite</a>
+                <a id="front-pic" target="_blank">Vorderseite</a>
             </div>
             <div class="decision-buttons">
                 <button id="nobutton">Ablehnen</button>

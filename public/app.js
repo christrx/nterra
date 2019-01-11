@@ -1,4 +1,3 @@
-// Initialize Firebase
 var config = {
     apiKey: "AIzaSyB3q1AjHKr1LguKsDgJAjKzfdouS71w-dY",
     authDomain: "nterra-fuhrpark.firebaseapp.com",
@@ -9,12 +8,11 @@ var config = {
 };
 firebase.initializeApp(config);
 const db = firebase.firestore();
-db.settings({ timestampsInSnapshots: true});
 
 // Sign-in to Google
 function googleLogin() {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(){
+    firebase.auth().signInWithPopup(provider).then(function () {
         var user = firebase.auth().currentUser;
         window.location.hash = "home";
     })
@@ -72,31 +70,31 @@ function authStateObserver(user) {
 // TODO: Funktion, die bei angeklicktem Datensatz Codewort + ID des Datensatzes als hash setzt
 
 // Triggers when the windows hash value changes and updates the ui accordingly
-window.onhashchange = function() {
+window.onhashchange = function () {
     hideAllPages();
     var currentHash = window.location.hash;
-    if(!firebase.auth().currentUser){
+    if (!firebase.auth().currentUser) {
         currentHash = "#welcome";
     }
-    if(currentHash == '#home'){
+    if (currentHash == '#home') {
         document.getElementsByClassName('home')[0].style.display = 'grid';
     }
-    else if(currentHash == '#fahrzeuge'){
+    else if (currentHash == '#fahrzeuge') {
         document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
     }
-    else if(currentHash == '#fuehrerschein'){
+    else if (currentHash == '#fuehrerschein') {
         document.getElementsByClassName('fuehrerschein')[0].style.display = 'block';
     }
-    else if(currentHash == '#editor'){
+    else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
     }
-    else if(currentHash == '#datenbank'){
+    else if (currentHash == '#datenbank') {
         document.getElementsByClassName('datenbank')[0].style.display = 'grid';
     }
-    else if(currentHash == '#welcome'){
+    else if (currentHash == '#welcome') {
         return;
     }
-    else{
+    else {
         document.getElementsByClassName('error')[0].style.display = 'grid';
     }
 };
@@ -119,7 +117,7 @@ function setHash(page) {
 }
 
 // Hides all pages
-function hideAllPages(){
+function hideAllPages() {
     var pages = document.getElementsByClassName("page")
     for (let i = 0; i < pages.length; i++) {
         pages[i].style.display = 'none';
@@ -270,6 +268,92 @@ function resetCarform() {
 
 }
 
+
+var licenseRef = db.collection('Fuehrerschein');
+
+var licenseCounter = 1;
+
+var data = null;
+
+var currentGuy = null;
+
+document.getElementById('license-search').addEventListener('click', searchLicenses);
+
+function searchLicenses() {
+    licenseCounter = 1;
+    licenseRef.get().then(function (querySnapshot) {
+            data = querySnapshot.docs.map(function (documentSnapshot) {
+                return documentSnapshot.data();
+            })
+            console.log(data.length);
+            loadNext();
+    })
+}
+
+document.getElementById('yesbutton').addEventListener('click', acceptLicense);
+
+function acceptLicense() {
+    var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
+    var oldLicenseID = currentGuy.AktuellerFuehrerschein;
+    var newLicenseID = String(parseInt(currentGuy.AktuellerFuehrerschein) + 1);
+    mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(newLicenseID).set({
+        MitarbeiterID: currentMitarbeiterID,
+        URLFront: data[licenseCounter].URLFront,
+        URLBack: data[licenseCounter].URLBack,
+        Datum: data[licenseCounter].Datum.toLocaleDateString(),
+        Aktuell: true
+    })
+    if(newLicenseID == "0"){
+        mitarbeiterRef.doc(currentMitarbeiterID).update({
+            AktuellerFuehrerschein: newLicenseID
+        })
+    }
+    else{
+        mitarbeiterRef.doc(currentMitarbeiterID).update({
+            AktuellerFuehrerschein: newLicenseID
+        })
+        mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(oldLicenseID).update({
+            Aktuell: false
+        })
+    }
+   // deleteLicense(currentMitarbeiterID);
+
+    licenseCounter++;
+
+    loadNext();
+
+    document.querySelector('.licensealert').style.display = 'block';
+
+    setTimeout(function () {
+        document.querySelector('.licensealert').style.display = 'none';
+    }, 3000);
+}
+
+function deleteLicense(currentMitarbeiterID) {
+    licenseRef.doc(currentMitarbeiterID).delete();
+}
+
+function loadNext() {
+    if(licenseCounter == data.length){
+        document.querySelector('.nothingleftalert').style.display = 'block';
+        document.getElementById('license-box').style.display = 'none';
+        return;
+    }
+    mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function(documentSnapshot){
+        currentGuy = documentSnapshot.data();
+     })
+    document.querySelector('.nothingleftalert').style.display = 'none';
+    document.getElementById('license-box').style.display = 'block';
+    document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
+    document.querySelector('#license-date').textContent = data[licenseCounter].Datum.toLocaleDateString();
+    document.querySelector('#back-pic').href = data[licenseCounter].URLBack;
+    console.log(document.querySelector('#back-pic').href);
+    document.querySelector('#front-pic').href = data[licenseCounter].URLFront;
+}
+
+//TODO: Richtige Urls laden bei Klick auf Vorder/Rückseite
+//      Ablehnung des Führerscheins behandeln
+
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
     if (Datensatz == "Mitarbeiter") {
@@ -293,33 +377,33 @@ function getEditor(Datensatz, Key) {
         document.getElementById("Mitarbeiter-Edit").style.display = 'block';
         searchDatabase(Key, false)
     }
-    if (Datensatz =="Fahrzeug") {
+    if (Datensatz == "Fahrzeug") {
         document.getElementById("Fahrzeug-Edit").style.display = 'block';
         searchDatabase(Key, true);
     }
 }
 
-function searchDatabase(key, bool){
+function searchDatabase(key, bool) {
     if (bool) {
         var docRef = fahrzeugeRef.doc(key);
-    } else{
+    } else {
         var docRef = mitarbeiterRef.doc(key)
     }
-        docRef.get().then(function(doc) {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-                FillEditMask(doc, bool, key);
-            } else {
-                //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
-                console.log("No such document!");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-    }
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            FillEditMask(doc, bool, key);
+        } else {
+            //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
+            console.log("No such document!");
+        }
+    }).catch(function (error) {
+        console.log("Error getting document:", error);
+    });
+}
 
-var startdate = new Date (new Date().getFullYear(), 0, 1)
-var enddate = new Date (new Date().getFullYear() + 1, 0, 1)
+var startdate = new Date(new Date().getFullYear(), 0, 1)
+var enddate = new Date(new Date().getFullYear() + 1, 0, 1)
 
 function FillEditMask(doc, bool, key) {
     if (bool) {
@@ -332,12 +416,12 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editzuzahlung').value = doc.data().Zuzahlung;
         if (doc.data().Fahrzeugart == "Firmenwagen") {
             //TODO: klären, unter welchen IDs wir aktuelle Verträge speichern
-                //document.getElementById('editvertragsdaten').style = 'block';
-                document.getElementById('editnummerid').style = 'block';
-                document.getElementById('edittodatumid').style = 'block';
-                document.getElementById('editmileageid').style = 'block';
-                document.getElementById('editcendeid').style = 'block';
-                fahrzeugeRef.doc(key).collection('Vertrag').doc('12345678').get().then(function (Vertragsref) {
+            //document.getElementById('editvertragsdaten').style = 'block';
+            document.getElementById('editnummerid').style = 'block';
+            document.getElementById('edittodatumid').style = 'block';
+            document.getElementById('editmileageid').style = 'block';
+            document.getElementById('editcendeid').style = 'block';
+            fahrzeugeRef.doc(key).collection('Vertrag').doc('12345678').get().then(function (Vertragsref) {
                 if (Vertragsref.exists) {
                     document.getElementById('editcnummer').value = Vertragsref.data().Vertragsnummer;
                     document.getElementById('editodatum').value = Vertragsref.data().Bestelldatum;
@@ -346,8 +430,8 @@ function FillEditMask(doc, bool, key) {
                 } else {
                     console.log("No such document!");
                 }
-                }
-                )
+            }
+            )
         } else {
             document.getElementById('editdatumid').style = 'block';
             document.getElementById('editklasseid').style = 'block';
@@ -356,11 +440,11 @@ function FillEditMask(doc, bool, key) {
         }
     }
 
-        else {
+    else {
         var numberdays
         document.getElementById('editname').value = doc.data().Name;
         document.getElementById('editnterraid').value = key;
-        mitarbeiterRef.where ('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
+        mitarbeiterRef.where('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
             //TODO, menge wird noch falsch angezeigt
             console.log(snap.size)
         })
@@ -370,22 +454,22 @@ function FillEditMask(doc, bool, key) {
 function EditFahrzeug(Key, Fahrzeugart) {
     if (Fahrzeugart == "Firmenwagen") {
         db.collection('Fahrzeuge').doc(Key).set({
-        Fahrzeugart: Fahrzeugart,
-        Kennzeichen: Key,
-        Modell: document.getElementById('editmodel').value,
-        Fahrer: document.getElementById('editfahrer').value,
-        Bruttolistenpreis: document.getElementById('editblp').value,
-        Versicherungsnummer: document.getElementById('editvnummer').value,
-        Zuzahlung: document.getElementById('editzuzahlung').value
+            Fahrzeugart: Fahrzeugart,
+            Kennzeichen: Key,
+            Modell: document.getElementById('editmodel').value,
+            Fahrer: document.getElementById('editfahrer').value,
+            Bruttolistenpreis: document.getElementById('editblp').value,
+            Versicherungsnummer: document.getElementById('editvnummer').value,
+            Zuzahlung: document.getElementById('editzuzahlung').value
         })
-        .then(function() {
-            document.getElementById('editsuccess').style = 'block'
-            console.log("Document successfully written!");
-        })
-        .catch(function(error) {
-            document.getElementById('editfailed').style = 'block'
-            console.error("Error writing document: ", error);
-        });
+            .then(function () {
+                document.getElementById('editsuccess').style = 'block'
+                console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+                document.getElementById('editfailed').style = 'block'
+                console.error("Error writing document: ", error);
+            });
     } else {
         db.collection('Fahrzeuge').doc(Key).set({
             Fahrzeugart: Fahrzeugart,
@@ -397,12 +481,12 @@ function EditFahrzeug(Key, Fahrzeugart) {
             Zuzahlung: document.getElementById('editzuzahlung').value,
             Übergabedatum: document.getElementById('edituedatum').value,
             Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
-            })
-            .then(function() {
+        })
+            .then(function () {
                 document.getElementById('editsuccess').style = 'block'
                 console.log("Document successfully written!");
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 document.getElementById('editfailed').style = 'block'
                 console.error("Error writing document: ", error);
             });
@@ -412,12 +496,12 @@ function EditFahrzeug(Key, Fahrzeugart) {
 function EditMitarbeiter(Key) {
     db.collection('Mitarbeiter').doc(Key).set({
         Name: document.getElementById('editname').value,
-        })
-        .then(function() {
+    })
+        .then(function () {
             document.getElementById('editsuccess').style = 'block'
             console.log("Document successfully written!");
         })
-        .catch(function(error) {
+        .catch(function (error) {
             document.getElementById('editfailed').style = 'block'
             console.error("Error writing document: ", error);
         });

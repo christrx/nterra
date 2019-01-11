@@ -182,6 +182,14 @@ button:hover, button:focus{
     display: none;
 }
 
+.nothingleftalert{
+    text-align: center;
+    padding: 10px;
+    background: #f5a748;
+    color: white;
+    display: none;
+}
+
 .fuehrerschein .license-box{
     display: grid;
     grid-template-columns: 1fr 1fr 2fr 2fr;
