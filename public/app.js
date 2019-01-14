@@ -88,6 +88,9 @@ window.onhashchange = function () {
     else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
     }
+    else if (currentHash == '#uebersicht') {
+        document.getElementsByClassName('uebersicht')[0].style.display = 'grid';
+    }
     else if (currentHash == '#datenbank') {
         document.getElementsByClassName('datenbank')[0].style.display = 'grid';
     }
@@ -510,10 +513,19 @@ function EditMitarbeiter(Key) {
 
 //Aufruf wenn die Editor Page aufgerufen wird, resettet Forms und Divisions
 function ResetEditor() {
-    document.getElementById("Mitarbeiter-Edit").reset();
     document.getElementById("Mitarbeiter-Edit").style.display = 'none';
     document.getElementById("Fahrzeug-Edit").style.display = 'none';
-    console.log("i was here");
+    testdata();
+}
+
+//alle documents
+async function getMarker() {
+    const snapshot = await firebase.firestore().collection('Mitarbeiter').get()
+    return snapshot.docs.map(doc => doc.data());
+}
+
+function testdata() {
+    console.log(getMarker())
 }
 
 initFirebaseAuth();
