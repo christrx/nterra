@@ -20,7 +20,7 @@
                     <li><button onclick="setHash('fahrzeuge')"> Fahrzeuge </button></li>
                     <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
                     <li><button onclick="setHash('uebersicht')">Übersicht</button></li>
-                    <li><button onclick="setHash('datenbank')"> Datenbank </button></li>
+                    <li><button onclick="setHash('datenbank')"> Editor </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
                     <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
                     <li id="buffer" style="visibility: hidden">bla</li>
@@ -298,6 +298,14 @@
         <h1>Oops something must have went wrong :(</h1>
     </div>
     </div>
+
+    <div class="page fahrzeuge" style="display: none">
+            <div class="info">
+                <h2>Übersicht</h2>
+            </div>
+    </div>
+
+
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 
     <script src="app.js"> </script>

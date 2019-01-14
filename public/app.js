@@ -359,8 +359,8 @@ function loadNext() {
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
+    fillDatalist(Datensatz);
     if (Datensatz == "Mitarbeiter") {
-        fillDatalist();
         document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Name";
@@ -518,24 +518,37 @@ function ResetEditor() {
     document.getElementById("Fahrzeug-Edit").style.display = 'none';
 }
 
-//alle documents
+//alle Mails aus allen Documents
 async function getMa() {
     const snapshot = await firebase.firestore().collection('Mitarbeiter').get()
     return snapshot.docs.map(doc => doc.data().Mail);
 }
 
-function fillDatalist(){
+//alle Kennzeichen der Fahrzeuge
+async function getKennzeichen() {
+    const snapshot = await firebase.firestore().collection('Fahrzeuge').get()
+    return snapshot.docs.map(doc => doc.data().Kennzeichen);
+}
+
+function fillDatalist(Typ){
     var myMa = new Array();
     var options = '';
     
-    getMa().then(function(result) {
-    
-    for(var i = 0; i < result.length; i++)
-        options += '<option value="'+result[i]+'" />';
-    
-    document.getElementById('MAList').innerHTML = options;
-
-    })
+    if (Typ == "Mitarbeiter") {
+            getMa().then(function(result) {
+            
+            for(var i = 0; i < result.length; i++)
+                options += '<option value="'+result[i]+'" />';
+            
+            document.getElementById('MAList').innerHTML = options; })
+    } else {
+            getKennzeichen().then(function(result) {
+            
+            for(var i = 0; i < result.length; i++)
+                options += '<option value="'+result[i]+'" />';
+            
+            document.getElementById('MAList').innerHTML = options;
+    })}
 }
 
 function testdata() {
