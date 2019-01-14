@@ -360,6 +360,7 @@ function loadNext() {
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
     if (Datensatz == "Mitarbeiter") {
+        fillDatalist();
         document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Name";
@@ -515,17 +516,32 @@ function EditMitarbeiter(Key) {
 function ResetEditor() {
     document.getElementById("Mitarbeiter-Edit").style.display = 'none';
     document.getElementById("Fahrzeug-Edit").style.display = 'none';
-    testdata();
 }
 
 //alle documents
-async function getMarker() {
+async function getMa() {
     const snapshot = await firebase.firestore().collection('Mitarbeiter').get()
-    return snapshot.docs.map(doc => doc.data());
+    return snapshot.docs.map(doc => doc.data().Mail);
+}
+
+function fillDatalist(){
+    var myMa = new Array();
+    var options = '';
+    
+    getMa().then(function(result) {
+    
+    for(var i = 0; i < result.length; i++)
+        options += '<option value="'+result[i]+'" />';
+    
+    document.getElementById('MAList').innerHTML = options;
+
+    })
 }
 
 function testdata() {
-    console.log(getMarker())
+    getMarker().then (function(result) {
+        //result.map(name => console.log(name))
+    })
 }
 
 initFirebaseAuth();

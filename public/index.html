@@ -188,7 +188,10 @@
                 </p>
                 <p>
                     <label id="keyLabel">Schlüssel</label><br />
-                    <input type="text" class="big" name="keyinsert" id="keyinsert">
+                    <input type="text" class="big" name="keyinsert" id="keyinsert" list = "MAList">
+                    <datalist id="MAList">
+                    </datalist>    
+
                 </p>
                 <P>
                     <button onclick="getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))"
