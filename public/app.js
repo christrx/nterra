@@ -551,6 +551,25 @@ function fillDatalist(Typ){
     })}
 }
 
+function getMAcars() {
+    var mycars = new Array()
+
+    getMa().then(function(result) {
+        for (var i = 0; i < result.length; i++)
+            fahrzeugeRef.where("Fahrer", "==", result[i]).get().then(function(car) {
+                if (doc.exists) {
+                    mycars.push(car.data().Kennzeichen);
+                } else {
+                    //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
+                    console.log("No such document!");
+                }
+            });
+    });
+
+    console.log(mycars);
+}
+
+
 function testdata() {
     getMarker().then (function(result) {
         //result.map(name => console.log(name))
