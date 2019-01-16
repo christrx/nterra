@@ -359,6 +359,7 @@ function loadNext() {
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
+    getMAcars();
     fillDatalist(Datensatz);
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("insertInfo").style.display = 'block';
@@ -551,23 +552,28 @@ function fillDatalist(Typ){
     })}
 }
 
+
+//ordnet jedem Mitarbeiter sein Auto zu, falls vorhanden
+//funktioniert bisher nur für 0-1 Auto pro Person
 function getMAcars() {
     var mycars = new Array()
-
     getMa().then(function(result) {
-        for (var i = 0; i < result.length; i++)
-            fahrzeugeRef.where("Fahrer", "==", result[i]).get().then(function(car) {
-                if (doc.exists) {
+        result.forEach(function(employee) {
+            fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars) {
+                cars.forEach(car => {
+                    //Error, car existiert wohl auch wenn keine Autos gefunden werden sollten
+                if (car.exists) {
                     mycars.push(car.data().Kennzeichen);
                 } else {
+                    mycars.push("placeholder")
                     //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
-                    console.log("No such document!");
                 }
-            });
-    });
+            })
+            })}
+    );
 
-    console.log(mycars);
-}
+    console.log(mycars)
+})}
 
 
 function testdata() {
