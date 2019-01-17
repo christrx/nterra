@@ -238,21 +238,21 @@ button:hover, button:focus{
     .kopfzeile ul{
         float: right;
     }
-
-    .table #Employee-Car {
-        border: 1px solid black;
-        border-collapse: collapse;
-        width: 100%
-    }
-
-    .th {
-        text-align: left;
-    }
-
-    table#Employee-Car tr:nth-child(even) {
-        background-color: #eee;
-      }
-    table#Employee-Car tr:nth-child(odd) {
-        background-color: #fff;
-      }
 }
+
+table#Employee-Car {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%
+}
+
+th {
+    text-align: left;
+}
+
+table#Employee-Car tr:nth-child(even) {
+    background-color: #eee;
+  }
+table#Employee-Car tr:nth-child(odd) {
+    background-color: #fff;
+  }
