@@ -560,15 +560,13 @@ function getMAcars() {
     getMa().then(function(result) {
         result.forEach(function(employee) {
             fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars) {
+                if (!cars.empty) {
                 cars.forEach(car => {
-                    //Error, car existiert wohl auch wenn keine Autos gefunden werden sollten
-                if (car.exists) {
                     mycars.push(car.data().Kennzeichen);
+                })
                 } else {
                     mycars.push("placeholder")
-                    //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
                 }
-            })
             })}
     );
 
