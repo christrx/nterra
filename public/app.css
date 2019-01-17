@@ -243,7 +243,7 @@ button:hover, button:focus{
 table#Employee-Car {
     border: 1px solid black;
     border-collapse: collapse;
-    width: 100%
+    width: 80%
 }
 
 th {
@@ -256,3 +256,9 @@ table#Employee-Car tr:nth-child(even) {
 table#Employee-Car tr:nth-child(odd) {
     background-color: #fff;
   }
+
+  button.link {
+    background:none;
+    border:none; 
+    text-transform: none;
+}

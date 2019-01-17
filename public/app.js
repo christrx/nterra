@@ -359,7 +359,7 @@ function loadNext() {
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
-    getMAcars();
+    GenerateTable();
     fillDatalist(Datensatz);
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("insertInfo").style.display = 'block';
@@ -555,7 +555,7 @@ function fillDatalist(Typ){
 
 //ordnet jedem Mitarbeiter sein Auto zu, falls vorhanden
 //funktioniert bisher nur für 0-1 Auto pro Person
-function getMAcars() {
+async function getMAcars() {
     var mycars = new Array()
     getMa().then(function(result) {
         result.forEach(function(employee) {
@@ -569,15 +569,62 @@ function getMAcars() {
                 }
             })}
     );
+})
 
-    console.log(mycars)
-})}
+return mycars;
 
+}
 
-function testdata() {
-    getMarker().then (function(result) {
-        //result.map(name => console.log(name))
-    })
+function newMaTable(Mitarbeiter, innerString) {
+    innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `'+ Mitarbeiter +
+    '`) >'+ Mitarbeiter +'</button></td>';
+    return innerString;
+}
+
+function newCarTable(Car, innerString) {
+
+    innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `'+ Car + 
+    '`)>' + Car + '</button></td></tr>';
+    return innerString;
+}
+
+//Generiert automatisch die Tabelle mit den dazugehörigen Mitarbeitern und deren Autos
+//funtionert noch nicht richtig, Grundgerüst steht jedoch
+//Arrays scheinen leer zu sein
+async function GenerateTable() {
+    var Employees = new Array()
+    var Cars = new Array()
+    var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th></tr>'
+
+    getMa().then(function(Mitarbeiter){
+        Mitarbeiter.map(mail => Employees.push(mail))
+    });
+
+    Cars = getMAcars();
+
+    await getMa();
+    await getMAcars();
+
+    console.log(Employees.length)
+
+    for (var i = 0; i < Employees.length; i++) {
+        console.log("i was here")
+        innerstring = newMaTable(Employees[i], innerstring)
+        if (Cars[i] !== "placeholder") {
+            innerstring = newCarTable(Cars[i], innerstring)
+        } else {
+            innerstring += '<td></td></tr>'
+        }
+    }
+
+    console.log(innerstring)
+
+    document.getElementById("Employee-Car").innerHTML = innerstring;
+    //almostready
+}
+
+function test() {
+    console.log("yay")
 }
 
 initFirebaseAuth();
