@@ -359,7 +359,6 @@ function loadNext() {
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
-    GenerateTable();
     fillDatalist(Datensatz);
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("insertInfo").style.display = 'block';
@@ -557,8 +556,9 @@ function fillDatalist(Typ){
 //funktioniert bisher nur für 0-1 Auto pro Person
 async function getMAcars() {
     var mycars = new Array()
-    getMa().then(function(result) {
-        result.forEach(function(employee) {
+
+    const snapshot = await getMa()
+        snapshot.forEach(function(employee) {
             fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars) {
                 if (!cars.empty) {
                 cars.forEach(car => {
@@ -569,7 +569,6 @@ async function getMAcars() {
                 }
             })}
     );
-})
 
 return mycars;
 
@@ -577,15 +576,21 @@ return mycars;
 
 function newMaTable(Mitarbeiter, innerString) {
     innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `'+ Mitarbeiter +
-    '`) >'+ Mitarbeiter +'</button></td>';
+    '`)">'+ Mitarbeiter +'</button></td>';
     return innerString;
 }
 
 function newCarTable(Car, innerString) {
 
     innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `'+ Car + 
-    '`)>' + Car + '</button></td></tr>';
+    '`)">' + Car + '</button></td></tr>';
     return innerString;
+}
+
+async function wtf() {
+    var cars = new Array();
+    cars = getMAcars();
+    return cars
 }
 
 //Generiert automatisch die Tabelle mit den dazugehörigen Mitarbeitern und deren Autos
@@ -600,12 +605,14 @@ async function GenerateTable() {
         Mitarbeiter.map(mail => Employees.push(mail))
     });
 
-    Cars = getMAcars();
+    const snapshot = await getMAcars()
+        Cars = snapshot;
 
     await getMa();
-    await getMAcars();
 
-    console.log(Employees.length)
+    console.log(Cars.length);
+    console.log(Cars);
+
 
     for (var i = 0; i < Employees.length; i++) {
         console.log("i was here")
