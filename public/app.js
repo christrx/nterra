@@ -587,11 +587,6 @@ function newCarTable(Car, innerString) {
     return innerString;
 }
 
-async function wtf() {
-    var cars = new Array();
-    cars = getMAcars();
-    return cars
-}
 
 //Generiert automatisch die Tabelle mit den dazugehörigen Mitarbeitern und deren Autos
 //funtionert noch nicht richtig, Grundgerüst steht jedoch
@@ -615,7 +610,6 @@ async function GenerateTable() {
 
 
     for (var i = 0; i < Employees.length; i++) {
-        console.log("i was here")
         innerstring = newMaTable(Employees[i], innerstring)
         if (Cars[i] !== "placeholder") {
             innerstring = newCarTable(Cars[i], innerstring)
