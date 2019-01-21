@@ -280,6 +280,10 @@ var data = null;
 
 var currentGuy = null;
 
+var currentBackUrl = null;
+
+var currentFrontUrl = null;
+
 document.getElementById('license-search').addEventListener('click', searchLicenses);
 
 function searchLicenses() {
@@ -294,6 +298,7 @@ function searchLicenses() {
 }
 
 document.getElementById('yesbutton').addEventListener('click', acceptLicense);
+document.getElementById('nobutton').addEventListener('click',denyLicense);
 
 function acceptLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
@@ -303,7 +308,7 @@ function acceptLicense() {
         MitarbeiterID: currentMitarbeiterID,
         URLFront: data[licenseCounter].URLFront,
         URLBack: data[licenseCounter].URLBack,
-        Datum: data[licenseCounter].Datum.toLocaleDateString(),
+        Ablaufdatum: data[licenseCounter].Ablaufdatum.toLocaleDateString(),
         Aktuell: true
     })
     if(newLicenseID == "0"){
@@ -332,8 +337,34 @@ function acceptLicense() {
     }, 3000);
 }
 
+function denyLicense(){
+    var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
+
+    //deleteLicense(currentMitarbeiterID);
+
+    licenseCounter++;
+
+    loadNext();
+
+    document.querySelector('.denialalert').style.display = 'block';
+
+    setTimeout(function () {
+    document.querySelector('.denialalert').style.display = 'none';
+    }, 3000);
+    }
+
 function deleteLicense(currentMitarbeiterID) {
     licenseRef.doc(currentMitarbeiterID).delete();
+}
+
+function openBack() {
+    var win = window.open(currentBackUrl, '_blank');
+    win.focus();
+}
+
+function openFront(){
+    var win2 = window.open(currentFrontUrl, '_blank');
+    win2.focus();
 }
 
 function loadNext() {
@@ -345,13 +376,14 @@ function loadNext() {
     mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function(documentSnapshot){
         currentGuy = documentSnapshot.data();
      })
-    document.querySelector('.nothingleftalert').style.display = 'none';
-    document.getElementById('license-box').style.display = 'block';
-    document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
-    document.querySelector('#license-date').textContent = data[licenseCounter].Datum.toLocaleDateString();
-    document.querySelector('#back-pic').href = data[licenseCounter].URLBack;
-    console.log(document.querySelector('#back-pic').href);
-    document.querySelector('#front-pic').href = data[licenseCounter].URLFront;
+     document.querySelector('.nothingleftalert').style.display = 'none';
+     document.getElementById('license-box').style.display = 'block';
+     document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
+     document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
+     currentBackUrl = data[licenseCounter].URLBack;
+     currentFrontUrl = data[licenseCounter].URLFront;
+     console.log(currentBackUrl);
+     console.log(currentFrontUrl);
 }
 
 //TODO: Richtige Urls laden bei Klick auf Vorder/Rückseite

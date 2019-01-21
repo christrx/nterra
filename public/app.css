@@ -174,7 +174,7 @@ button:hover, button:focus{
     display: none;
 }
 
-.denyalert{
+.denialalert{
     text-align: center;
     padding: 10px;
     background: rgb(253, 56, 56);
@@ -190,12 +190,19 @@ button:hover, button:focus{
     display: none;
 }
 
+.fuehrerschein .info{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+#license-search{
+    vertical-align: middle;
+}
+
 .fuehrerschein .license-box{
     display: grid;
     grid-template-columns: 1fr 1fr 2fr 2fr;
     background: #cbddee;
-    margin-left: 30px;
-    margin-right: 30px;
     padding-right: 5px;
     padding-bottom: 10px;
 }
