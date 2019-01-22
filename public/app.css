@@ -148,7 +148,7 @@ button:hover, button:focus{
     outline: 0;
     transition: background-color 0.25s ease-out;
 }
-.formalert{
+.caralert{
     text-align: center;
     padding: 10px;
     background: #17a345;
