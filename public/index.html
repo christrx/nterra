@@ -16,10 +16,9 @@
             <nav>
 
                 <ul>
-                    <li><button onclick="setHash('home')"> Home </button></li>
+                    <li><button onclick="GenerateTable();setHash('home')"> Home </button></li>
                     <li><button onclick="setHash('fahrzeuge')"> Fahrzeuge </button></li>
                     <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
-                    <li><button onclick="GenerateTable();setHash('uebersicht')">Übersicht</button></li>
                     <li><button onclick="setHash('datenbank')"> Editor </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
                     <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
@@ -33,6 +32,10 @@
         <div class="page home" style="display: none">
             <div class="info">
                 <h2>Home</h2>
+            </div>
+            <div class="forms">
+                <table id="Employee-Car">
+                  </table>
             </div>
         </div>
 
@@ -304,18 +307,6 @@
     <div class="page uebersicht" style="display: none">
             <div class="info">
                 <h2>Übersicht</h2>
-            </div>
-            <div class="forms">
-                <table id="Employee-Car">
-                    <tr>
-                        <th>Mitarbeiter</th>
-                        <th>Fahrzeug</th> 
-                    </tr>
-                    <tr>
-                      <td><button class="link" onclick="getEditor(`Mitarbeiter`, `johannes.hett@nterra.com`)">johannes.hett@nterra.com</button></td>
-                      <td></td>
-                    </tr>
-                  </table>
             </div>
     </div>
 
