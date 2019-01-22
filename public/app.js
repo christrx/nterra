@@ -653,11 +653,7 @@ async function GenerateTable() {
     console.log(innerstring)
 
     document.getElementById("Employee-Car").innerHTML = innerstring;
-    //almostready
 }
 
-function test() {
-    console.log("yay")
-}
 
 initFirebaseAuth();
