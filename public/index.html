@@ -13,12 +13,10 @@
     <div class="container">
         <header class="kopfzeile">
             <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
-            
             <nav>
-
                 <ul>
                     <li><button onclick="GenerateTable();setHash('home')"> Home </button></li>
-                    <li><button onclick="setHash('fahrzeuge')"> Fahrzeuge </button></li>
+                    <li><button onclick="fillDatalist('Mitarbeiter', 'Fahrerlist');setHash('fahrzeuge')"> Fahrzeuge </button></li>
                     <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
                     <li><button onclick="setHash('datenbank')"> Editor </button></li>
                     <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
@@ -44,21 +42,20 @@
             <div class="info">
                 <h2>Editor</h2>
             </div>
-            <div class="formalert" id="editsuccess" style="display: none">
-                <strong>Daten erfolreich überschrieben!</strong>
-            </div>
             <div class="denyalert" id="editfailed" style="display: none">
                 <strong>Etwas ist falsch gelaufen!</strong>
             </div>
             <div class="forms" id="Fahrzeug-Edit" style="display: none">
-                <div class="formalert"></div>
+                <div class="foralert" id="editsuccess">
+                    <strong>Daten erfolreich überschrieben!</strong>
+                </div>
                 <form id="editorform">
                     <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
                     <p class="placeholder"></p>
                     <!--hier nur Miet- oder Firmenwagen zulassen-->
                     <p class="Fahrzeugart">
                         <label>Fahrzeugart</label>
-                        <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart">
+                        <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart" required>
                     </p>
                     <p class="kennzeichen">
                         <label>Kennzeichen</label>
@@ -77,9 +74,9 @@
                         <label>Bruttolistenpreis in €</label>
                         <input type="text" class="big" name="blp" id="editblp" required>
                     </p>
-                    <p class="vnummer">
+                    <p class="vnummer" id="editvnummerid" style="display: none">
                         <label>Kfz-Versicherungsnummer</label>
-                        <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx">
+                        <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx" required>
                     </p>
                     <p class="zuzahlung">
                         <label>Zuzahlung in €</label>
@@ -101,7 +98,7 @@
                     </p>
                     <p class="Vertragsdaten" id="edittodatumid" style="display: none">
                         <label>Bestelldatum</label>
-                        <input type="date" class="big" name="odatum" id="editodatum">
+                        <input type="date" class="big" name="odatum" id="edittodatum">
                     </p>
                     <p class="Vertragsdaten" id="editmileageid" style="display: none">
                         <label>Laufleistung in km</label>
@@ -111,11 +108,13 @@
                         <label>Vertragsende</label>
                         <input type="date" class="big" name="cende" id="editcende">
                     </p>
-
-
-                    <p class="full">
+                    <p id="editplaceholder" style= "display: none"></p>
+                    <p>
                         <button onclick ="EditFahrzeug(document.getElementById('editkennzeichen').value, 
                         document.getElementById('editfahrzeugart').value)" type="button">Absenden</button>
+                    </p>
+                    <p>
+                        <button onclick = "DeleteData('Fahrzeuge', document.getElementById('editkennzeichen').value)" type="button">Löschen</button>
                     </p>
                 </form>
             </div>
@@ -148,10 +147,14 @@
                     <h4 class="Bürofahrten">Fahrten ins Büro</h4>
                     <br />
                     <p class="Bürofahrten">
-                        <label>Fahrten ins Büro im letzten Kalenderjahr: </label>
+                        <label>Fahrten ins Büro im letzten Kalenderjahr: 3</label>
                     </p>
-                    <p class="full">
-                        <button onclick="EditMitarbeiter(document.getElementById('editnterraid'))" type="button">Absenden</button>
+                    <p></p>
+                    <p class>
+                        <button onclick="EditMitarbeiter(document.getElementById('editnterraid').value)" type="button">Absenden</button>
+                    </p>
+                    <p>
+                        <button onclick = "DeleteData('Mitarbeiter', document.getElementById('editnterraid').value)" type="button">Löschen</button>
                     </p>
                 </form>
             </div>
@@ -165,9 +168,6 @@
                 <h2>Datenbank</h2>
             </div>
             <div class="forms">
-                <div class="formalert">
-                    Änderungen wurden gespeichert
-                </div>
                 <form id="databaseEdit">
                     <p class="askDataSet">
                         Welche Daten möchten sie ändern oder einsehen?
@@ -235,7 +235,9 @@
                     </p>
                     <p class="fahrer">
                         <label>Fahrer</label>
-                        <input type="email" class="big" name="fahrer" id="fahrer" required>
+                        <input type="email" class="big" name="fahrer" id="fahrer" list=Fahrerlist required>
+                        <datalist id="Fahrerlist">
+                        </datalist>
                     </p>
                     <p class="blp">
                         <label>Bruttolistenpreis in €</label>

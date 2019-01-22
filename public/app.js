@@ -444,14 +444,22 @@ var startdate = new Date(new Date().getFullYear(), 0, 1)
 var enddate = new Date(new Date().getFullYear() + 1, 0, 1)
 
 function FillEditMask(doc, bool, key) {
+    var data = doc.data();
+    document.getElementById('editplaceholder').style.display = 'none';
+    document.getElementById('editnummerid').style.display = 'none';
+    document.getElementById('edittodatumid').style.display = 'none';
+    document.getElementById('editmileageid').style.display = 'none';
+    document.getElementById('editcendeid').style.display = 'none';
+    document.getElementById('editvnummerid').style.display = 'none';
+    document.getElementById('editdatumid').style.display = 'none';
+    document.getElementById('editplaceholder').style.display = 'none';
     if (bool) {
-        document.getElementById('editfahrzeugart').value = doc.data().Fahrzeugart;
-        document.getElementById('editkennzeichen').value = doc.data().Kennzeichen;
-        document.getElementById('editmodel').value = doc.data().Modell;
-        document.getElementById('editfahrer').value = doc.data().Fahrer;
-        document.getElementById('editblp').value = doc.data().Bruttolistenpreis;
-        document.getElementById('editvnummer').value = doc.data().Versicherungsnummer;
-        document.getElementById('editzuzahlung').value = doc.data().Zuzahlung;
+        document.getElementById('editfahrzeugart').value = data.Fahrzeugart;
+        document.getElementById('editkennzeichen').value = data.Kennzeichen;
+        document.getElementById('editmodel').value = data.Modell;
+        document.getElementById('editfahrer').value = data.Fahrer;
+        document.getElementById('editblp').value = data.Bruttolistenpreis;
+        document.getElementById('editzuzahlung').value = data.Zuzahlung;
         if (doc.data().Fahrzeugart == "Firmenwagen") {
             //TODO: klären, unter welchen IDs wir aktuelle Verträge speichern
             //document.getElementById('editvertragsdaten').style = 'block';
@@ -459,17 +467,13 @@ function FillEditMask(doc, bool, key) {
             document.getElementById('edittodatumid').style = 'block';
             document.getElementById('editmileageid').style = 'block';
             document.getElementById('editcendeid').style = 'block';
-            fahrzeugeRef.doc(key).collection('Vertrag').doc('12345678').get().then(function (Vertragsref) {
-                if (Vertragsref.exists) {
-                    document.getElementById('editcnummer').value = Vertragsref.data().Vertragsnummer;
-                    document.getElementById('editodatum').value = Vertragsref.data().Bestelldatum;
-                    document.getElementById('editmileage').value = Vertragsref.data().Laufleistung;
-                    document.getElementById('editcende').value = Vertragsref.data().Vertragsende;
-                } else {
-                    console.log("No such document!");
-                }
-            }
-            )
+            document.getElementById('editvnummerid').style = 'block';
+            document.getElementById('editplaceholder').style = 'block';
+            document.getElementById('editvnummer').value = data.Versicherungsnummer;
+            document.getElementById('editcnummer').value = data.Vertragsnummer;
+            document.getElementById('edittodatum').value = data.Vertragsbestelldatum;
+            document.getElementById('editmileage').value = data.Vertragslaufleistung;
+            document.getElementById('editcende').value = data.Vertragsende;
         } else {
             document.getElementById('editdatumid').style = 'block';
             document.getElementById('editklasseid').style = 'block';
@@ -498,7 +502,11 @@ function EditFahrzeug(Key, Fahrzeugart) {
             Fahrer: document.getElementById('editfahrer').value,
             Bruttolistenpreis: document.getElementById('editblp').value,
             Versicherungsnummer: document.getElementById('editvnummer').value,
-            Zuzahlung: document.getElementById('editzuzahlung').value
+            Zuzahlung: document.getElementById('editzuzahlung').value,
+            Vertragsbestelldatum: document.getElementById('edittodatum').value,
+            Vertragsende: document.getElementById('editcende').value,
+            Vertragslaufleistung: document.getElementById('editmileage').value,
+            Vertragsnummer: document.getElementById('editcnummer').value,
         })
             .then(function () {
                 document.getElementById('editsuccess').style = 'block'
@@ -521,7 +529,7 @@ function EditFahrzeug(Key, Fahrzeugart) {
             Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
         })
             .then(function () {
-                document.getElementById('editsuccess').style = 'block'
+                document.querySelector('.foralert').style.display = 'block';
                 console.log("Document successfully written!");
             })
             .catch(function (error) {
@@ -543,6 +551,15 @@ function EditMitarbeiter(Key) {
             document.getElementById('editfailed').style = 'block'
             console.error("Error writing document: ", error);
         });
+}
+
+//Fehlt: Nachricht erfolgreich
+function DeleteData(Art, Key) {
+    db.collection(Art).doc(Key).delete().then(function() {
+        console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
 }
 
 //Aufruf wenn die Editor Page aufgerufen wird, resettet Forms und Divisions
