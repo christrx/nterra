@@ -391,7 +391,7 @@ function loadNext() {
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
-    fillDatalist(Datensatz);
+    fillDatalist(Datensatz, "MAList");
     if (Datensatz == "Mitarbeiter") {
         document.getElementById("insertInfo").style.display = 'block';
         document.getElementById("insertKey").style.display = 'block';
@@ -562,7 +562,7 @@ async function getKennzeichen() {
     return snapshot.docs.map(doc => doc.data().Kennzeichen);
 }
 
-function fillDatalist(Typ){
+function fillDatalist(Typ, List){
     var myMa = new Array();
     var options = '';
     
@@ -572,14 +572,14 @@ function fillDatalist(Typ){
             for(var i = 0; i < result.length; i++)
                 options += '<option value="'+result[i]+'" />';
             
-            document.getElementById('MAList').innerHTML = options; })
+            document.getElementById(List).innerHTML = options; })
     } else {
             getKennzeichen().then(function(result) {
             
             for(var i = 0; i < result.length; i++)
                 options += '<option value="'+result[i]+'" />';
             
-            document.getElementById('MAList').innerHTML = options;
+            document.getElementById(List).innerHTML = options;
     })}
 }
 
