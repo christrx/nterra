@@ -608,12 +608,11 @@ return mycars;
 
 function newMaTable(Mitarbeiter, innerString) {
     innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `'+ Mitarbeiter +
-    '`)">'+ Mitarbeiter +'</button></td>';
+    '`)">'+ Name(Mitarbeiter) +'</button></td>';
     return innerString;
 }
 
 function newCarTable(Car, innerString) {
-
     innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `'+ Car + 
     '`)">' + Car + '</button></td></tr>';
     return innerString;
@@ -653,6 +652,15 @@ async function GenerateTable() {
     console.log(innerstring)
 
     document.getElementById("Employee-Car").innerHTML = innerstring;
+}
+
+function Name(str) {
+
+    str = str.replace(".", " ");
+    str = str.replace("@nterra.com", "");
+    str = str.replace(/\b\w/g, l => l.toUpperCase());
+
+    return str
 }
 
 
