@@ -205,14 +205,15 @@ button:hover, button:focus{
     background: #cbddee;
     padding-right: 5px;
     padding-bottom: 10px;
+    height: 200px;
 }
 
 .fuehrerschein button{
     color: white;
     height: 35px;
     width: 125px;
-    float: right;
-    margin: 10px;
+    margin: 7.5px;
+    float: left;
 }
 
 .fuehrerschein #yesbutton{
