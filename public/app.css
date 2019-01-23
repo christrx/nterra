@@ -10,11 +10,15 @@
     font-family: 'RBCR';
     src: url("fonts/RobotoCondensed-Regular.ttf");
 }
+@font-face{
+    font-family: 'RBCRB';
+    src: url("fonts/RobotoCondensed-Bold.ttf");
+}
 /* Styling Hintergrund, Schriftart */
 body{
     background: rgb(102, 102, 102, 0.5);
     color: #000000;
-    font-family: 'RBCR','DroidSans';
+    font-family: 'RBCR','DroidSans', 'RBCRB';
     line-height: 1.5;
     padding: 0;
     margin: 0;
@@ -60,15 +64,19 @@ body{
     grid-template-columns: 1fr, 1fr;
 }
 
-
 .kopfzeile button , #btSearch{
     border: none;
-    padding: 0;
+    padding: 10px;
     color: white;
     background: none;
     height: 45px;
-    width: 110px;
-    font-size: 14px;
+    width: auto;
+    font-size: 15px;
+    border-radius: 2px;
+}
+
+.kopfzeile #username{
+    font-family: 'RBCR';
 }
 
 .home{
@@ -125,6 +133,7 @@ body{
     width: 100%;
     padding: 1em;
     border: 1px solid #f5a748;    
+    border-radius: 4px;
 }
 
 .forms form .full button {
@@ -198,15 +207,6 @@ button:hover, button:focus{
     display: none;
 }
 
-.fuehrerschein .info{
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-}
-
-#license-search{
-    vertical-align: middle;
-}
-
 .fuehrerschein .license-box{
     display: grid;
     grid-template-columns: 1fr 1fr 2fr 2fr;
@@ -222,6 +222,7 @@ button:hover, button:focus{
     width: 125px;
     margin: 7.5px;
     float: left;
+    border-radius: 4px;
 }
 
 .fuehrerschein #yesbutton{
@@ -264,6 +265,7 @@ table#Employee-Car {
 
 th {
     text-align: left;
+    background-color: #f5a748;
 }
 
 table#Employee-Car tr:nth-child(even) {
