@@ -11,6 +11,7 @@ const db = firebase.firestore();
 
 // Sign-in to Google
 function googleLogin() {
+    // Sets the persistence to session, so the user is automatically signed-out if he closes the tab or window
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         .then(function () {
             var provider = new firebase.auth.GoogleAuthProvider();
@@ -27,7 +28,7 @@ function googleLogin() {
         })
 }
 
-//checks if the users account is an nterra.com domain
+// Checks if the users account is an nterra.com domain
 function validAccount(userEmail){
     return userEmail.split('@')[1] == 'nterra.com';
 }
@@ -60,6 +61,7 @@ function getUserPicUrl() {
 // Triggers when the Auth State changes for instance when the user signs in or out
 function authStateObserver(user) {
     console.log('hi');
+    // if a user is signed in his email and his google profile picture are injected into the document
     if (user) {
         var username = getUserName();
         var userPicUrl = getUserPicUrl();
@@ -72,6 +74,7 @@ function authStateObserver(user) {
         document.getElementById('userpic').style.display = 'inline-block';
         document.getElementById('username').style.display = 'inline';
     }
+    // if the user is not signed in he gets redirected to the welcome page
     else {
         document.getElementById('libutton').style.display = 'inline';
         document.getElementById('lobutton').style.display = 'none';
@@ -84,11 +87,14 @@ function authStateObserver(user) {
 
 // Triggers when the windows hash value changes and updates the ui accordingly
 window.onhashchange = function () {
+    // hides the currently visible page
     hideAllPages();
     var currentHash = window.location.hash;
+    // if the user is not signed in he is redirected to the welcome page
     if (!firebase.auth().currentUser) {
         currentHash = "#welcome";
     }
+    // user is shown the page accordingly to the current hash
     if (currentHash == '#home') {
         document.getElementsByClassName('home')[0].style.display = 'grid';
     }
