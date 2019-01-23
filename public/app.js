@@ -139,9 +139,9 @@ document.getElementById('firmenwagen').addEventListener('click', changeFormFirm)
 
 // Updates the form if the Firmenwagen radio is clicked
 function changeFormFirm(e) {
-    document.getElementsByClassName('uedatum')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('uedatum')[1].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
-    document.getElementsByClassName('vnummer')[0].style.display = 'block';
+    document.getElementsByClassName('vnummer')[1].style.display = 'block';
     document.getElementsByClassName('vdaten')[0].style.display = 'block';
     document.getElementsByClassName('cnummer')[0].style.display = 'block';
     document.getElementsByClassName('cende')[0].style.display = 'block';
@@ -154,9 +154,9 @@ document.getElementById('mietwagen').addEventListener('click', changeFormMiet);
 
 // Updates the form if the Mietwagen radio is clicked
 function changeFormMiet(e) {
-    document.getElementsByClassName('uedatum')[0].style.visibility = 'visible';
+    document.getElementsByClassName('uedatum')[1].style.visibility = 'visible';
     document.getElementsByClassName('fklasse')[0].style.display = 'block';
-    document.getElementsByClassName('vnummer')[0].style.display = 'none';
+    document.getElementsByClassName('vnummer')[1].style.display = 'none';
     document.getElementsByClassName('vdaten')[0].style.display = 'none';
     document.getElementsByClassName('cnummer')[0].style.display = 'none';
     document.getElementsByClassName('cende')[0].style.display = 'none';
@@ -261,9 +261,9 @@ function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zu
 
 // reset the fields after successful submission
 function resetCarform() {
-    document.getElementsByClassName('uedatum')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('uedatum')[1].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
-    document.getElementsByClassName('vnummer')[0].style.display = 'block';
+    document.getElementsByClassName('vnummer')[1].style.display = 'block';
     document.getElementsByClassName('vdaten')[0].style.display = 'block';
     document.getElementsByClassName('cnummer')[0].style.display = 'block';
     document.getElementsByClassName('cende')[0].style.display = 'block';
