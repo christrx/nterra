@@ -11,12 +11,25 @@ const db = firebase.firestore();
 
 // Sign-in to Google
 function googleLogin() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function () {
-        var user = firebase.auth().currentUser;
-        window.location.hash = "home";
-        GenerateTable();
-    })
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(function () {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).then(function () {
+                var userMail =  firebase.auth().currentUser.email;
+                if(validAccount(userMail)){
+                    window.location.hash = "home"
+                    GenerateTable();
+                }
+                else{
+                    googleLogout();
+                }
+            })
+        })
+}
+
+//checks if the users account is an nterra.com domain
+function validAccount(userEmail){
+    return userEmail.split('@')[1] == 'nterra.com';
 }
 
 // Sign-out
@@ -290,16 +303,16 @@ document.getElementById('license-search').addEventListener('click', searchLicens
 function searchLicenses() {
     licenseCounter = 1;
     licenseRef.get().then(function (querySnapshot) {
-            data = querySnapshot.docs.map(function (documentSnapshot) {
-                return documentSnapshot.data();
-            })
-            console.log(data.length);
-            loadNext();
+        data = querySnapshot.docs.map(function (documentSnapshot) {
+            return documentSnapshot.data();
+        })
+        console.log(data.length);
+        loadNext();
     })
 }
 
 document.getElementById('yesbutton').addEventListener('click', acceptLicense);
-document.getElementById('nobutton').addEventListener('click',denyLicense);
+document.getElementById('nobutton').addEventListener('click', denyLicense);
 
 function acceptLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
@@ -312,12 +325,12 @@ function acceptLicense() {
         Ablaufdatum: data[licenseCounter].Ablaufdatum.toLocaleDateString(),
         Aktuell: true
     })
-    if(newLicenseID == "0"){
+    if (newLicenseID == "0") {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID
         })
     }
-    else{
+    else {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID
         })
@@ -325,7 +338,7 @@ function acceptLicense() {
             Aktuell: false
         })
     }
-   // deleteLicense(currentMitarbeiterID);
+    // deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
 
@@ -338,7 +351,7 @@ function acceptLicense() {
     }, 3000);
 }
 
-function denyLicense(){
+function denyLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
 
     //deleteLicense(currentMitarbeiterID);
@@ -350,9 +363,9 @@ function denyLicense(){
     document.querySelector('.denialalert').style.display = 'block';
 
     setTimeout(function () {
-    document.querySelector('.denialalert').style.display = 'none';
+        document.querySelector('.denialalert').style.display = 'none';
     }, 3000);
-    }
+}
 
 function deleteLicense(currentMitarbeiterID) {
     licenseRef.doc(currentMitarbeiterID).delete();
@@ -363,28 +376,28 @@ function openBack() {
     win.focus();
 }
 
-function openFront(){
+function openFront() {
     var win2 = window.open(currentFrontUrl, '_blank');
     win2.focus();
 }
 
 function loadNext() {
-    if(licenseCounter == data.length){
+    if (licenseCounter == data.length) {
         document.querySelector('.nothingleftalert').style.display = 'block';
         document.getElementById('license-box').style.display = 'none';
         return;
     }
-    mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function(documentSnapshot){
+    mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function (documentSnapshot) {
         currentGuy = documentSnapshot.data();
-     })
-     document.querySelector('.nothingleftalert').style.display = 'none';
-     document.getElementById('license-box').style.display = 'block';
-     document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
-     document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
-     currentBackUrl = data[licenseCounter].URLBack;
-     currentFrontUrl = data[licenseCounter].URLFront;
-     console.log(currentBackUrl);
-     console.log(currentFrontUrl);
+    })
+    document.querySelector('.nothingleftalert').style.display = 'none';
+    document.getElementById('license-box').style.display = 'block';
+    document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
+    document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
+    currentBackUrl = data[licenseCounter].URLBack;
+    currentFrontUrl = data[licenseCounter].URLFront;
+    console.log(currentBackUrl);
+    console.log(currentFrontUrl);
 }
 
 //TODO: Richtige Urls laden bei Klick auf Vorder/Rückseite
@@ -555,9 +568,9 @@ function EditMitarbeiter(Key) {
 
 //Fehlt: Nachricht erfolgreich
 function DeleteData(Art, Key) {
-    db.collection(Art).doc(Key).delete().then(function() {
+    db.collection(Art).doc(Key).delete().then(function () {
         console.log("Document successfully deleted!");
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error("Error removing document: ", error);
     });
 }
@@ -580,25 +593,27 @@ async function getKennzeichen() {
     return snapshot.docs.map(doc => doc.data().Kennzeichen);
 }
 
-function fillDatalist(Typ, List){
+function fillDatalist(Typ, List) {
     var myMa = new Array();
     var options = '';
-    
+
     if (Typ == "Mitarbeiter") {
-            getMa().then(function(result) {
-            
-            for(var i = 0; i < result.length; i++)
-                options += '<option value="'+result[i]+'" />';
-            
-            document.getElementById(List).innerHTML = options; })
-    } else {
-            getKennzeichen().then(function(result) {
-            
-            for(var i = 0; i < result.length; i++)
-                options += '<option value="'+result[i]+'" />';
-            
+        getMa().then(function (result) {
+
+            for (var i = 0; i < result.length; i++)
+                options += '<option value="' + result[i] + '" />';
+
             document.getElementById(List).innerHTML = options;
-    })}
+        })
+    } else {
+        getKennzeichen().then(function (result) {
+
+            for (var i = 0; i < result.length; i++)
+                options += '<option value="' + result[i] + '" />';
+
+            document.getElementById(List).innerHTML = options;
+        })
+    }
 }
 
 
@@ -608,31 +623,32 @@ async function getMAcars() {
     var mycars = new Array()
 
     const snapshot = await getMa()
-        snapshot.forEach(function(employee) {
-            fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars) {
-                if (!cars.empty) {
+    snapshot.forEach(function (employee) {
+        fahrzeugeRef.where("Fahrer", "==", employee).get().then(function (cars) {
+            if (!cars.empty) {
                 cars.forEach(car => {
                     mycars.push(car.data().Kennzeichen);
                 })
-                } else {
-                    mycars.push("placeholder")
-                }
-            })}
+            } else {
+                mycars.push("placeholder")
+            }
+        })
+    }
     );
 
-return mycars;
+    return mycars;
 
 }
 
 function newMaTable(Mitarbeiter, innerString) {
-    innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `'+ Mitarbeiter +
-    '`)">'+ Name(Mitarbeiter) +'</button></td>';
+    innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `' + Mitarbeiter +
+        '`)">' + Name(Mitarbeiter) + '</button></td>';
     return innerString;
 }
 
 function newCarTable(Car, innerString) {
-    innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `'+ Car + 
-    '`)">' + Car + '</button></td></tr>';
+    innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `' + Car +
+        '`)">' + Car + '</button></td></tr>';
     return innerString;
 }
 
@@ -645,12 +661,12 @@ async function GenerateTable() {
     var Cars = new Array()
     var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th></tr>'
 
-    getMa().then(function(Mitarbeiter){
+    getMa().then(function (Mitarbeiter) {
         Mitarbeiter.map(mail => Employees.push(mail))
     });
 
     const snapshot = await getMAcars()
-        Cars = snapshot;
+    Cars = snapshot;
 
     await getMa();
 

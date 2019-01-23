@@ -61,14 +61,14 @@ body{
 }
 
 
-.kopfzeile button{
+.kopfzeile button , #btSearch{
     border: none;
     padding: 0;
     color: white;
-    background-color: #0672ce;
-    height: 35px;
+    background: none;
+    height: 45px;
     width: 110px;
-
+    font-size: 14px;
 }
 
 .home{
@@ -121,7 +121,7 @@ body{
     margin-bottom: 0;
 }
 
-.forms form button, .forms form .big{
+.forms form button, .forms form .big, .forms .big{
     width: 100%;
     padding: 1em;
     border: 1px solid #f5a748;    
