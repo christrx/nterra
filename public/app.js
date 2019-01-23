@@ -81,7 +81,6 @@ function authStateObserver(user) {
         window.location.hash = "welcome";
     }
 }
-// TODO: Funktion, die bei angeklicktem Datensatz Codewort + ID des Datensatzes als hash setzt
 
 // Triggers when the windows hash value changes and updates the ui accordingly
 window.onhashchange = function () {
@@ -400,8 +399,7 @@ function loadNext() {
     console.log(currentFrontUrl);
 }
 
-//TODO: Richtige Urls laden bei Klick auf Vorder/Rückseite
-//      Ablehnung des Führerscheins behandeln
+//TODO: Ablehnung des Führerscheins behandeln
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
@@ -500,7 +498,7 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editname').value = doc.data().Name;
         document.getElementById('editnterraid').value = key;
         mitarbeiterRef.where('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
-            //TODO, menge wird noch falsch angezeigt
+            //TODO: menge wird noch falsch angezeigt
             console.log(snap.size)
         })
     }
