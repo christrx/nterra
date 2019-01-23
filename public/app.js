@@ -339,7 +339,7 @@ function acceptLicense() {
             Aktuell: false
         })
     }
-    // deleteLicense(currentMitarbeiterID);
+    //TODO: deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
 
@@ -355,7 +355,7 @@ function acceptLicense() {
 function denyLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
 
-    //deleteLicense(currentMitarbeiterID);
+    //TODO: deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
 
@@ -443,7 +443,7 @@ function searchDatabase(key, bool) {
             console.log("Document data:", doc.data());
             FillEditMask(doc, bool, key);
         } else {
-            //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
+            //TODO: User wird benachrichtigt, wenn keine Daten verfügbar sind
             console.log("No such document!");
         }
     }).catch(function (error) {
