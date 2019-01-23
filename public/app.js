@@ -215,11 +215,11 @@ function submitForm(e) {
     }
 
     // Show alert
-    document.querySelector('.formalert').style.display = 'block';
+    document.querySelector('.caralert').style.display = 'block';
 
     // Hide alert after 3 seconds
     setTimeout(function () {
-        document.querySelector('.formalert').style.display = 'none';
+        document.querySelector('.caralert').style.display = 'none';
     }, 3000);
 
     // Clear Document after submission
@@ -326,12 +326,14 @@ function acceptLicense() {
     })
     if (newLicenseID == "0") {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
-            AktuellerFuehrerschein: newLicenseID
+            AktuellerFuehrerschein: newLicenseID,
+            LetzterUpload: data[licenseCounter].UploadZeitpunkt
         })
     }
     else {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
-            AktuellerFuehrerschein: newLicenseID
+            AktuellerFuehrerschein: newLicenseID,
+            LetzterUpload: data[licenseCounter].UploadZeitpunkt
         })
         mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(oldLicenseID).update({
             Aktuell: false
@@ -395,8 +397,6 @@ function loadNext() {
     document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
     currentBackUrl = data[licenseCounter].URLBack;
     currentFrontUrl = data[licenseCounter].URLFront;
-    console.log(currentBackUrl);
-    console.log(currentFrontUrl);
 }
 
 //TODO: Ablehnung des Führerscheins behandeln
