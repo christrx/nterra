@@ -293,22 +293,48 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 }
 
 table#Employee-Car {
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: 80%
+    border-collapse: separate;
+    width: 80%;
+    padding: auto;
+    margin: 10px;
+    border-spacing: 0;
+    background-color: #cbddee;
+}
+
+table#Employee-Car td, table#Employee-Car th { 
+    padding: 5px 12px;
 }
 
 th {
+    height: 30px;
     text-align: left;
     background-color: #f5a748;
+    border: solid 1px #f5a748;
 }
 
-table#Employee-Car tr:nth-child(even) {
+td {
     background-color: #eee;
-  }
-table#Employee-Car tr:nth-child(odd) {
-    background-color: #fff;
-  }
+    border: solid 1px #eee;
+}
+
+table#Employee-Car th:first-child {
+    border-radius: 4px 0 0 0;
+}
+
+table#Employee-Car th:last-child {
+    border-radius: 0 4px 0 0;
+}
+
+table#Employee-Car tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 4px;
+}
+table#Employee-Car tbody tr:last-child td:last-child {
+    border-radius: 0 0 4px 0;
+}
+
+.home button:hover {
+    color: #0672ce;
+}
 
   button.link {
     background:none;
