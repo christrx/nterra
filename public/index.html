@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="app.css">
     <link rel="icon" href="images/logo.jpg">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
 
 <body>
     <div class="container">
@@ -15,13 +17,18 @@
             <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
             <nav>
                 <ul>
-                    <li><button onclick="GenerateTable();setHash('home')"> Home </button></li>
-                    <li><button onclick="fillDatalist('Mitarbeiter', 'Fahrerlist');setHash('fahrzeuge')"> Fahrzeuge </button></li>
-                    <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
-                    <li><button onclick="setHash('datenbank')"> Editor </button></li>
-                    <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
-                    <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
-                    <li id="buffer" style="visibility: hidden">bla</li>
+                    <li><button class="rounded" id="homebutton" onclick="GenerateTable();setHash('home')">
+                        <span><i class="fa fa-home"></i> Home</button></li></span>
+                    <li><button class="rounded" id="carbutton" onclick="fillDatalist('Mitarbeiter', 'Fahrerlist');setHash('fahrzeuge')">
+                        <span><i class="fa fa-car"></i> Fahrzeuge</button></li></span>
+                    <li><button class="rounded" id="licensebutton" onclick="setHash('fuehrerschein')">
+                        <span><i class="fa fa-id-card"></i> Führerschein</button></li></span>
+                    <li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
+                        <span><i class="fa fa-edit"></i> Editor</button></li></span>
+                    <li><button class="rounded" id='libutton' onclick="googleLogin()">
+                        <span><i id="openDoor" class="fa fa-sign-in-alt"></i> Sign In</button></li></span>
+                    <li><button class="rounded" id='lobutton' onclick="googleLogout()">
+                        <span><i id="closedDoor" class="fa fa-sign-out-alt"></i> Sign Out</button></li></span>
                     <li id="userpic"></li>
                     <li hidden id="username"></li>
                 </ul>
@@ -34,7 +41,7 @@
             </div>
             <div class="forms">
                 <table id="Employee-Car">
-                  </table>
+                </table>
             </div>
         </div>
 
@@ -76,7 +83,8 @@
                     </p>
                     <p class="vnummer" id="editvnummerid" style="display: none">
                         <label>Kfz-Versicherungsnummer</label>
-                        <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx" required>
+                        <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx"
+                            required>
                     </p>
                     <p class="zuzahlung">
                         <label>Zuzahlung in €</label>
@@ -108,13 +116,15 @@
                         <label>Vertragsende</label>
                         <input type="date" class="big" name="cende" id="editcende">
                     </p>
-                    <p id="editplaceholder" style= "display: none"></p>
+                    <p id="editplaceholder" style="display: none"></p>
                     <p>
-                        <button onclick ="EditFahrzeug(document.getElementById('editkennzeichen').value, 
-                        document.getElementById('editfahrzeugart').value)" type="button">Absenden</button>
+                        <button onclick="EditFahrzeug(document.getElementById('editkennzeichen').value, 
+                        document.getElementById('editfahrzeugart').value)"
+                            type="button">Absenden</button>
                     </p>
                     <p>
-                        <button onclick = "DeleteData('Fahrzeuge', document.getElementById('editkennzeichen').value)" type="button">Löschen</button>
+                        <button onclick="DeleteData('Fahrzeuge', document.getElementById('editkennzeichen').value)"
+                            type="button">Löschen</button>
                     </p>
                 </form>
             </div>
@@ -154,7 +164,7 @@
                         <button onclick="EditMitarbeiter(document.getElementById('editnterraid').value)" type="button">Absenden</button>
                     </p>
                     <p>
-                        <button onclick = "DeleteData('Mitarbeiter', document.getElementById('editnterraid').value)" type="button">Löschen</button>
+                        <button onclick="DeleteData('Mitarbeiter', document.getElementById('editnterraid').value)" type="button">Löschen</button>
                     </p>
                 </form>
             </div>
@@ -192,9 +202,9 @@
                 </p>
                 <p>
                     <label id="keyLabel">Schlüssel</label><br />
-                    <input type="text" class="big" name="keyinsert" id="keyinsert" list = "MAList">
+                    <input type="text" class="big" name="keyinsert" id="keyinsert" list="MAList">
                     <datalist id="MAList">
-                    </datalist>    
+                    </datalist>
 
                 </p>
                 <P>
@@ -279,25 +289,25 @@
             </div>
         </div>
     </div>
-    
+
     <div class="page fuehrerschein" style="display: none">
         <div class="info">
             <h2>Führerschein</h2>
             <button id="license-search">Führerscheine suchen</button>
         </div>
-        <div class="licensealert">Führerschein wurde bestätigt</div>
-        <div class="denialalert">Führerschein wurde abgelehnt</div>
-        <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
-        <div class="license-box" id="license-box" style="display: none">
-            <p id="license-user">Name:</p>
-            <p id="license-date">Datum: </p>
-            <div class="picture-buttons">
-                <button id="front-pic" onclick="openFront()">Vorderseite</a>
-                <button id="back-pic" onclick="openBack()">Rückseite</a>
-            </div>
-            <div class="decision-buttons">
-                <button id="yesbutton">Bestätigen</button>
-                <button id="nobutton">Ablehnen</button>
+        <div class="licensebox">
+            <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
+            <div class="licensealert">Führerschein wurde bestätigt</div>
+            <div class="denialalert">Führerschein wurde abgelehnt</div>
+            <div class="license-box" id="license-box" style="display: none">
+                <p id="license-user">Name:</p>
+                <p id="license-date">Datum: </p>
+                <ul class="button-list">
+                    <li><button id="front-pic" onclick="openFront()">Vorderseite</a></li>
+                    <li><button id="back-pic" onclick="openBack()">Rückseite</a></li>
+                    <li><button id="yesbutton">Bestätigen</button></li>
+                    <li><button id="nobutton">Ablehnen</button></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -306,14 +316,14 @@
         <h1>Oops something must have went wrong :(</h1>
     </div>
 
-    
+
     <div class="page uebersicht" style="display: none">
-            <div class="info">
-                <h2>Übersicht</h2>
-            </div>
+        <div class="info">
+            <h2>Übersicht</h2>
+        </div>
     </div>
 
-</div>
+    </div>
 
 
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>

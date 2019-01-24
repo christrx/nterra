@@ -69,6 +69,10 @@ function authStateObserver(user) {
         document.getElementById('username').textContent = username;
         document.getElementById('userpic').style.backgroundImage = 'url(' + userPicUrl + ')';
 
+        document.getElementById('homebutton').style.display = 'inline';
+        document.getElementById('carbutton').style.display = 'inline';
+        document.getElementById('licensebutton').style.display = 'inline';
+        document.getElementById('editbutton').style.display = 'inline';
         document.getElementById('libutton').style.display = 'none';
         document.getElementById('lobutton').style.display = 'inline';
         document.getElementById('userpic').style.display = 'inline-block';
@@ -76,7 +80,12 @@ function authStateObserver(user) {
     }
     // if the user is not signed in he gets redirected to the welcome page
     else {
+        document.getElementById('homebutton').style.display = 'none';
+        document.getElementById('carbutton').style.display = 'none';
+        document.getElementById('licensebutton').style.display = 'none';
+        document.getElementById('editbutton').style.display = 'none';
         document.getElementById('libutton').style.display = 'inline';
+        document.getElementById('libutton').style.marginRight = '20px';
         document.getElementById('lobutton').style.display = 'none';
         document.getElementById('username').style.display = 'none';
         document.getElementById('userpic').style.display = 'none';
@@ -102,7 +111,7 @@ window.onhashchange = function () {
         document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
     }
     else if (currentHash == '#fuehrerschein') {
-        document.getElementsByClassName('fuehrerschein')[0].style.display = 'block';
+        document.getElementsByClassName('fuehrerschein')[0].style.display = 'grid';
     }
     else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
@@ -398,7 +407,7 @@ function loadNext() {
         currentGuy = documentSnapshot.data();
     })
     document.querySelector('.nothingleftalert').style.display = 'none';
-    document.getElementById('license-box').style.display = 'block';
+    document.getElementById('license-box').style.display = 'grid';
     document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
     document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
     currentBackUrl = data[licenseCounter].URLBack;
