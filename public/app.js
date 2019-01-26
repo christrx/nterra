@@ -511,14 +511,14 @@ function FillEditMask(doc, bool, key) {
 
     else {
         var numberdays
-        document.getElementById('editname').value = doc.data().Name;
+        document.getElementById('editname').value = data.Name;
         document.getElementById('editnterraid').value = key;
-        mitarbeiterRef.where('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
-            //TODO: menge wird noch falsch angezeigt
-            console.log(snap.size)
+        mitarbeiterRef.doc(key).collection("Fuehrerscheine").doc(data.AktuellerFuehrerschein).get().then(function(License) {
+            setinner("lastupload", generateURLString(License.data().URLFront, License.data().URLBack));
         })
+        }
     }
-}
+
 
 function EditFahrzeug(Key, Fahrzeugart) {
     if (Fahrzeugart == "Firmenwagen") {
@@ -715,8 +715,11 @@ function setinner(id, innerstring) {
     document.getElementById(id).innerHTML = innerstring;
 }
 
-function getlastCheck() {
+function generateURLString(URLFront, URLBack) {
+    var innerstring
 
+    innerstring = "<label>Aktueller Upload:</label><a href='" + URLFront + "'target='_blank'>Vorderseite</a><br /><a href='" + URLBack + "'target='_blank'>Rückseite</a>";
+    return innerstring;
 }
 
 
