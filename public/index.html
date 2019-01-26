@@ -75,7 +75,9 @@
                     </p>
                     <p class="fahrer">
                         <label>Fahrer</label>
-                        <input type="text" class="big" name="fahrer" id="editfahrer" required>
+                        <input type="text" class="big" name="fahrer" id="editfahrer" list="EditorList" required>
+                    <datalist id="EditorList">
+                    </datalist>
                     </p>
                     <p class="blp">
                         <label>Bruttolistenpreis in €</label>
@@ -146,12 +148,12 @@
                     </p>
                     <h4 class="Führerschein-Status">Führerschein-Status</h4>
                     <br />
-                    <p class="lastUpload">
-                        <label>letzter Upload: keine Daten</label>
+                    <p>
+                        <label id="lastUpload">letzter Upload: keine Daten</label>
                     </p>
                     <br />
-                    <p class="lastCheck">
-                        <label>letzter Check: keine Daten</label>
+                    <p>
+                        <label id="lastCheck">Checks</label>
                     </p>
                     <br />
                     <h4 class="Bürofahrten">Fahrten ins Büro</h4>

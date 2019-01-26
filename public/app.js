@@ -115,6 +115,7 @@ window.onhashchange = function () {
     }
     else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
+        fillDatalist("Mitarbeiter","EditorList");
     }
     else if (currentHash == '#uebersicht') {
         document.getElementsByClassName('uebersicht')[0].style.display = 'grid';
@@ -521,7 +522,7 @@ function FillEditMask(doc, bool, key) {
 
 function EditFahrzeug(Key, Fahrzeugart) {
     if (Fahrzeugart == "Firmenwagen") {
-        db.collection('Fahrzeuge').doc(Key).set({
+        db.collection('Fahrzeuge').doc(Key).update({
             Fahrzeugart: Fahrzeugart,
             Kennzeichen: Key,
             Modell: document.getElementById('editmodel').value,
@@ -543,7 +544,7 @@ function EditFahrzeug(Key, Fahrzeugart) {
                 console.error("Error writing document: ", error);
             });
     } else {
-        db.collection('Fahrzeuge').doc(Key).set({
+        db.collection('Fahrzeuge').doc(Key).update({
             Fahrzeugart: Fahrzeugart,
             Kennzeichen: Key,
             Modell: document.getElementById('editmodel').value,
@@ -566,7 +567,7 @@ function EditFahrzeug(Key, Fahrzeugart) {
 }
 
 function EditMitarbeiter(Key) {
-    db.collection('Mitarbeiter').doc(Key).set({
+    db.collection('Mitarbeiter').doc(Key).update({
         Name: document.getElementById('editname').value,
     })
         .then(function () {
@@ -708,6 +709,14 @@ function Name(str) {
     str = str.replace(/\b\w/g, l => l.toUpperCase());
 
     return str
+}
+
+function setinner(id, innerstring) {
+    document.getElementById(id).innerHTML = innerstring;
+}
+
+function getlastCheck() {
+
 }
 
 
