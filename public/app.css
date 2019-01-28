@@ -230,6 +230,22 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     display: none;
 }
 
+.mitarbeiter-deletealert{
+    text-align: center;
+    padding: 10px;
+    background: rgb(253, 56, 56);
+    color: white;
+    display: none;
+}
+
+.mitarbeiter-changealert{
+    text-align: center;
+    padding: 10px;
+    background: #17a345;
+    color: white;
+    display: none;
+}
+
 .fuehrerschein .licensebox{
     background: #cbddee;
 }
