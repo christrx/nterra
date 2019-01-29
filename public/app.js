@@ -453,6 +453,7 @@ function FillEditMask(doc, bool, key) {
     document.getElementById('editvnummerid').style.display = 'none';
     document.getElementById('editdatumid').style.display = 'none';
     document.getElementById('editplaceholder').style.display = 'none';
+    document.getElementById('editklasseid').style.display = 'none';
     if (bool) {
         document.getElementById('editfahrzeugart').value = data.Fahrzeugart;
         document.getElementById('editkennzeichen').value = data.Kennzeichen;
