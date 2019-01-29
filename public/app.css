@@ -10,11 +10,16 @@
     font-family: 'RBCR';
     src: url("fonts/RobotoCondensed-Regular.ttf");
 }
+@font-face{
+    font-family: 'RBCRB';
+    src: url("fonts/RobotoCondensed-Bold.ttf");
+}
 /* Styling Hintergrund, Schriftart */
 body{
-    background: rgb(102, 102, 102, 0.5);
+    background: rgb(102, 102, 102, 0.25);
+    background-attachment: fixed;
     color: #000000;
-    font-family: 'RBCR','DroidSans';
+    font-family: 'RBCR','DroidSans', 'RBCRB';
     line-height: 1.5;
     padding: 0;
     margin: 0;
@@ -30,9 +35,14 @@ body{
     padding: 1em;
 }
 
+.kopfzeile #title{
+    margin-left: 20px;
+    font-size: 250%;
+}
+
 .kopfzeile ul{
     padding: 0;
-    margin-top: 25px;
+    margin-top: 40px;
 }
 .kopfzeile li{
     list-style: none;
@@ -51,53 +61,73 @@ body{
     vertical-align: middle;
 }
 
-#title span{
-    color: #0672ce;
-
+#title #updown{
+    color: #f5a748;
+    display: inline-block;
+    font-family: 'RBCRB';
+    transform: scale(1, -1);
 }
 
 .kopfzeile{
-    grid-template-columns: 1fr, 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
-
-.kopfzeile button{
+.kopfzeile button , #btSearch{
     border: none;
-    padding: 0;
+    padding: 10px;
     color: white;
-    background-color: #0672ce;
-    height: 35px;
-    width: 110px;
+    background: none;
+    height: 45px;
+    width: auto;
+    font-size: 15px;
+    border-radius: 2px;
+}
 
+.kopfzeile #username{
+    font-family: 'RBCR';
+}
+
+.kopfzeile #libutton{
+    font-size: 18px;
 }
 
 .home{
     display: none;
 }
 
-/* Styling Kopfzeile des Formulars*/
-.page{
-    box-shadow: 0 0 20px rgb(6, 114, 206, 0.25);
+.navileiste{
+    background-color: rgb(102, 102, 102);
+    background-size: 100%;
 }
+
+.navileiste button{
+    font-size: 18px;
+    width: auto;
+    height: 65px;
+    border-radius: 2px;
+    background-color: rgb(102, 102, 102);
+    color: #fff;
+    text-align: left;
+}
+
+.navileiste button:hover{
+    background: linear-gradient(90deg, #f5a748, rgb(102,102,102));
+}
+
+.navileiste ul{
+    list-style: none;
+}
+
+/* Styling Kopfzeile des Formulars*/
 
 .page > *{
     padding: 1em;
 }
 
-.info{
-    background: rgb(245, 167, 72);
-    color: #fff;
-}
-
-.info h3{
-    text-align: center;
-    margin: 0 0 1rem 0;
-}
-
 /*Styling des Formulars*/
 
 .forms{
-    background: #cbddee
+    background: none;
 }
 
 .forms form{
@@ -121,10 +151,15 @@ body{
     margin-bottom: 0;
 }
 
-.forms form button, .forms form .big{
-    width: 100%;
+.forms form button, .forms form .big, .forms .big{
+    width: 80%;
     padding: 1em;
     border: 1px solid #f5a748;    
+    border-radius: 4px;
+}
+
+.forms form button{
+    width: 90%
 }
 
 .forms form .full button {
@@ -142,11 +177,23 @@ button{
     text-transform: uppercase;
 }
 
-button:hover, button:focus{
+button:hover, button:focus, .datenbank #btSearch:hover{
     background: #f5a748;
     color: #fff;
     outline: 0;
     transition: background-color 0.25s ease-out;
+}
+
+.fuehrerschein #license-search:focus{
+    background-color: rgb(102, 102, 102);
+}
+
+.datenbank #keyinsert{
+    width: 48%;
+}
+
+.datenbank #btSearch{
+    background-color: #589ce9;
 }
 .caralert{
     text-align: center;
@@ -198,23 +245,35 @@ button:hover, button:focus{
     display: none;
 }
 
-.fuehrerschein .info{
-    display: grid;
-    grid-template-columns: 5fr 1fr;
+.mitarbeiter-deletealert{
+    text-align: center;
+    padding: 10px;
+    background: rgb(253, 56, 56);
+    color: white;
+    display: none;
 }
 
-#license-search{
-    vertical-align: middle;
+.mitarbeiter-changealert{
+    text-align: center;
+    padding: 10px;
+    background: #17a345;
+    color: white;
+    display: none;
+}
+
+.fuehrerschein .license-box ul{
+    list-style: none;
+    display:inline;
+    justify-self: stretch;
 }
 
 .fuehrerschein .license-box{
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr 2fr;
-    background: #cbddee;
-    padding-right: 5px;
-    padding-bottom: 10px;
-    height: 200px;
+    grid-template-columns: 30% 15% 55%;
+    align-items: center;
+    height: auto;
 }
+
 
 .fuehrerschein button{
     color: white;
@@ -222,6 +281,18 @@ button:hover, button:focus{
     width: 125px;
     margin: 7.5px;
     float: left;
+    border-radius: 4px;
+}
+
+.fuehrerschein #license-search{
+    float: none;
+    text-align: center;
+    height: 80px;
+    width:180px;
+    margin: 20px auto 0 auto;
+    font-size: 16px;
+    justify-content: center;
+    padding: 10px;
 }
 
 .fuehrerschein #yesbutton{
@@ -233,13 +304,17 @@ button:hover, button:focus{
 }
 
 @media(min-width: 700px){
-    .page{
+    .content{
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 20% 80%;
     }
 
     .page > *{
         padding: 2em;
+    }
+
+    .info{
+        min-height: 400px;
     }
 
     .info h3, .info ul, .kopfzeile{
@@ -248,30 +323,69 @@ button:hover, button:focus{
 
     .kopfzeile{
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+
+    .kopfzeile #title{
+        grid-column-start: 2;
+        text-align: center;
     }
 
     .kopfzeile ul{
         float: right;
+        grid-column-start: 3;
+    }
+}
+
+@media(min-width: 1500px){
+    .navileiste button{
+        width: 250px;
     }
 }
 
 table#Employee-Car {
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: 80%
+    border-collapse: separate;
+    width: 80%;
+    padding: auto;
+    margin: 10px;
+    border-spacing: 0;
+    background-color: #cbddee;
+}
+
+table#Employee-Car td, table#Employee-Car th { 
+    padding: 5px 12px;
 }
 
 th {
+    height: 30px;
     text-align: left;
+    background-color: #f5a748;
+    border: solid 1px #f5a748;
 }
 
-table#Employee-Car tr:nth-child(even) {
+td {
     background-color: #eee;
-  }
-table#Employee-Car tr:nth-child(odd) {
-    background-color: #fff;
-  }
+    border: solid 1px #eee;
+}
+
+table#Employee-Car th:first-child {
+    border-radius: 4px 0 0 0;
+}
+
+table#Employee-Car th:last-child {
+    border-radius: 0 4px 0 0;
+}
+
+table#Employee-Car tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 4px;
+}
+table#Employee-Car tbody tr:last-child td:last-child {
+    border-radius: 0 0 4px 0;
+}
+
+.home button:hover {
+    color: #0672ce;
+}
 
   button.link {
     background:none;

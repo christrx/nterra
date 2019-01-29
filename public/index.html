@@ -8,312 +8,309 @@
 
     <link rel="stylesheet" href="app.css">
     <link rel="icon" href="images/logo.jpg">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
 
 <body>
     <div class="container">
         <header class="kopfzeile">
-            <h1 id="title"> <span>n</span>terra Fuhrparkverwaltung</h1>
+            <h1 id="title">F U H R P A R K V E R W A L T U <span id='updown'>U</span> G</h1>
             <nav>
                 <ul>
-                    <li><button onclick="GenerateTable();setHash('home')"> Home </button></li>
-                    <li><button onclick="fillDatalist('Mitarbeiter', 'Fahrerlist');setHash('fahrzeuge')"> Fahrzeuge </button></li>
-                    <li><button onclick="setHash('fuehrerschein')"> Führerschein </button></li>
-                    <li><button onclick="setHash('datenbank')"> Editor </button></li>
-                    <li><button id='libutton' onclick="googleLogin()">Sign In </button></li>
-                    <li><button id='lobutton' onclick="googleLogout()"> Sign Out</button></li>
-                    <li id="buffer" style="visibility: hidden">bla</li>
+                    <li><button class="rounded" id='libutton' onclick="googleLogin()">
+                            <span><i id="openDoor" class="fa fa-sign-in-alt"></i> Sign In</button></li></span>
                     <li id="userpic"></li>
                     <li hidden id="username"></li>
                 </ul>
             </nav>
         </header>
-        <div class="useralert">Bitte melden Sie sich zunächst mit ihrem nterra Google Konto an</div>
-        <div class="page home" style="display: none">
-            <div class="info">
-                <h2>Home</h2>
+        <div class="content">
+            <div class="navileiste">
+                <ul>
+                    <li><button class="rounded" id="homebutton" onclick="GenerateTable();setHash('home')">
+                            <span><i class="fa fa-home"></i> H o m e</button></li></span>
+                    <li><button class="rounded" id="carbutton" onclick="fillDatalist('Mitarbeiter', 'Fahrerlist');setHash('fahrzeuge')">
+                            <span><i class="fa fa-car"></i> F a h r z e u g e</button></li></span>
+                    <li><button class="rounded" id="licensebutton" onclick="setHash('fuehrerschein')">
+                            <span><i class="fa fa-id-card"></i> F ü h r e r s c h e i n</button></li></span>
+                    <li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
+                            <span><i class="fa fa-edit"></i> E d i t o r</button></li></span>
+                    <li><button class="rounded" id='lobutton' onclick="googleLogout()">
+                            <span><i id="closedDoor" class="fa fa-sign-out-alt"></i> S i g n O u t</button></li></span>
+                </ul>
             </div>
-            <div class="forms">
-                <table id="Employee-Car">
-                  </table>
-            </div>
-        </div>
-
-        <div class="page editor" style="display: none">
-            <div class="info">
-                <h2>Editor</h2>
-            </div>
-            <div class="denyalert" id="editfailed" style="display: none">
-                <strong>Etwas ist falsch gelaufen!</strong>
-            </div>
-            <div class="forms" id="Fahrzeug-Edit" style="display: none">
-                <div class="foralert" id="editsuccess">
-                    <strong>Daten erfolreich überschrieben!</strong>
+            <div class="useralert">Bitte melden Sie sich zunächst mit ihrem nterra Google Konto an</div>
+            <div class="page home" style="display: none">
+                <div class="forms">
+                    <table id="Employee-Car">
+                    </table>
                 </div>
-                <form id="editorform">
-                    <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
-                    <p class="placeholder"></p>
-                    <!--hier nur Miet- oder Firmenwagen zulassen-->
-                    <p class="Fahrzeugart">
-                        <label>Fahrzeugart</label>
-                        <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart" required>
-                    </p>
-                    <p class="kennzeichen">
-                        <label>Kennzeichen</label>
-                        <input type="text" class="big" name="kennzeichen" id="editkennzeichen" placeholder="DA NT 0000"
-                            required>
-                    </p>
-                    <p class="model">
-                        <label>Modell</label>
-                        <input type="text" class="big" name="model" id="editmodel" required>
-                    </p>
-                    <p class="fahrer">
-                        <label>Fahrer</label>
-                        <input type="text" class="big" name="fahrer" id="editfahrer" required>
-                    </p>
-                    <p class="blp">
-                        <label>Bruttolistenpreis in €</label>
-                        <input type="text" class="big" name="blp" id="editblp" required>
-                    </p>
-                    <p class="vnummer" id="editvnummerid" style="display: none">
-                        <label>Kfz-Versicherungsnummer</label>
-                        <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx" required>
-                    </p>
-                    <p class="zuzahlung">
-                        <label>Zuzahlung in €</label>
-                        <input type="text" class="big" name="zuzahlung" id="editzuzahlung" required>
-                    </p>
-                    <p class="Fahrzeugklasse" id="editklasseid" style="display: none">
-                        <label>Fahrzeugklasse</label>
-                        <input type="text" class="big" name="Fahrzeugklasse" id="editfahrzeugklasse" required>
-                    </p>
-                    <p class="uedatum" id="editdatumid" style="display: none">
-                        <label>Übergabedatum</label>
-                        <input type="text" class="big" name="uedatum" id="edituedatum" required>
-                    </p>
+            </div>
 
-                    <!--TODO hier noch die Beschriftung für Vertragsdaten-->
-                    <p class="Vertragsdaten" id="editnummerid" style="display: none">
-                        <label>Vertragsnummer</label>
-                        <input type="text" class="big" name="cnummer" id="editcnummer">
-                    </p>
-                    <p class="Vertragsdaten" id="edittodatumid" style="display: none">
-                        <label>Bestelldatum</label>
-                        <input type="date" class="big" name="odatum" id="edittodatum">
-                    </p>
-                    <p class="Vertragsdaten" id="editmileageid" style="display: none">
-                        <label>Laufleistung in km</label>
-                        <input type="text" class="big" name="mileage" id="editmileage">
-                    </p>
-                    <p class="Vertragsdaten" id="editcendeid" style="display: none">
-                        <label>Vertragsende</label>
-                        <input type="date" class="big" name="cende" id="editcende">
-                    </p>
-                    <p id="editplaceholder" style= "display: none"></p>
+            <div class="page editor" style="display: none">
+                <div class="forms" id="Fahrzeug-Edit" style="display: none">
+                    <form id="editorform">
+                        <h4 class="Fahrzeugdaten">Fahrzeugdaten</h4>
+                        <p class="placeholder"></p>
+                        <!--hier nur Miet- oder Firmenwagen zulassen-->
+                        <p class="Fahrzeugart">
+                            <label>Fahrzeugart</label>
+                            <input type="text" class="big" name="fahrzeugart" id="editfahrzeugart" required>
+                        </p>
+                        <p class="kennzeichen">
+                            <label>Kennzeichen</label>
+                            <input type="text" class="big" name="kennzeichen" id="editkennzeichen" placeholder="DA NT 0000"
+                                required>
+                        </p>
+                        <p class="model">
+                            <label>Modell</label>
+                            <input type="text" class="big" name="model" id="editmodel" required>
+                        </p>
+                        <p class="fahrer">
+                            <label>Fahrer</label>
+                            <input type="text" class="big" name="fahrer" id="editfahrer" list="EditorList" required>
+                            <datalist id="EditorList">
+                            </datalist>
+                        </p>
+                        <p class="blp">
+                            <label>Bruttolistenpreis in €</label>
+                            <input type="text" class="big" name="blp" id="editblp" required>
+                        </p>
+                        <p class="vnummer" id="editvnummerid" style="display: none">
+                            <label>Kfz-Versicherungsnummer</label>
+                            <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx"
+                                required>
+                        </p>
+                        <p class="zuzahlung">
+                            <label>Zuzahlung in €</label>
+                            <input type="text" class="big" name="zuzahlung" id="editzuzahlung" required>
+                        </p>
+                        <p class="Fahrzeugklasse" id="editklasseid" style="display: none">
+                            <label>Fahrzeugklasse</label>
+                            <input type="text" class="big" name="Fahrzeugklasse" id="editfahrzeugklasse" required>
+                        </p>
+                        <p class="uedatum" id="editdatumid" style="display: none">
+                            <label>Übergabedatum</label>
+                            <input type="text" class="big" name="uedatum" id="edituedatum" required>
+                        </p>
+
+                        <!--TODO hier noch die Beschriftung für Vertragsdaten-->
+                        <p class="Vertragsdaten" id="editnummerid" style="display: none">
+                            <label>Vertragsnummer</label>
+                            <input type="text" class="big" name="cnummer" id="editcnummer">
+                        </p>
+                        <p class="Vertragsdaten" id="edittodatumid" style="display: none">
+                            <label>Bestelldatum</label>
+                            <input type="date" class="big" name="odatum" id="edittodatum">
+                        </p>
+                        <p class="Vertragsdaten" id="editmileageid" style="display: none">
+                            <label>Laufleistung in km</label>
+                            <input type="text" class="big" name="mileage" id="editmileage">
+                        </p>
+                        <p class="Vertragsdaten" id="editcendeid" style="display: none">
+                            <label>Vertragsende</label>
+                            <input type="date" class="big" name="cende" id="editcende">
+                        </p>
+                        <p id="editplaceholder" style="display: none"></p>
+                        <p>
+                            <button onclick="EditFahrzeug(document.getElementById('editkennzeichen').value, 
+                            document.getElementById('editfahrzeugart').value)"
+                                type="button">Absenden</button>
+                        </p>
+                        <p>
+                            <button onclick="DeleteData('Fahrzeuge', document.getElementById('editkennzeichen').value)"
+                                type="button">Löschen</button>
+                        </p>
+                    </form>
+                </div>
+
+                <!--Ab hier Mitarbeiter-Form-->
+
+                <div class="forms" id="Mitarbeiter-Edit" style="display: none">
+                    <div class="formalert">bla</div>
+                    <form id="editorform">
+                        <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
+                        <p class="placeholder"></p>
+                        <p class="name">
+                            <label>Name</label>
+                            <input type="text" class="big" name="Name" id="editname" required>
+                        </p>
+                        <p class="nterraID">
+                            <label>nterra ID</label>
+                            <input type="text" class="big" name="nterraID" id="editnterraid" required>
+                        </p>
+                        <h4 class="Führerschein-Status">Führerschein-Status</h4>
+                        <br />
+                        <p id="lastupload">
+                            <label>kein Aktueller Upload</label>
+                        </p>
+                        <br />
+                        <p>
+                            <label id="lastCheck">Checks</label>
+                        </p>
+                        <br />
+                        <h4 class="Bürofahrten">Fahrten ins Büro</h4>
+                        <br />
+                        <p class="Bürofahrten">
+                            <label>Fahrten ins Büro im letzten Kalenderjahr: 3</label>
+                        </p>
+                        <p></p>
+                        <p class>
+                            <button onclick="EditMitarbeiter(document.getElementById('editnterraid').value)" type="button">Absenden</button>
+                        </p>
+                        <p>
+                            <button onclick="DeleteData('Mitarbeiter', document.getElementById('editnterraid').value)"
+                                type="button">Löschen</button>
+                        </p>
+                        <div class="mitarbeiter-changealert">Mitarbeiter wurde erfolgreich bearbeitet</div>
+                        <div class="mitarbeiter-deletealert">Mitarbeiter wurde erfolgreich gelöscht</div>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <!--Datenbank Page-->
+            <div class="page datenbank" style="display: none">
+                <div class="forms">
+                    <form id="databaseEdit">
+                        <p class="askDataSet">
+                            Welche Daten möchten sie ändern oder einsehen?
+                        </p>
+                        <p class="Placeholder">
+                        </p>
+                        <p>
+                            <button onclick="getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
+                        </p>
+                        <p>
+                            <button onclick="getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
+                        </p>
+                    </form>
+                </div>
+
+                <div class="info" id="insertInfo" style="display: none">
+                </div>
+
+                <div class="forms" id="insertKey" style="display: none;">
                     <p>
-                        <button onclick ="EditFahrzeug(document.getElementById('editkennzeichen').value, 
-                        document.getElementById('editfahrzeugart').value)" type="button">Absenden</button>
+                        Bitte geben sie den Schlüssel ein
                     </p>
                     <p>
-                        <button onclick = "DeleteData('Fahrzeuge', document.getElementById('editkennzeichen').value)" type="button">Löschen</button>
-                    </p>
-                </form>
-            </div>
-
-            <!--Ab hier Mitarbeiter-Form-->
-
-            <div class="forms" id="Mitarbeiter-Edit" style="display: none">
-                <div class="formalert"></div>
-                <form id="editorform">
-                    <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
-                    <p class="placeholder"></p>
-                    <p class="name">
-                        <label>Name</label>
-                        <input type="text" class="big" name="Name" id="editname" required>
-                    </p>
-                    <p class="nterraID">
-                        <label>nterra ID</label>
-                        <input type="text" class="big" name="nterraID" id="editnterraid" required>
-                    </p>
-                    <h4 class="Führerschein-Status">Führerschein-Status</h4>
-                    <br />
-                    <p class="lastUpload">
-                        <label>letzter Upload: keine Daten</label>
-                    </p>
-                    <br />
-                    <p class="lastCheck">
-                        <label>letzter Check: keine Daten</label>
-                    </p>
-                    <br />
-                    <h4 class="Bürofahrten">Fahrten ins Büro</h4>
-                    <br />
-                    <p class="Bürofahrten">
-                        <label>Fahrten ins Büro im letzten Kalenderjahr: 3</label>
-                    </p>
-                    <p></p>
-                    <p class>
-                        <button onclick="EditMitarbeiter(document.getElementById('editnterraid').value)" type="button">Absenden</button>
-                    </p>
-                    <p>
-                        <button onclick = "DeleteData('Mitarbeiter', document.getElementById('editnterraid').value)" type="button">Löschen</button>
-                    </p>
-                </form>
-            </div>
-        </div>
-
-
-
-        <!--Datenbank Page-->
-        <div class="page datenbank" style="display: none">
-            <div class="info">
-                <h2>Datenbank</h2>
-            </div>
-            <div class="forms">
-                <form id="databaseEdit">
-                    <p class="askDataSet">
-                        Welche Daten möchten sie ändern oder einsehen?
-                    </p>
-                    <p class="Placeholder">
-                    </p>
-                    <p>
-                        <button onclick="getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
-                    </p>
-                    <p>
-                        <button onclick="getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
-                    </p>
-                </form>
-            </div>
-
-            <div class="info" id="insertInfo" style="display: none">
-            </div>
-
-            <div class="forms" id="insertKey" style="display: none;">
-                <p>
-                    Bitte geben sie den Schlüssel ein
-                </p>
-                <p>
-                    <label id="keyLabel">Schlüssel</label><br />
-                    <input type="text" class="big" name="keyinsert" id="keyinsert" list = "MAList">
-                    <datalist id="MAList">
-                    </datalist>    
-
-                </p>
-                <P>
-                    <button onclick="getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))"
-                        class="full" type="submit" id="btSearch">Suchen</button>
-                </P>
-            </div>
-        </div>
-
-
-        <!-- hier den Code von datenbank.html einfügen-->
-
-        <div class="page fahrzeuge" style="display: none">
-            <div class="info">
-                <h2>Fahrzeuge</h2>
-            </div>
-            <div class="forms">
-                <div class="caralert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
-                <form id="carform">
-                    <p class="fahrzeugart">
-                        Fahrzeugart:<br />
-                        <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen" checked />
-                        Firmenwagen
-                        <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" /> Mietwagen
-                    </p>
-                    <p class="uedatum" style="visibility: hidden">
-                        <label>Übergabedatum</label>
-                        <input type="date" class="big" name="uedatum" id="uedatum">
-                    </p>
-                    <p class="kennzeichen">
-                        <label>Kennzeichen</label>
-                        <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000"
-                            required>
-                    </p>
-                    <p class="model">
-                        <label>Modell</label>
-                        <input type="text" class="big" name="model" id="model" required>
-                    </p>
-                    <p class="fahrer">
-                        <label>Fahrer</label>
-                        <input type="email" class="big" name="fahrer" id="fahrer" list=Fahrerlist required>
-                        <datalist id="Fahrerlist">
+                        <label id="keyLabel">Schlüssel</label><br />
+                        <input type="text" class="big" name="keyinsert" id="keyinsert" list="MAList">
+                        <datalist id="MAList">
                         </datalist>
+
                     </p>
-                    <p class="blp">
-                        <label>Bruttolistenpreis in €</label>
-                        <input type="text" class="big" name="blp" id="blp" required>
-                    </p>
-                    <p class="vnummer">
-                        <label>Kfz-Versicherungsnummer</label>
-                        <input type="text" class="big" name="vnummer" id="vnummer" placeholder="VVD x.xxx.xxx">
-                    </p>
-                    <p class="fklasse" hidden>
-                        <label>Fahrzeugklasse</label>
-                        <input type="text" class="big" name="fklasse" id="fklasse">
-                    </p>
-                    <p class="zuzahlung">
-                        <label>Zuzahlung in €</label>
-                        <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
-                    </p>
-                    <h4 class="full vdaten">Vertragsdaten</h4>
-                    <p class="cnummer">
-                        <label>Vertragsnummer</label>
-                        <input type="text" class="big" name="cnummer" id="cnummer">
-                    </p>
-                    <p class="odatum">
-                        <label>Bestelldatum</label>
-                        <input type="date" class="big" name="odatum" id="odatum">
-                    </p>
-                    <p class="mileage">
-                        <label>Laufleistung in km</label>
-                        <input type="text" class="big" name="mileage" id="mileage">
-                    </p>
-                    <p class="cende">
-                        <label>Vertragsende</label>
-                        <input type="date" class="big" name="cende" id="cende">
-                    </p>
-                    <p class="full">
-                        <button type="submit">Absenden</button>
-                    </p>
-                </form>
+                    <P>
+                        <button onclick="getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))"
+                            class="full" type="submit" id="btSearch">Suchen</button>
+                    </P>
+                </div>
+            </div>
+
+
+            <!-- hier den Code von datenbank.html einfügen-->
+
+            <div class="page fahrzeuge" style="display: none">
+                <div class="forms">
+                    <div class="caralert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
+                    <form id="carform">
+                        <p class="fahrzeugart">
+                            Fahrzeugart:<br />
+                            <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen" checked />
+                            Firmenwagen
+                            <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" /> Mietwagen
+                        </p>
+                        <p class="uedatum" style="visibility: hidden">
+                            <label>Übergabedatum</label>
+                            <input type="date" class="big" name="uedatum" id="uedatum">
+                        </p>
+                        <p class="kennzeichen">
+                            <label>Kennzeichen</label>
+                            <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000"
+                                required>
+                        </p>
+                        <p class="model">
+                            <label>Modell</label>
+                            <input type="text" class="big" name="model" id="model" required>
+                        </p>
+                        <p class="fahrer">
+                            <label>Fahrer</label>
+                            <input type="email" class="big" name="fahrer" id="fahrer" list=Fahrerlist required>
+                            <datalist id="Fahrerlist">
+                            </datalist>
+                        </p>
+                        <p class="blp">
+                            <label>Bruttolistenpreis in €</label>
+                            <input type="text" class="big" name="blp" id="blp" required>
+                        </p>
+                        <p class="vnummer">
+                            <label>Kfz-Versicherungsnummer</label>
+                            <input type="text" class="big" name="vnummer" id="vnummer" placeholder="VVD x.xxx.xxx">
+                        </p>
+                        <p class="fklasse" hidden>
+                            <label>Fahrzeugklasse</label>
+                            <input type="text" class="big" name="fklasse" id="fklasse">
+                        </p>
+                        <p class="zuzahlung">
+                            <label>Zuzahlung in €</label>
+                            <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
+                        </p>
+                        <h4 class="full vdaten">Vertragsdaten</h4>
+                        <p class="cnummer">
+                            <label>Vertragsnummer</label>
+                            <input type="text" class="big" name="cnummer" id="cnummer">
+                        </p>
+                        <p class="odatum">
+                            <label>Bestelldatum</label>
+                            <input type="date" class="big" name="odatum" id="odatum">
+                        </p>
+                        <p class="mileage">
+                            <label>Laufleistung in km</label>
+                            <input type="text" class="big" name="mileage" id="mileage">
+                        </p>
+                        <p class="cende">
+                            <label>Vertragsende</label>
+                            <input type="date" class="big" name="cende" id="cende">
+                        </p>
+                        <p class="full">
+                            <button type="submit">Absenden</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <div class="page fuehrerschein" style="display: none">
+                    <button id="license-search">Führerscheine suchen</button>
+                    <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
+                    <div class="licensealert">Führerschein wurde bestätigt</div>
+                    <div class="denialalert">Führerschein wurde abgelehnt</div>
+                    <div class="license-box forms" id="license-box" style="display: none">
+                        <p id="license-user">Name:</p>
+                        <p id="license-date">Datum: </p>
+                        <ul class="button-list">
+                            <li><button id="front-pic" onclick="openFront()">Vorderseite</a></li>
+                            <li><button id="back-pic" onclick="openBack()">Rückseite</a></li>
+                            <li><button id="yesbutton">Bestätigen</button></li>
+                            <li><button id="nobutton">Ablehnen</button></li>
+                        </ul>
+                    </div>
+            </div>
+
+            <div class="page error" style="display: none">
+                <h1>Oops something must have went wrong :(</h1>
+            </div>
+
+
+            <div class="page uebersicht" style="display: none">
+                <div class="info">
+                    <h2>Übersicht</h2>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="page fuehrerschein" style="display: none">
-        <div class="info">
-            <h2>Führerschein</h2>
-            <button id="license-search">Führerscheine suchen</button>
-        </div>
-        <div class="licensealert">Führerschein wurde bestätigt</div>
-        <div class="denialalert">Führerschein wurde abgelehnt</div>
-        <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
-        <div class="license-box" id="license-box" style="display: none">
-            <p id="license-user">Name:</p>
-            <p id="license-date">Datum: </p>
-            <div class="picture-buttons">
-                <button id="front-pic" onclick="openFront()">Vorderseite</a>
-                <button id="back-pic" onclick="openBack()">Rückseite</a>
-            </div>
-            <div class="decision-buttons">
-                <button id="yesbutton">Bestätigen</button>
-                <button id="nobutton">Ablehnen</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="page error" style="display: none">
-        <h1>Oops something must have went wrong :(</h1>
     </div>
-
-    
-    <div class="page uebersicht" style="display: none">
-            <div class="info">
-                <h2>Übersicht</h2>
-            </div>
-    </div>
-
-</div>
 
 
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>

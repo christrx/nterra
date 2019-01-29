@@ -11,12 +11,26 @@ const db = firebase.firestore();
 
 // Sign-in to Google
 function googleLogin() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function () {
-        var user = firebase.auth().currentUser;
-        window.location.hash = "home";
-        GenerateTable();
-    })
+    // Sets the persistence to session, so the user is automatically signed-out if he closes the tab or window
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(function () {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).then(function () {
+                var userMail =  firebase.auth().currentUser.email;
+                if(validAccount(userMail)){
+                    window.location.hash = "home"
+                    GenerateTable();
+                }
+                else{
+                    googleLogout();
+                }
+            })
+        })
+}
+
+// Checks if the users account is an nterra.com domain
+function validAccount(userEmail){
+    return userEmail.split('@')[1] == 'nterra.com';
 }
 
 // Sign-out
@@ -47,6 +61,7 @@ function getUserPicUrl() {
 // Triggers when the Auth State changes for instance when the user signs in or out
 function authStateObserver(user) {
     console.log('hi');
+    // if a user is signed in his email and his google profile picture are injected into the document
     if (user) {
         var username = getUserName();
         var userPicUrl = getUserPicUrl();
@@ -54,13 +69,23 @@ function authStateObserver(user) {
         document.getElementById('username').textContent = username;
         document.getElementById('userpic').style.backgroundImage = 'url(' + userPicUrl + ')';
 
+        document.getElementById('homebutton').style.display = 'inline';
+        document.getElementById('carbutton').style.display = 'inline';
+        document.getElementById('licensebutton').style.display = 'inline';
+        document.getElementById('editbutton').style.display = 'inline';
         document.getElementById('libutton').style.display = 'none';
         document.getElementById('lobutton').style.display = 'inline';
         document.getElementById('userpic').style.display = 'inline-block';
         document.getElementById('username').style.display = 'inline';
     }
+    // if the user is not signed in he gets redirected to the welcome page
     else {
+        document.getElementById('homebutton').style.display = 'none';
+        document.getElementById('carbutton').style.display = 'none';
+        document.getElementById('licensebutton').style.display = 'none';
+        document.getElementById('editbutton').style.display = 'none';
         document.getElementById('libutton').style.display = 'inline';
+        document.getElementById('libutton').style.marginRight = '20px';
         document.getElementById('lobutton').style.display = 'none';
         document.getElementById('username').style.display = 'none';
         document.getElementById('userpic').style.display = 'none';
@@ -68,15 +93,17 @@ function authStateObserver(user) {
         window.location.hash = "welcome";
     }
 }
-// TODO: Funktion, die bei angeklicktem Datensatz Codewort + ID des Datensatzes als hash setzt
 
 // Triggers when the windows hash value changes and updates the ui accordingly
 window.onhashchange = function () {
+    // hides the currently visible page
     hideAllPages();
     var currentHash = window.location.hash;
+    // if the user is not signed in he is redirected to the welcome page
     if (!firebase.auth().currentUser) {
         currentHash = "#welcome";
     }
+    // user is shown the page accordingly to the current hash
     if (currentHash == '#home') {
         document.getElementsByClassName('home')[0].style.display = 'grid';
     }
@@ -84,10 +111,11 @@ window.onhashchange = function () {
         document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
     }
     else if (currentHash == '#fuehrerschein') {
-        document.getElementsByClassName('fuehrerschein')[0].style.display = 'block';
+        document.getElementsByClassName('fuehrerschein')[0].style.display = 'grid';
     }
     else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
+        fillDatalist("Mitarbeiter","EditorList");
     }
     else if (currentHash == '#uebersicht') {
         document.getElementsByClassName('uebersicht')[0].style.display = 'grid';
@@ -139,9 +167,9 @@ document.getElementById('firmenwagen').addEventListener('click', changeFormFirm)
 
 // Updates the form if the Firmenwagen radio is clicked
 function changeFormFirm(e) {
-    document.getElementsByClassName('uedatum')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('uedatum')[1].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
-    document.getElementsByClassName('vnummer')[0].style.display = 'block';
+    document.getElementsByClassName('vnummer')[1].style.display = 'block';
     document.getElementsByClassName('vdaten')[0].style.display = 'block';
     document.getElementsByClassName('cnummer')[0].style.display = 'block';
     document.getElementsByClassName('cende')[0].style.display = 'block';
@@ -154,9 +182,9 @@ document.getElementById('mietwagen').addEventListener('click', changeFormMiet);
 
 // Updates the form if the Mietwagen radio is clicked
 function changeFormMiet(e) {
-    document.getElementsByClassName('uedatum')[0].style.visibility = 'visible';
+    document.getElementsByClassName('uedatum')[1].style.visibility = 'visible';
     document.getElementsByClassName('fklasse')[0].style.display = 'block';
-    document.getElementsByClassName('vnummer')[0].style.display = 'none';
+    document.getElementsByClassName('vnummer')[1].style.display = 'none';
     document.getElementsByClassName('vdaten')[0].style.display = 'none';
     document.getElementsByClassName('cnummer')[0].style.display = 'none';
     document.getElementsByClassName('cende')[0].style.display = 'none';
@@ -203,11 +231,11 @@ function submitForm(e) {
     }
 
     // Show alert
-    document.querySelector('.formalert').style.display = 'block';
+    document.querySelector('.caralert').style.display = 'block';
 
     // Hide alert after 3 seconds
     setTimeout(function () {
-        document.querySelector('.formalert').style.display = 'none';
+        document.querySelector('.caralert').style.display = 'none';
     }, 3000);
 
     // Clear Document after submission
@@ -261,9 +289,9 @@ function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zu
 
 // reset the fields after successful submission
 function resetCarform() {
-    document.getElementsByClassName('uedatum')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('uedatum')[1].style.visibility = 'hidden';
     document.getElementsByClassName('fklasse')[0].style.display = 'none';
-    document.getElementsByClassName('vnummer')[0].style.display = 'block';
+    document.getElementsByClassName('vnummer')[1].style.display = 'block';
     document.getElementsByClassName('vdaten')[0].style.display = 'block';
     document.getElementsByClassName('cnummer')[0].style.display = 'block';
     document.getElementsByClassName('cende')[0].style.display = 'block';
@@ -290,16 +318,16 @@ document.getElementById('license-search').addEventListener('click', searchLicens
 function searchLicenses() {
     licenseCounter = 1;
     licenseRef.get().then(function (querySnapshot) {
-            data = querySnapshot.docs.map(function (documentSnapshot) {
-                return documentSnapshot.data();
-            })
-            console.log(data.length);
-            loadNext();
+        data = querySnapshot.docs.map(function (documentSnapshot) {
+            return documentSnapshot.data();
+        })
+        console.log(data.length);
+        loadNext();
     })
 }
 
 document.getElementById('yesbutton').addEventListener('click', acceptLicense);
-document.getElementById('nobutton').addEventListener('click',denyLicense);
+document.getElementById('nobutton').addEventListener('click', denyLicense);
 
 function acceptLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
@@ -312,20 +340,22 @@ function acceptLicense() {
         Ablaufdatum: data[licenseCounter].Ablaufdatum.toLocaleDateString(),
         Aktuell: true
     })
-    if(newLicenseID == "0"){
+    if (newLicenseID == "0") {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
-            AktuellerFuehrerschein: newLicenseID
+            AktuellerFuehrerschein: newLicenseID,
+            LetzterUpload: data[licenseCounter].UploadZeitpunkt
         })
     }
-    else{
+    else {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
-            AktuellerFuehrerschein: newLicenseID
+            AktuellerFuehrerschein: newLicenseID,
+            LetzterUpload: data[licenseCounter].UploadZeitpunkt
         })
         mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(oldLicenseID).update({
             Aktuell: false
         })
     }
-   // deleteLicense(currentMitarbeiterID);
+    //TODO: deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
 
@@ -338,10 +368,10 @@ function acceptLicense() {
     }, 3000);
 }
 
-function denyLicense(){
+function denyLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
 
-    //deleteLicense(currentMitarbeiterID);
+    //TODO: deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
 
@@ -350,9 +380,9 @@ function denyLicense(){
     document.querySelector('.denialalert').style.display = 'block';
 
     setTimeout(function () {
-    document.querySelector('.denialalert').style.display = 'none';
+        document.querySelector('.denialalert').style.display = 'none';
     }, 3000);
-    }
+}
 
 function deleteLicense(currentMitarbeiterID) {
     licenseRef.doc(currentMitarbeiterID).delete();
@@ -363,32 +393,29 @@ function openBack() {
     win.focus();
 }
 
-function openFront(){
+function openFront() {
     var win2 = window.open(currentFrontUrl, '_blank');
     win2.focus();
 }
 
 function loadNext() {
-    if(licenseCounter == data.length){
+    if (licenseCounter == data.length) {
         document.querySelector('.nothingleftalert').style.display = 'block';
         document.getElementById('license-box').style.display = 'none';
         return;
     }
-    mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function(documentSnapshot){
+    mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function (documentSnapshot) {
         currentGuy = documentSnapshot.data();
-     })
-     document.querySelector('.nothingleftalert').style.display = 'none';
-     document.getElementById('license-box').style.display = 'block';
-     document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
-     document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
-     currentBackUrl = data[licenseCounter].URLBack;
-     currentFrontUrl = data[licenseCounter].URLFront;
-     console.log(currentBackUrl);
-     console.log(currentFrontUrl);
+    })
+    document.querySelector('.nothingleftalert').style.display = 'none';
+    document.getElementById('license-box').style.display = 'grid';
+    document.querySelector('#license-user').textContent = data[licenseCounter].MitarbeiterID;
+    document.querySelector('#license-date').textContent = data[licenseCounter].Ablaufdatum.toLocaleDateString();
+    currentBackUrl = data[licenseCounter].URLBack;
+    currentFrontUrl = data[licenseCounter].URLFront;
 }
 
-//TODO: Richtige Urls laden bei Klick auf Vorder/Rückseite
-//      Ablehnung des Führerscheins behandeln
+//TODO: Ablehnung des Führerscheins behandeln
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
@@ -432,7 +459,7 @@ function searchDatabase(key, bool) {
             console.log("Document data:", doc.data());
             FillEditMask(doc, bool, key);
         } else {
-            //TODO, User wird benachrichtigt, wenn keine Daten verfügbar sind
+            //TODO: User wird benachrichtigt, wenn keine Daten verfügbar sind
             console.log("No such document!");
         }
     }).catch(function (error) {
@@ -485,18 +512,18 @@ function FillEditMask(doc, bool, key) {
 
     else {
         var numberdays
-        document.getElementById('editname').value = doc.data().Name;
+        document.getElementById('editname').value = data.Name;
         document.getElementById('editnterraid').value = key;
-        mitarbeiterRef.where('Datum', '>=', startdate).where('Datum', '<', enddate).get().then(snap => {
-            //TODO, menge wird noch falsch angezeigt
-            console.log(snap.size)
+        mitarbeiterRef.doc(key).collection("Fuehrerscheine").doc(data.AktuellerFuehrerschein).get().then(function(License) {
+            setinner("lastupload", generateURLString(License.data().URLFront, License.data().URLBack));
         })
+        }
     }
-}
+
 
 function EditFahrzeug(Key, Fahrzeugart) {
     if (Fahrzeugart == "Firmenwagen") {
-        db.collection('Fahrzeuge').doc(Key).set({
+        db.collection('Fahrzeuge').doc(Key).update({
             Fahrzeugart: Fahrzeugart,
             Kennzeichen: Key,
             Modell: document.getElementById('editmodel').value,
@@ -518,7 +545,7 @@ function EditFahrzeug(Key, Fahrzeugart) {
                 console.error("Error writing document: ", error);
             });
     } else {
-        db.collection('Fahrzeuge').doc(Key).set({
+        db.collection('Fahrzeuge').doc(Key).update({
             Fahrzeugart: Fahrzeugart,
             Kennzeichen: Key,
             Modell: document.getElementById('editmodel').value,
@@ -541,7 +568,7 @@ function EditFahrzeug(Key, Fahrzeugart) {
 }
 
 function EditMitarbeiter(Key) {
-    db.collection('Mitarbeiter').doc(Key).set({
+    db.collection('Mitarbeiter').doc(Key).update({
         Name: document.getElementById('editname').value,
     })
         .then(function () {
@@ -556,9 +583,9 @@ function EditMitarbeiter(Key) {
 
 //Fehlt: Nachricht erfolgreich
 function DeleteData(Art, Key) {
-    db.collection(Art).doc(Key).delete().then(function() {
+    db.collection(Art).doc(Key).delete().then(function () {
         console.log("Document successfully deleted!");
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error("Error removing document: ", error);
     });
 }
@@ -581,25 +608,27 @@ async function getKennzeichen() {
     return snapshot.docs.map(doc => doc.data().Kennzeichen);
 }
 
-function fillDatalist(Typ, List){
+function fillDatalist(Typ, List) {
     var myMa = new Array();
     var options = '';
-    
+
     if (Typ == "Mitarbeiter") {
-            getMa().then(function(result) {
-            
-            for(var i = 0; i < result.length; i++)
-                options += '<option value="'+result[i]+'" />';
-            
-            document.getElementById(List).innerHTML = options; })
-    } else {
-            getKennzeichen().then(function(result) {
-            
-            for(var i = 0; i < result.length; i++)
-                options += '<option value="'+result[i]+'" />';
-            
+        getMa().then(function (result) {
+
+            for (var i = 0; i < result.length; i++)
+                options += '<option value="' + result[i] + '" />';
+
             document.getElementById(List).innerHTML = options;
-    })}
+        })
+    } else {
+        getKennzeichen().then(function (result) {
+
+            for (var i = 0; i < result.length; i++)
+                options += '<option value="' + result[i] + '" />';
+
+            document.getElementById(List).innerHTML = options;
+        })
+    }
 }
 
 
@@ -609,31 +638,32 @@ async function getMAcars() {
     var mycars = new Array()
 
     const snapshot = await getMa()
-        snapshot.forEach(function(employee) {
-            fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars) {
-                if (!cars.empty) {
+    snapshot.forEach(function (employee) {
+        fahrzeugeRef.where("Fahrer", "==", employee).get().then(function (cars) {
+            if (!cars.empty) {
                 cars.forEach(car => {
                     mycars.push(car.data().Kennzeichen);
                 })
-                } else {
-                    mycars.push("placeholder")
-                }
-            })}
+            } else {
+                mycars.push("placeholder")
+            }
+        })
+    }
     );
 
-return mycars;
+    return mycars;
 
 }
 
 function newMaTable(Mitarbeiter, innerString) {
-    innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `'+ Mitarbeiter +
-    '`)">'+ Name(Mitarbeiter) +'</button></td>';
+    innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `' + Mitarbeiter +
+        '`)">' + Name(Mitarbeiter) + '</button></td>';
     return innerString;
 }
 
 function newCarTable(Car, innerString) {
-    innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `'+ Car + 
-    '`)">' + Car + '</button></td></tr>';
+    innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `' + Car +
+        '`)">' + Car + '</button></td></tr>';
     return innerString;
 }
 
@@ -646,12 +676,12 @@ async function GenerateTable() {
     var Cars = new Array()
     var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th></tr>'
 
-    getMa().then(function(Mitarbeiter){
+    getMa().then(function (Mitarbeiter) {
         Mitarbeiter.map(mail => Employees.push(mail))
     });
 
     const snapshot = await getMAcars()
-        Cars = snapshot;
+    Cars = snapshot;
 
     await getMa();
 
@@ -680,6 +710,17 @@ function Name(str) {
     str = str.replace(/\b\w/g, l => l.toUpperCase());
 
     return str
+}
+
+function setinner(id, innerstring) {
+    document.getElementById(id).innerHTML = innerstring;
+}
+
+function generateURLString(URLFront, URLBack) {
+    var innerstring
+
+    innerstring = "<label>Aktueller Upload:</label><a href='" + URLFront + "'target='_blank'>Vorderseite</a><br /><a href='" + URLBack + "'target='_blank'>Rückseite</a>";
+    return innerstring;
 }
 
 
