@@ -343,13 +343,15 @@ function acceptLicense() {
     if (newLicenseID == "0") {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID,
-            LetzterUpload: data[licenseCounter].UploadZeitpunkt
+            LetzterUpload: data[licenseCounter].UploadZeitpunkt,
+            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp()
         })
     }
     else {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID,
-            LetzterUpload: data[licenseCounter].UploadZeitpunkt
+            LetzterUpload: data[licenseCounter].UploadZeitpunkt,
+            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp()
         })
         mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(oldLicenseID).update({
             Aktuell: false
