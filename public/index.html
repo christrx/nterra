@@ -186,23 +186,18 @@
                             <button onclick="getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
                         </p>
                     </form>
-                </div>
 
-                <div class="info" id="insertInfo" style="display: none">
-                </div>
-
-                <div class="forms" id="insertKey" style="display: none;">
-                    <p>
+                    <p id="keylabel" style="display:none">
                         Bitte geben sie den Schlüssel ein
                     </p>
-                    <p>
+                    <p id="keyinput" style="display:none">
                         <label id="keyLabel">Schlüssel</label><br />
                         <input type="text" class="big" name="keyinsert" id="keyinsert" list="MAList">
                         <datalist id="MAList">
                         </datalist>
 
                     </p>
-                    <P>
+                    <P id="keybutton" style="display:none">
                         <button onclick="getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))"
                             class="full" type="submit" id="btSearch">Suchen</button>
                     </P>

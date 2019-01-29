@@ -420,15 +420,14 @@ function loadNext() {
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
     fillDatalist(Datensatz, "MAList");
+    document.getElementById("keylabel").style.display = "block";
+    document.getElementById("keyinput").style.display = "block";
+    document.getElementById("keybutton").style.display = "block";
     if (Datensatz == "Mitarbeiter") {
-        document.getElementById("insertInfo").style.display = 'block';
-        document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Name";
         document.getElementById("keyinsert").placeholder = "jens.zuo@nterra.com";
     }
     if (Datensatz == "Fahrzeug") {
-        document.getElementById("insertInfo").style.display = 'block';
-        document.getElementById("insertKey").style.display = 'block';
         document.getElementById("keyLabel").innerHTML = "Kennzeichen";
         document.getElementById("keyinsert").placeholder = "DA NT 100";
     }
