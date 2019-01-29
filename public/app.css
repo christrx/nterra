@@ -30,7 +30,7 @@ body{
 /* Styling Kopfleiste*/
 
 .kopfzeile{
-    background: rgb(102, 102, 102);
+    background: linear-gradient(90deg, rgb(102,102,102) 75%, #f5a748 100%);
     color: #fff;
     padding: 1em;
 }
