@@ -278,11 +278,12 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 
 .fuehrerschein button{
     color: white;
-    height: 35px;
-    width: 125px;
+    height: 50px;
+    width: 150px;
     margin: 7.5px;
     float: left;
     border-radius: 4px;
+    font-size: 14px;
 }
 
 .fuehrerschein #license-search{
