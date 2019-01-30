@@ -25,10 +25,12 @@
             </nav>
         </header>
         <div class="content">
-            <div class="navileiste">
+            <div class="navileiste" id="navileiste">
                 <ul>
                     <li><button class="rounded" id="homebutton" onclick="GenerateTable();setHash('home')">
                             <span><i class="fa fa-home"></i> H o m e</button></li></span>
+                    <li><button class="rounded" id="workerbutton" onclick="setHash('mitarbeiter')">
+                            <span><i class="fa fa-user"></i> M i t a r b e i t e r</button></li></span>
                     <li><button class="rounded" id="carbutton" onclick="fillDatalist('Mitarbeiter', 'Fahrerlist');setHash('fahrzeuge')">
                             <span><i class="fa fa-car"></i> F a h r z e u g e</button></li></span>
                     <li><button class="rounded" id="licensebutton" onclick="setHash('fuehrerschein')">
@@ -127,7 +129,6 @@
                 <!--Ab hier Mitarbeiter-Form-->
 
                 <div class="forms" id="Mitarbeiter-Edit" style="display: none">
-                    <div class="formalert">bla</div>
                     <form id="editorform">
                         <h4 class="Mitarbeiterdaten">Mitarbeiter-Daten</h4>
                         <p class="placeholder"></p>
@@ -212,7 +213,7 @@
                     <div class="caralert"> Fahrzeug wurde zur Datenbank hinzugefügt </div>
                     <form id="carform">
                         <p class="fahrzeugart">
-                            Fahrzeugart:<br />
+                            <strong>FAHRZEUGART:</strong><br />
                             <input type="radio" name="fahrzeugart" id="firmenwagen" value="Firmenwagen" checked />
                             Firmenwagen
                             <input type="radio" name="fahrzeugart" id="mietwagen" value="Mietwagen" /> Mietwagen
@@ -238,7 +239,7 @@
                         </p>
                         <p class="blp">
                             <label>Bruttolistenpreis in €</label>
-                            <input type="text" class="big" name="blp" id="blp" required>
+                            <input type="number" class="big" name="blp" id="blp" required>
                         </p>
                         <p class="vnummer">
                             <label>Kfz-Versicherungsnummer</label>
@@ -250,9 +251,9 @@
                         </p>
                         <p class="zuzahlung">
                             <label>Zuzahlung in €</label>
-                            <input type="text" class="big" name="zuzahlung" id="zuzahlung" required>
+                            <input type="number" class="big" name="zuzahlung" id="zuzahlung" required>
                         </p>
-                        <h4 class="full vdaten">Vertragsdaten</h4>
+                        <strong class="full vdaten">VERTRAGSDATEN</strong>
                         <p class="cnummer">
                             <label>Vertragsnummer</label>
                             <input type="text" class="big" name="cnummer" id="cnummer">
@@ -263,7 +264,7 @@
                         </p>
                         <p class="mileage">
                             <label>Laufleistung in km</label>
-                            <input type="text" class="big" name="mileage" id="mileage">
+                            <input type="number" class="big" name="mileage" id="mileage">
                         </p>
                         <p class="cende">
                             <label>Vertragsende</label>
@@ -277,20 +278,39 @@
             </div>
 
             <div class="page fuehrerschein" style="display: none">
-                    <button id="license-search">Führerscheine suchen</button>
-                    <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
-                    <div class="licensealert">Führerschein wurde bestätigt</div>
-                    <div class="denialalert">Führerschein wurde abgelehnt</div>
-                    <div class="license-box forms" id="license-box" style="display: none">
-                        <p id="license-user">Name:</p>
-                        <p id="license-date">Datum: </p>
-                        <ul class="button-list">
-                            <li><button id="front-pic" onclick="openFront()">Vorderseite</a></li>
-                            <li><button id="back-pic" onclick="openBack()">Rückseite</a></li>
-                            <li><button id="yesbutton">Bestätigen</button></li>
-                            <li><button id="nobutton">Ablehnen</button></li>
-                        </ul>
-                    </div>
+                <button id="license-search">Führerscheine suchen</button>
+                <div class="nothingleftalert">Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
+                <div class="licensealert">Führerschein wurde bestätigt</div>
+                <div class="denialalert">Führerschein wurde abgelehnt</div>
+                <div class="license-box forms" id="license-box" style="display: none">
+                    <p id="license-user">Name:</p>
+                    <p id="license-date">Datum: </p>
+                    <ul class="button-list">
+                        <li><button id="front-pic" onclick="openFront()">Vorderseite</a></li>
+                        <li><button id="back-pic" onclick="openBack()">Rückseite</a></li>
+                        <li><button id="yesbutton">Bestätigen</button></li>
+                        <li><button id="nobutton">Ablehnen</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="page mitarbeiter" style="display:none">
+                <div class="forms">
+                    <div class="workeralert">Mitarbeiter wurde erfolgreich zur Datenbank hinzugefügt</div>
+                    <form class="workerform" id="workerform">
+                        <p class="wemail">
+                            <label>E-Mail-Adresse</label>
+                            <input type="email" class="big" name="wemail" id="wemail" required>
+                        </p>
+                        <p class="wname">
+                            <label>Name</label>
+                            <input type="text" class="big" name="wname" id="wname" required>
+                        </p>
+                        <p class="full">
+                            <button type="submit">Absenden</button>
+                        </p>
+                    </form>
+                </div>
             </div>
 
             <div class="page error" style="display: none">

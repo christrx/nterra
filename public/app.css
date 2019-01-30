@@ -16,7 +16,7 @@
 }
 /* Styling Hintergrund, Schriftart */
 body{
-    background: rgb(102, 102, 102, 0.25);
+    background: rgba(102, 102, 102, 0.2);
     background-attachment: fixed;
     color: #000000;
     font-family: 'RBCR','DroidSans', 'RBCRB';
@@ -62,7 +62,7 @@ body{
 }
 
 #title #updown{
-    color: #f5a748;
+    color: #0672ce;
     display: inline-block;
     font-family: 'RBCRB';
     transform: scale(1, -1);
@@ -98,6 +98,7 @@ body{
 .navileiste{
     background-color: rgb(102, 102, 102);
     background-size: 100%;
+    min-height: 100vh;
 }
 
 .navileiste button{
@@ -195,7 +196,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 .datenbank #btSearch{
     background-color: #589ce9;
 }
-.caralert{
+.caralert, .workeralert{
     text-align: center;
     padding: 10px;
     background: #17a345;

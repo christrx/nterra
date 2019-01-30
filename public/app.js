@@ -68,8 +68,10 @@ function authStateObserver(user) {
 
         document.getElementById('username').textContent = username;
         document.getElementById('userpic').style.backgroundImage = 'url(' + userPicUrl + ')';
-
+        
+        document.getElementById('navileiste').style.display = 'grid'
         document.getElementById('homebutton').style.display = 'inline';
+        document.getElementById('workerbutton').style.display = 'inline';
         document.getElementById('carbutton').style.display = 'inline';
         document.getElementById('licensebutton').style.display = 'inline';
         document.getElementById('editbutton').style.display = 'inline';
@@ -80,7 +82,9 @@ function authStateObserver(user) {
     }
     // if the user is not signed in he gets redirected to the welcome page
     else {
+        document.getElementById('navileiste').style.display = 'none';
         document.getElementById('homebutton').style.display = 'none';
+        document.getElementById('workerbutton').style.display = 'none';
         document.getElementById('carbutton').style.display = 'none';
         document.getElementById('licensebutton').style.display = 'none';
         document.getElementById('editbutton').style.display = 'none';
@@ -106,6 +110,9 @@ window.onhashchange = function () {
     // user is shown the page accordingly to the current hash
     if (currentHash == '#home') {
         document.getElementsByClassName('home')[0].style.display = 'grid';
+    }
+    else if (currentHash == '#mitarbeiter') {
+        document.getElementsByClassName('mitarbeiter')[0].style.display = 'grid';
     }
     else if (currentHash == '#fahrzeuge') {
         document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
@@ -298,6 +305,41 @@ function resetCarform() {
     document.getElementsByClassName('mileage')[0].style.display = 'block';
     document.getElementsByClassName('odatum')[0].style.display = 'block';
 
+}
+
+document.getElementById('workerform').addEventListener('submit', submitWorkerForm);
+
+function submitWorkerForm(e){
+
+    e.preventDefault();
+
+    var wemail = getInputValues('wemail');
+    var wname = getInputValues('wname');
+
+    saveMitarbeiter(wemail, wname);
+
+    document.querySelector('.workeralert').style.display = 'block';
+
+    setTimeout(function(){
+        document.querySelector('.workeralert').style.display = 'none';
+    },3000);
+
+    document.getElementById('workerform').reset();
+}
+
+function saveMitarbeiter(wemail, wname){
+    mitarbeiterRef.doc(wemail).set({
+        AktuellerFuehrerschein: "-1",
+        Mail: wemail,
+        Name: wname,
+        ErfolgreichePruefungDatum: new Date(Date.UTC(2000,00,01))
+    })
+    mitarbeiterRef.doc(wemail).collection('ImBuero').doc("-AAAAAdummy").set({
+        Info: "Nicht löschen!"
+    })
+    mitarbeiterRef.doc(wemail).collection('Fuehrerscheine').doc("-AAAAAdummy").set({
+        Info: "Nicht löschen!"
+    })
 }
 
 
