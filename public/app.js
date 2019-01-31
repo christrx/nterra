@@ -570,6 +570,10 @@ function FillEditMask(doc, bool, key) {
 
 
 function EditFahrzeug(Key, Fahrzeugart) {
+    var olddriver
+
+    olddriver = fahrzeugeRef.doc(Key).data().Fahrer;
+
     if (Fahrzeugart == "Firmenwagen") {
         db.collection('Fahrzeuge').doc(Key).update({
             Fahrzeugart: Fahrzeugart,
@@ -613,6 +617,8 @@ function EditFahrzeug(Key, Fahrzeugart) {
                 console.error("Error writing document: ", error);
             });
     }
+
+    if (typeof fahrzeugeRef.doc())
 }
 
 function EditMitarbeiter(Key) {
