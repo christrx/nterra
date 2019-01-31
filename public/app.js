@@ -656,6 +656,8 @@ function fillDatalist(Typ, List) {
     var myMa = new Array();
     var options = '';
 
+    deleteCollection(mitarbeiterRef.doc(""))
+
     if (Typ == "Mitarbeiter") {
         getMa().then(function (result) {
 
