@@ -651,6 +651,7 @@ async function getKennzeichen() {
     return snapshot.docs.map(doc => doc.data().Kennzeichen);
 }
 
+//Füllt Datalists der Inputfelder, mit denen dann das Dropdown generiert wird
 function fillDatalist(Typ, List) {
     var myMa = new Array();
     var options = '';
@@ -712,8 +713,6 @@ function newCarTable(Car, innerString) {
 
 
 //Generiert automatisch die Tabelle mit den dazugehörigen Mitarbeitern und deren Autos
-//funtionert noch nicht richtig, Grundgerüst steht jedoch
-//Arrays scheinen leer zu sein
 async function GenerateTable() {
     var Employees = new Array()
     var Cars = new Array()
@@ -766,5 +765,20 @@ function generateURLString(URLFront, URLBack) {
     return innerstring;
 }
 
+function deleteCollection(collection) {
+    try {
+      // retrieve a small batch of documents to avoid out-of-memory errors
+      var future = collection.get();
+      var deleted = 0;
+      // future.get() blocks on document retrieval
+      var documents = future.get().getDocuments();
+      for (deleted; deleted <= documents.size ; deleted++) {
+        document.getReference().delete();
+      }
+
+    } catch (e) {
+      console.log("Error deleting collection : " + e.getMessage());
+    }
+  }
 
 initFirebaseAuth();
