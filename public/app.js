@@ -558,7 +558,12 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editname').value = data.Name;
         document.getElementById('editnterraid').value = key;
         mitarbeiterRef.doc(key).collection("Fuehrerscheine").doc(data.AktuellerFuehrerschein).get().then(function(License) {
+            if (License.exists) {
             setinner("lastupload", generateURLString(License.data().URLFront, License.data().URLBack));
+            } else {
+                setinner("lastupload", "keine Uploads");
+            }
+
         })
         }
     }
@@ -626,11 +631,29 @@ function EditMitarbeiter(Key) {
 
 //Fehlt: Nachricht erfolgreich
 function DeleteData(Art, Key) {
-    db.collection(Art).doc(Key).delete().then(function () {
+    if (Art == "Fahrzeug") {
+    fahrzeugeRef.doc(Key).delete().then(function () {
         console.log("Document successfully deleted!");
     }).catch(function (error) {
         console.error("Error removing document: ", error);
     });
+    }
+
+    if (Art =="Mitarbeiter") {
+        if (typeof mitarbeiterRef.doc(Key).collection("ImBuero") !== "undefined") {
+        deleteCollection(mitarbeiterRef.doc(Key).collection("ImBuero"));
+        }
+
+        if (typeof mitarbeiterRef.doc(Key).collection("Fuehrerscheine") !== "undefined") {
+            deleteCollection(mitarbeiterRef.doc(Key).collection("Fuehrerscheine"));
+        }
+
+        mitarbeiterRef.doc(Key).delete().then(function () {
+            console.log("Document successfully deleted!");
+        }).catch(function (error) {
+            console.error("Error removing document: ", error);
+        });
+    }
 }
 
 //Aufruf wenn die Editor Page aufgerufen wird, resettet Forms und Divisions
@@ -655,8 +678,6 @@ async function getKennzeichen() {
 function fillDatalist(Typ, List) {
     var myMa = new Array();
     var options = '';
-
-    deleteCollection(mitarbeiterRef.doc(""))
 
     if (Typ == "Mitarbeiter") {
         getMa().then(function (result) {
@@ -729,10 +750,6 @@ async function GenerateTable() {
 
     await getMa();
 
-    console.log(Cars.length);
-    console.log(Cars);
-
-
     for (var i = 0; i < Employees.length; i++) {
         innerstring = newMaTable(Employees[i], innerstring)
         if (Cars[i] !== "placeholder") {
@@ -741,8 +758,6 @@ async function GenerateTable() {
             innerstring += '<td></td></tr>'
         }
     }
-
-    console.log(innerstring)
 
     document.getElementById("Employee-Car").innerHTML = innerstring;
 }
@@ -765,22 +780,22 @@ function generateURLString(URLFront, URLBack) {
 
     innerstring = "<label>Aktueller Upload:</label><a href='" + URLFront + "'target='_blank'>Vorderseite</a><br /><a href='" + URLBack + "'target='_blank'>Rückseite</a>";
     return innerstring;
+}   
+
+
+function deleteCollection(collection){
+
+    collection.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+
+            collection.doc(doc.id).delete().then(function () {
+                console.log("Document successfully deleted!");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+
+    });
+    });
 }
-
-function deleteCollection(collection) {
-    try {
-      // retrieve a small batch of documents to avoid out-of-memory errors
-      var future = collection.get();
-      var deleted = 0;
-      // future.get() blocks on document retrieval
-      var documents = future.get().getDocuments();
-      for (deleted; deleted <= documents.size ; deleted++) {
-        document.getReference().delete();
-      }
-
-    } catch (e) {
-      console.log("Error deleting collection : " + e.getMessage());
-    }
-  }
 
 initFirebaseAuth();
