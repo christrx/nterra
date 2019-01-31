@@ -569,10 +569,14 @@ function FillEditMask(doc, bool, key) {
     }
 
 
-function EditFahrzeug(Key, Fahrzeugart) {
+async function EditFahrzeug(Key, Fahrzeugart) {
     var olddriver
+    var docRef
 
-    olddriver = fahrzeugeRef.doc(Key).data().Fahrer;
+    docRef = fahrzeugeRef.doc(Key);
+
+    var snapshot = await docRef.get()
+    olddriver = snapshot.data().Fahrer;
 
     if (Fahrzeugart == "Firmenwagen") {
         db.collection('Fahrzeuge').doc(Key).update({
@@ -597,7 +601,7 @@ function EditFahrzeug(Key, Fahrzeugart) {
                 console.error("Error writing document: ", error);
             });
     } else {
-        db.collection('Fahrzeuge').doc(Key).update({
+        docref.update({
             Fahrzeugart: Fahrzeugart,
             Kennzeichen: Key,
             Modell: document.getElementById('editmodel').value,
@@ -618,7 +622,18 @@ function EditFahrzeug(Key, Fahrzeugart) {
             });
     }
 
-    if (typeof fahrzeugeRef.doc())
+    if (document.getElementById('editfahrer').value !== olddriver) {
+        if (typeof snapshot.data().Verlauf !== "undefined") {
+            docRef.update({
+                Verlauf: snapshot.data().Verlauf + "; " + olddriver
+            })
+        } else {
+
+            docRef.set({
+                Verlauf: olddriver
+            }, { merge: true });
+        }
+    }
 }
 
 function EditMitarbeiter(Key) {
@@ -757,6 +772,9 @@ async function GenerateTable() {
 
     const snapshot = await getMAcars()
     Cars = snapshot;
+
+    console.log(Cars)
+    console.log(Employees)
 
     await getMa();
 
