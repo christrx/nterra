@@ -648,8 +648,12 @@ function DeleteData(Art, Key) {
             deleteCollection(mitarbeiterRef.doc(Key).collection("Fuehrerscheine"));
         }
 
+        if (typeof db.collection("Fuehrerschein").doc(Key)  !== "undefined") {
+            db.collection("Fuehrerschein").doc(Key).delete();
+        }
+
         mitarbeiterRef.doc(Key).delete().then(function () {
-            console.log("Document successfully deleted!");
+            console.log("Document successfully deleted!")   ;
         }).catch(function (error) {
             console.error("Error removing document: ", error);
         });
