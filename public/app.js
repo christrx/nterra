@@ -417,7 +417,7 @@ function sendEmail(){
     var betreff = "Ihr Führerschein-Upload in der ndriver App wurde abgelehnt";
     var body = document.getElementById('emailtext').value;
 
-    var mailurl = mailToUrl(sender, empfaenger, betreff, body);
+    var mailurl = mailToUrl(empfaenger, betreff, body);
 
     window.location.href = mailurl;
 
@@ -438,7 +438,7 @@ function sendEmail(){
     document.getElementById('ablehnung-box').style.display = 'none';
 }
 
-function mailToUrl(sender, empfaenger, betreff, body){
+function mailToUrl(empfaenger, betreff, body){
     var args = [];
     args.push('subject='+ encodeURIComponent(betreff));
     args.push('body='+ encodeURIComponent(body));
