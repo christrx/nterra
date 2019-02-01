@@ -334,12 +334,6 @@ function saveMitarbeiter(wemail, wname){
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000,00,01))
     })
-    mitarbeiterRef.doc(wemail).collection('ImBuero').doc("-AAAAAdummy").set({
-        Info: "Nicht löschen!"
-    })
-    mitarbeiterRef.doc(wemail).collection('Fuehrerscheine').doc("-AAAAAdummy").set({
-        Info: "Nicht löschen!"
-    })
 }
 
 
@@ -413,9 +407,23 @@ function acceptLicense() {
 }
 
 function denyLicense() {
-    var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
+    document.getElementById('ablehnung-box').style.display = 'block';
+}
 
-    //TODO: deleteLicense(currentMitarbeiterID);
+document.getElementById('sendMail').addEventListener('click', sendEmail);
+
+function sendEmail(){
+    var empfaenger = data[licenseCounter].MitarbeiterID;
+    var betreff = "Ihr Führerschein-Upload in der ndriver App wurde abgelehnt";
+    var body = document.getElementById('emailtext').value;
+
+    var mailurl = mailToUrl(sender, empfaenger, betreff, body);
+
+    window.location.href = mailurl;
+
+    document.getElementById('emailtext').value = "";
+
+    //TODO: deleteLicense(empfaenger);
 
     licenseCounter++;
 
@@ -426,6 +434,19 @@ function denyLicense() {
     setTimeout(function () {
         document.querySelector('.denialalert').style.display = 'none';
     }, 3000);
+
+    document.getElementById('ablehnung-box').style.display = 'none';
+}
+
+function mailToUrl(sender, empfaenger, betreff, body){
+    var args = [];
+    args.push('subject='+ encodeURIComponent(betreff));
+    args.push('body='+ encodeURIComponent(body));
+    var url = 'mailto:' + empfaenger;
+    if(args.length > 0){
+        url += '?'+args.join('&');
+    }
+    return url;
 }
 
 function deleteLicense(currentMitarbeiterID) {
