@@ -126,7 +126,8 @@ window.onhashchange = function () {
     }
     else if (currentHash == '#uebersicht') {
         document.getElementsByClassName('uebersicht')[0].style.display = 'grid';
-        exportCars(true);
+        exportCars(true, "exporttablef");
+        exportCars(false, "exporttablem");
     }
     else if (currentHash == '#datenbank') {
         document.getElementsByClassName('datenbank')[0].style.display = 'grid';
@@ -851,7 +852,7 @@ function deleteCollection(collection){
 }
 
 
-async function exportCars(bool){
+async function exportCars(bool, tableid){
 
     var exportstring 
 
@@ -899,7 +900,7 @@ async function exportCars(bool){
 
         })
 
-        setinner("exporttable", exportstring);
+        setinner(tableid, exportstring);
 
 }
 
