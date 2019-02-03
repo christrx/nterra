@@ -126,6 +126,7 @@ window.onhashchange = function () {
     }
     else if (currentHash == '#uebersicht') {
         document.getElementsByClassName('uebersicht')[0].style.display = 'grid';
+        exportCars(true);
     }
     else if (currentHash == '#datenbank') {
         document.getElementsByClassName('datenbank')[0].style.display = 'grid';
@@ -769,14 +770,14 @@ async function getMAcars() {
 }
 
 function newMaTable(Mitarbeiter, innerString) {
-    innerString += '<tr><td><button class="link" onclick="getEditor(`Mitarbeiter`, `' + Mitarbeiter +
+    innerString += '<td><button class="link" onclick="getEditor(`Mitarbeiter`, `' + Mitarbeiter +
         '`)">' + Name(Mitarbeiter) + '</button></td>';
     return innerString;
 }
 
 function newCarTable(Car, innerString) {
     innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `' + Car +
-        '`)">' + Car + '</button></td></tr>';
+        '`)">' + Car + '</button></td>';
     return innerString;
 }
 
@@ -800,12 +801,14 @@ async function GenerateTable() {
     await getMa();
 
     for (var i = 0; i < Employees.length; i++) {
+        innerstring += "<tr>"
         innerstring = newMaTable(Employees[i], innerstring)
         if (Cars[i] !== "placeholder") {
             innerstring = newCarTable(Cars[i], innerstring)
         } else {
-            innerstring += '<td></td></tr>'
+            innerstring += '<td></td>'
         }
+        innerstring += "</tr>"
     }
 
     document.getElementById("Employee-Car").innerHTML = innerstring;
@@ -848,16 +851,62 @@ function deleteCollection(collection){
 }
 
 
-function exportCars(bool){
+async function exportCars(bool){
 
-    fahrzeugeRef.get().then(function(snapshot) {
-        snapshot.forEach(function(doc){
-            var data = doc.data();
-            if(bool){}
+    var exportstring 
 
-        })
-        })
+    if(bool) {
+        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th><th>BLP</th><th>Laufleistung</th>" + 
+                "<th>Vertragsende</th><th>Vertrag Nr.</th><th>KFZ Versicherungsnummer</th></tr>";
+    } else {
+        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th>" +
+                "<th>BLP</th><th>Fahrzeugklasse</th><th>Übergabedatum</th></tr>";
     }
 
+    const snapshot = await fahrzeugeRef.get()
+        snapshot.forEach(function(doc){
+
+            var data = doc.data();
+
+            exportstring += "<tr>";
+
+            if(bool){ 
+                if(data.Fahrzeugart == "Firmenwagen") {
+                    exportstring = newCarTable(data.Kennzeichen, exportstring);
+                    exportstring = newMaTable(data.Fahrer, exportstring);
+                    exportstring = newcol(exportstring, data.Modell);
+                    exportstring = newcol(exportstring, data.Zuzahlung);
+                    exportstring = newcol(exportstring, data.Bruttolistenpreis);
+                    exportstring = newcol(exportstring, data.Vertragslaufleistung);
+                    exportstring = newcol(exportstring, data.Vertragsende);
+                    exportstring = newcol(exportstring, data.Vertragsnummer);
+                    exportstring = newcol(exportstring, data.Versicherungsnummer); 
+                }
+            } else { 
+                if  (data.Fahrzeugart == "Mietwagen") {
+                    exportstring = newCarTable(data.Kennzeichen, exportstring);
+                    exportstring = newMaTable(data.Fahrer, exportstring);
+                    exportstring = newcol(exportstring, data.Modell);
+                    exportstring = newcol(exportstring, data.Zuzahlung);
+                    exportstring = newcol(exportstring, data.Bruttolistenpreis);
+                    exportstring = newcol(exportstring, data.Fahrzeugklasse);
+                    exportstring = newcol(exportstring, data.Übergabedatum);
+                }
+            }
+
+            exportstring += "</tr>";
+            console.log(exportstring);
+
+        })
+
+        setinner("exporttable", exportstring);
+
+}
+
+function newcol(exportstring, datastring){
+    var newstring  = exportstring + "<td>" + datastring + "</td>";
+
+    return newstring;
+}
 
 initFirebaseAuth();

@@ -37,6 +37,8 @@
                             <span><i class="fa fa-id-card"></i> F ü h r e r s c h e i n</button></li></span>
                     <li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
                             <span><i class="fa fa-edit"></i> E d i t o r</button></li></span>
+                    <li><button class="rounded" id="uebersichtbutton" onclick="setHash('uebersicht')">
+                        <span><i class="fa fa-edit"></i> Ü b e r s i c h t<table></table></button></li></span>
                     <li><button class="rounded" id='lobutton' onclick="googleLogout()">
                             <span><i id="closedDoor" class="fa fa-sign-out-alt"></i> S i g n O u t</button></li></span>
                 </ul>
@@ -318,15 +320,16 @@
                 </div>
             </div>
 
+
+
             <div class="page error" style="display: none">
                 <h1>Oops something must have went wrong :(</h1>
             </div>
 
 
             <div class="page uebersicht" style="display: none">
-                <div class="info">
-                    <h2>Übersicht</h2>
-                </div>
+                <table id = "exporttable">
+                </table>
             </div>
         </div>
 
