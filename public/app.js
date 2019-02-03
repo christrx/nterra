@@ -810,7 +810,7 @@ function generateURLString(URLFront, URLBack) {
     return innerstring;
 }   
 
-
+//deletes 
 function deleteCollection(collection){
 
     collection.get().then(function(querySnapshot) {
@@ -825,5 +825,18 @@ function deleteCollection(collection){
     });
     });
 }
+
+
+function exportCars(bool){
+
+    fahrzeugeRef.get().then(function(snapshot) {
+        snapshot.forEach(function(doc){
+            var data = doc.data();
+            if(bool){}
+
+        })
+        })
+    }
+
 
 initFirebaseAuth();
