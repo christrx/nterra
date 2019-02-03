@@ -270,7 +270,8 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 
 .fuehrerschein .license-box{
     display: grid;
-    grid-template-columns: 30% 15% 55%;
+    grid-template-columns: 30% 10% 60%;
+    grid-template-rows: 1fr 1fr 1fr;
     align-items: center;
     height: auto;
 }
