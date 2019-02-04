@@ -98,7 +98,6 @@
                             <input type="text" class="big" name="uedatum" id="edituedatum" required>
                         </p>
 
-                        <!--TODO hier noch die Beschriftung für Vertragsdaten-->
                         <p class="Vertragsdaten" id="editnummerid" style="display: none">
                             <label>Vertragsnummer</label>
                             <input type="text" class="big" name="cnummer" id="editcnummer">
@@ -115,6 +114,10 @@
                             <label>Vertragsende</label>
                             <input type="date" class="big" name="cende" id="editcende">
                         </p>
+                        <p id = "edithistoryid" style= "display: none">
+                            <label>Fahrer-Historie</label>
+                            <input id="edithistory" class="big">
+                        </p>
                         <p id="editplaceholder" style="display: none"></p>
                         <p>
                             <button onclick="EditFahrzeug(document.getElementById('editkennzeichen').value, 
@@ -122,7 +125,7 @@
                                 type="button">Absenden</button>
                         </p>
                         <p>
-                            <button onclick="DeleteData('Fahrzeuge', document.getElementById('editkennzeichen').value)"
+                            <button onclick="DeleteData('Fahrzeug', document.getElementById('editkennzeichen').value)"
                                 type="button">Löschen</button>
                         </p>
                     </form>

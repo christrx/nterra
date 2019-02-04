@@ -538,6 +538,7 @@ var enddate = new Date(new Date().getFullYear() + 1, 0, 1)
 
 function FillEditMask(doc, bool, key) {
     var data = doc.data();
+    document.getElementById('edithistoryid').style.display = 'none';
     document.getElementById('editplaceholder').style.display = 'none';
     document.getElementById('editnummerid').style.display = 'none';
     document.getElementById('edittodatumid').style.display = 'none';
@@ -555,8 +556,6 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editblp').value = data.Bruttolistenpreis;
         document.getElementById('editzuzahlung').value = data.Zuzahlung;
         if (doc.data().Fahrzeugart == "Firmenwagen") {
-            //TODO: klären, unter welchen IDs wir aktuelle Verträge speichern
-            //document.getElementById('editvertragsdaten').style = 'block';
             document.getElementById('editnummerid').style = 'block';
             document.getElementById('edittodatumid').style = 'block';
             document.getElementById('editmileageid').style = 'block';
@@ -568,11 +567,21 @@ function FillEditMask(doc, bool, key) {
             document.getElementById('edittodatum').value = data.Vertragsbestelldatum;
             document.getElementById('editmileage').value = data.Vertragslaufleistung;
             document.getElementById('editcende').value = data.Vertragsende;
+            if (typeof data.Verlauf !== "undefined"){
+                document.getElementById('editplaceholder').style = 'none'; 
+                document.getElementById('edithistoryid').style.display = 'block';
+                document.getElementById('edithistoryid').value = data.Verlauf;
+            }
         } else {
             document.getElementById('editdatumid').style = 'block';
             document.getElementById('editklasseid').style = 'block';
             document.getElementById('edituedatum').value = doc.data().Übergabedatum;
             document.getElementById('editfahrzeugklasse').value = doc.data().Fahrzeugklasse;
+            if (typeof data.Verlauf !== "undefined"){
+                document.getElementById('editplaceholder').style = 'block'; 
+                document.getElementById('edithistoryid').style.display = 'block';
+                document.getElementById('edithistory').value = data.Verlauf;
+            }
         }
     }
 
@@ -599,7 +608,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     docRef = fahrzeugeRef.doc(Key);
 
     var snapshot = await docRef.get()
-    olddriver = snapshot.data().Fahrer;
+    olddriver = Name(snapshot.data().Fahrer);
 
     if (Fahrzeugart == "Firmenwagen") {
         db.collection('Fahrzeuge').doc(Key).update({
@@ -624,7 +633,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 console.error("Error writing document: ", error);
             });
     } else {
-        docref.update({
+        docRef.update({
             Fahrzeugart: Fahrzeugart,
             Kennzeichen: Key,
             Modell: document.getElementById('editmodel').value,
