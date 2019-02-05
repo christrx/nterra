@@ -50,6 +50,10 @@ body{
     display: inline;
 }
 
+.kopfzeile .alertbox{
+    align-self: center;
+}
+
 #userpic {
     position: relative;
     display: inline-block;
@@ -111,8 +115,12 @@ body{
     text-align: left;
 }
 
+.navileiste button:hover .fa, .navileiste button:focus .fa{
+    color: #fff;
+}
+
 .navileiste button:hover{
-    background: linear-gradient(90deg, #f5a748, rgb(102,102,102));
+    color: rgb(102, 102, 102);
 }
 
 .navileiste ul{
@@ -185,6 +193,16 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     transition: background-color 0.25s ease-out;
 }
 
+.fuehrerschein #yesbutton:hover{
+    background: #17a345;
+    transition: background-color 0.25s ease-out;
+}
+
+.fuehrerschein #nobutton:hover{
+    background: rgb(253, 56, 56);
+    transition: background-color 0.25s ease-out;
+}
+
 .fuehrerschein #license-search:focus{
     background-color: rgb(102, 102, 102);
 }
@@ -246,7 +264,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     display: none;
 }
 
-.mitarbeiter-deletealert{
+.mitarbeiter-deletealert ,.fahrzeug-deletealert{
     text-align: center;
     padding: 10px;
     background: rgb(253, 56, 56);
@@ -254,7 +272,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     display: none;
 }
 
-.mitarbeiter-changealert{
+.mitarbeiter-changealert ,.fahrzeug-changealert{
     text-align: center;
     padding: 10px;
     background: #17a345;
@@ -299,17 +317,21 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 }
 
 .fuehrerschein #yesbutton{
-    background: #17a345;
+    background: rgba(23, 163, 69, 0.6);
 }
 
 .fuehrerschein #nobutton{
-    background: rgb(253, 56, 56);
+    background: rgba(253, 56, 56, 0.6);
+}
+
+.navileiste i{
+    color: #f5a748;
 }
 
 @media(min-width: 700px){
     .content{
         display: grid;
-        grid-template-columns: 20% 80%;
+        grid-template-columns: 22% 78%;
     }
 
     .page > *{

@@ -16,12 +16,12 @@ function googleLogin() {
         .then(function () {
             var provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then(function () {
-                var userMail =  firebase.auth().currentUser.email;
-                if(validAccount(userMail)){
+                var userMail = firebase.auth().currentUser.email;
+                if (validAccount(userMail)) {
                     window.location.hash = "home"
                     GenerateTable();
                 }
-                else{
+                else {
                     googleLogout();
                 }
             })
@@ -29,7 +29,7 @@ function googleLogin() {
 }
 
 // Checks if the users account is an nterra.com domain
-function validAccount(userEmail){
+function validAccount(userEmail) {
     return userEmail.split('@')[1] == 'nterra.com';
 }
 
@@ -68,7 +68,7 @@ function authStateObserver(user) {
 
         document.getElementById('username').textContent = username;
         document.getElementById('userpic').style.backgroundImage = 'url(' + userPicUrl + ')';
-        
+
         document.getElementById('navileiste').style.display = 'grid'
         document.getElementById('homebutton').style.display = 'inline';
         document.getElementById('workerbutton').style.display = 'inline';
@@ -122,7 +122,7 @@ window.onhashchange = function () {
     }
     else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
-        fillDatalist("Mitarbeiter","EditorList");
+        fillDatalist("Mitarbeiter", "EditorList");
     }
     else if (currentHash == '#uebersicht') {
         document.getElementsByClassName('uebersicht')[0].style.display = 'grid';
@@ -311,7 +311,7 @@ function resetCarform() {
 
 document.getElementById('workerform').addEventListener('submit', submitWorkerForm);
 
-function submitWorkerForm(e){
+function submitWorkerForm(e) {
 
     e.preventDefault();
 
@@ -322,19 +322,19 @@ function submitWorkerForm(e){
 
     document.querySelector('.workeralert').style.display = 'block';
 
-    setTimeout(function(){
+    setTimeout(function () {
         document.querySelector('.workeralert').style.display = 'none';
-    },3000);
+    }, 3000);
 
     document.getElementById('workerform').reset();
 }
 
-function saveMitarbeiter(wemail, wname){
+function saveMitarbeiter(wemail, wname) {
     mitarbeiterRef.doc(wemail).set({
         AktuellerFuehrerschein: "-1",
         Mail: wemail,
         Name: wname,
-        ErfolgreichePruefungDatum: new Date(Date.UTC(2000,00,01))
+        ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01))
     })
 }
 
@@ -414,7 +414,7 @@ function denyLicense() {
 
 document.getElementById('sendMail').addEventListener('click', sendEmail);
 
-function sendEmail(){
+function sendEmail() {
     var empfaenger = data[licenseCounter].MitarbeiterID;
     var betreff = "Ihr Führerschein-Upload in der ndriver App wurde abgelehnt";
     var body = document.getElementById('emailtext').value;
@@ -440,13 +440,13 @@ function sendEmail(){
     document.getElementById('ablehnung-box').style.display = 'none';
 }
 
-function mailToUrl(empfaenger, betreff, body){
+function mailToUrl(empfaenger, betreff, body) {
     var args = [];
-    args.push('subject='+ encodeURIComponent(betreff));
-    args.push('body='+ encodeURIComponent(body));
+    args.push('subject=' + encodeURIComponent(betreff));
+    args.push('body=' + encodeURIComponent(body));
     var url = 'mailto:' + empfaenger;
-    if(args.length > 0){
-        url += '?'+args.join('&');
+    if (args.length > 0) {
+        url += '?' + args.join('&');
     }
     return url;
 }
@@ -589,16 +589,16 @@ function FillEditMask(doc, bool, key) {
         var numberdays
         document.getElementById('editname').value = data.Name;
         document.getElementById('editnterraid').value = key;
-        mitarbeiterRef.doc(key).collection("Fuehrerscheine").doc(data.AktuellerFuehrerschein).get().then(function(License) {
+        mitarbeiterRef.doc(key).collection("Fuehrerscheine").doc(data.AktuellerFuehrerschein).get().then(function (License) {
             if (License.exists) {
-            setinner("lastupload", generateURLString(License.data().URLFront, License.data().URLBack));
+                setinner("lastupload", generateURLString(License.data().URLFront, License.data().URLBack));
             } else {
                 setinner("lastupload", "keine Uploads");
             }
 
         })
-        }
     }
+}
 
 
 async function EditFahrzeug(Key, Fahrzeugart) {
@@ -625,7 +625,11 @@ async function EditFahrzeug(Key, Fahrzeugart) {
             Vertragsnummer: document.getElementById('editcnummer').value,
         })
             .then(function () {
-                document.getElementById('editsuccess').style = 'block'
+                document.querySelector('.fahrzeug-changealert').style.display = 'block';
+
+                setTimeout(function () {
+                    document.querySelector('.fahrzeug-changealert').style.display = 'none';
+                }, 3000);
                 console.log("Document successfully written!");
             })
             .catch(function (error) {
@@ -645,7 +649,11 @@ async function EditFahrzeug(Key, Fahrzeugart) {
             Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
         })
             .then(function () {
-                document.querySelector('.foralert').style.display = 'block';
+                document.querySelector('.fahrzeug-changealert').style.display = 'block';
+
+                setTimeout(function () {
+                    document.querySelector('.fahrzeug-changealert').style.display = 'none';
+                }, 3000);
                 console.log("Document successfully written!");
             })
             .catch(function (error) {
@@ -673,7 +681,11 @@ function EditMitarbeiter(Key) {
         Name: document.getElementById('editname').value,
     })
         .then(function () {
-            document.getElementById('editsuccess').style = 'block'
+            document.querySelector('.mitarbeiter-changealert').style.display = 'block';
+
+            setTimeout(function () {
+                document.querySelector('.mitarbeiter-changealert').style.display = 'none';
+            }, 3000);
             console.log("Document successfully written!");
         })
         .catch(function (error) {
@@ -685,28 +697,38 @@ function EditMitarbeiter(Key) {
 //Fehlt: Nachricht erfolgreich
 function DeleteData(Art, Key) {
     if (Art == "Fahrzeug") {
-    fahrzeugeRef.doc(Key).delete().then(function () {
-        console.log("Document successfully deleted!");
-    }).catch(function (error) {
-        console.error("Error removing document: ", error);
-    });
+        fahrzeugeRef.doc(Key).delete().then(function () {
+            document.querySelector('.fahrzeug-deletealert').style.display = 'block';
+
+            setTimeout(function () {
+                document.querySelector('.fahrzeug-deletealert').style.display = 'none';
+            }, 3000);
+            console.log("Document successfully deleted!");
+        }).catch(function (error) {
+            console.error("Error removing document: ", error);
+        });
     }
 
-    if (Art =="Mitarbeiter") {
+    if (Art == "Mitarbeiter") {
         if (typeof mitarbeiterRef.doc(Key).collection("ImBuero") !== "undefined") {
-        deleteCollection(mitarbeiterRef.doc(Key).collection("ImBuero"));
+            deleteCollection(mitarbeiterRef.doc(Key).collection("ImBuero"));
         }
 
         if (typeof mitarbeiterRef.doc(Key).collection("Fuehrerscheine") !== "undefined") {
             deleteCollection(mitarbeiterRef.doc(Key).collection("Fuehrerscheine"));
         }
 
-        if (typeof db.collection("Fuehrerschein").doc(Key)  !== "undefined") {
+        if (typeof db.collection("Fuehrerschein").doc(Key) !== "undefined") {
             db.collection("Fuehrerschein").doc(Key).delete();
         }
 
         mitarbeiterRef.doc(Key).delete().then(function () {
-            console.log("Document successfully deleted!")   ;
+            document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
+
+            setTimeout(function () {
+                document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
+            }, 3000);
+            console.log("Document successfully deleted!");
         }).catch(function (error) {
             console.error("Error removing document: ", error);
         });
@@ -842,13 +864,13 @@ function generateURLString(URLFront, URLBack) {
 
     innerstring = "<label>Aktueller Upload:</label><a href='" + URLFront + "'target='_blank'>Vorderseite</a><br /><a href='" + URLBack + "'target='_blank'>Rückseite</a>";
     return innerstring;
-}   
+}
 
 //deletes 
-function deleteCollection(collection){
+function deleteCollection(collection) {
 
-    collection.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+    collection.get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
 
             collection.doc(doc.id).delete().then(function () {
                 console.log("Document successfully deleted!");
@@ -856,65 +878,65 @@ function deleteCollection(collection){
                 console.error("Error removing document: ", error);
             });
 
-    });
+        });
     });
 }
 
 
-async function exportCars(bool, tableid){
+async function exportCars(bool, tableid) {
 
-    var exportstring 
+    var exportstring
 
-    if(bool) {
-        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th><th>BLP</th><th>Laufleistung</th>" + 
-                "<th>Vertragsende</th><th>Vertrag Nr.</th><th>KFZ Versicherungsnummer</th></tr>";
+    if (bool) {
+        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th><th>BLP</th><th>Laufleistung</th>" +
+            "<th>Vertragsende</th><th>Vertrag Nr.</th><th>KFZ Versicherungsnummer</th></tr>";
     } else {
         exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th>" +
-                "<th>BLP</th><th>Fahrzeugklasse</th><th>Übergabedatum</th></tr>";
+            "<th>BLP</th><th>Fahrzeugklasse</th><th>Übergabedatum</th></tr>";
     }
 
     const snapshot = await fahrzeugeRef.get()
-        snapshot.forEach(function(doc){
+    snapshot.forEach(function (doc) {
 
-            var data = doc.data();
+        var data = doc.data();
 
-            exportstring += "<tr>";
+        exportstring += "<tr>";
 
-            if(bool){ 
-                if(data.Fahrzeugart == "Firmenwagen") {
-                    exportstring = newCarTable(data.Kennzeichen, exportstring);
-                    exportstring = newMaTable(data.Fahrer, exportstring);
-                    exportstring = newcol(exportstring, data.Modell);
-                    exportstring = newcol(exportstring, data.Zuzahlung);
-                    exportstring = newcol(exportstring, data.Bruttolistenpreis);
-                    exportstring = newcol(exportstring, data.Vertragslaufleistung);
-                    exportstring = newcol(exportstring, data.Vertragsende);
-                    exportstring = newcol(exportstring, data.Vertragsnummer);
-                    exportstring = newcol(exportstring, data.Versicherungsnummer); 
-                }
-            } else { 
-                if  (data.Fahrzeugart == "Mietwagen") {
-                    exportstring = newCarTable(data.Kennzeichen, exportstring);
-                    exportstring = newMaTable(data.Fahrer, exportstring);
-                    exportstring = newcol(exportstring, data.Modell);
-                    exportstring = newcol(exportstring, data.Zuzahlung);
-                    exportstring = newcol(exportstring, data.Bruttolistenpreis);
-                    exportstring = newcol(exportstring, data.Fahrzeugklasse);
-                    exportstring = newcol(exportstring, data.Übergabedatum);
-                }
+        if (bool) {
+            if (data.Fahrzeugart == "Firmenwagen") {
+                exportstring = newCarTable(data.Kennzeichen, exportstring);
+                exportstring = newMaTable(data.Fahrer, exportstring);
+                exportstring = newcol(exportstring, data.Modell);
+                exportstring = newcol(exportstring, data.Zuzahlung);
+                exportstring = newcol(exportstring, data.Bruttolistenpreis);
+                exportstring = newcol(exportstring, data.Vertragslaufleistung);
+                exportstring = newcol(exportstring, data.Vertragsende);
+                exportstring = newcol(exportstring, data.Vertragsnummer);
+                exportstring = newcol(exportstring, data.Versicherungsnummer);
             }
+        } else {
+            if (data.Fahrzeugart == "Mietwagen") {
+                exportstring = newCarTable(data.Kennzeichen, exportstring);
+                exportstring = newMaTable(data.Fahrer, exportstring);
+                exportstring = newcol(exportstring, data.Modell);
+                exportstring = newcol(exportstring, data.Zuzahlung);
+                exportstring = newcol(exportstring, data.Bruttolistenpreis);
+                exportstring = newcol(exportstring, data.Fahrzeugklasse);
+                exportstring = newcol(exportstring, data.Übergabedatum);
+            }
+        }
 
-            exportstring += "</tr>";
-            console.log(exportstring);
+        exportstring += "</tr>";
+        console.log(exportstring);
 
-        })
+    })
 
-        setinner(tableid, exportstring);
+    setinner(tableid, exportstring);
 
 }
 
-function newcol(exportstring, datastring){
-    var newstring  = exportstring + "<td>" + datastring + "</td>";
+function newcol(exportstring, datastring) {
+    var newstring = exportstring + "<td>" + datastring + "</td>";
 
     return newstring;
 }

@@ -7,13 +7,23 @@
     <title>nterra Fuhrparkverwaltung</title>
 
     <link rel="stylesheet" href="app.css">
-    <link rel="icon" href="images/logo.jpg">
+    <link rel="icon" href="images/ndriver_icon_192.png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
         crossorigin="anonymous">
 
 <body>
     <div class="container">
         <header class="kopfzeile">
+            <div class="alertbox">
+                <div class="mitarbeiter-changealert">Mitarbeiter wurde erfolgreich bearbeitet</div>
+                <div class="mitarbeiter-deletealert"><i class="fa fa-trash-alt"></i> Mitarbeiter wurde erfolgreich gelöscht</div>
+                <div class="fahrzeug-changealert">Fahrzeug wurde erfolgreich bearbeitet</div>
+                <div class="fahrzeug-deletealert"><i class="fa fa-trash-alt"></i> Fahrzeug wurde erfolgreich gelöscht</div>
+                <div class="caralert"><i class="fa fa-check-circle"></i> Fahrzeug wurde zur Datenbank hinzugefügt </div>
+                <div class="licensealert"><i class="fa fa-check-circle"></i> Führerschein wurde bestätigt</div>
+                <div class="denialalert"><i class="fa fa-times-circle"></i> Führerschein wurde abgelehnt</div>
+                <div class="workeralert"><i class="fas fa-user-check"></i> Mitarbeiter wurde erfolgreich zur Datenbank hinzugefügt</div>
+            </div>
             <h1 id="title">F U H R P A R K V E R W A L T U <span id='updown'>U</span> G</h1>
             <nav>
                 <ul>
@@ -38,12 +48,12 @@
                     <li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
                             <span><i class="fa fa-edit"></i> E d i t o r</button></li></span>
                     <li><button class="rounded" id="uebersichtbutton" onclick="setHash('uebersicht')">
-                        <span><i class="fa fa-edit"></i> Ü b e r s i c h t<table></table></button></li></span>
+                        <span><i class="fa fa-file-alt"></i> Ü b e r s i c h t<table></table></button></li></span>
                     <li><button class="rounded" id='lobutton' onclick="googleLogout()">
                             <span><i id="closedDoor" class="fa fa-sign-out-alt"></i> S i g n O u t</button></li></span>
                 </ul>
             </div>
-            <div class="useralert">Bitte melden Sie sich zunächst mit ihrem nterra Google Konto an</div>
+            <div class="useralert">Bitte melden Sie sich mit ihrem nterra Google-Konto an</div>
             <div class="page home" style="display: none">
                 <div class="forms">
                     <table id="Employee-Car">
@@ -168,8 +178,6 @@
                             <button onclick="DeleteData('Mitarbeiter', document.getElementById('editnterraid').value)"
                                 type="button">Löschen</button>
                         </p>
-                        <div class="mitarbeiter-changealert">Mitarbeiter wurde erfolgreich bearbeitet</div>
-                        <div class="mitarbeiter-deletealert">Mitarbeiter wurde erfolgreich gelöscht</div>
                     </form>
                 </div>
             </div>
@@ -215,7 +223,6 @@
 
             <div class="page fahrzeuge" style="display: none">
                 <div class="forms">
-                    <div class="caralert"><i class="fa fa-check-circle"></i> Fahrzeug wurde zur Datenbank hinzugefügt </div>
                     <form id="carform">
                         <p class="fahrzeugart">
                             <strong>FAHRZEUGART:</strong><br />
@@ -285,8 +292,6 @@
             <div class="page fuehrerschein" style="display: none">
                 <button id="license-search">Führerscheine suchen</button>
                 <div class="nothingleftalert"><i class="fas fa-clipboard-check"></i> Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
-                <div class="licensealert"><i class="fa fa-check-circle"></i> Führerschein wurde bestätigt</div>
-                <div class="denialalert"><i class="fa fa-times-circle"></i> Führerschein wurde abgelehnt</div>
                 <div class="license-box forms" id="license-box" style="display: none">
                     <p id="license-user">Name:</p>
                     <p id="license-date">Datum: </p>
@@ -306,7 +311,6 @@
 
             <div class="page mitarbeiter" style="display:none">
                 <div class="forms">
-                    <div class="workeralert"><i class="fas fa-user-check"></i> Mitarbeiter wurde erfolgreich zur Datenbank hinzugefügt</div>
                     <form class="workerform" id="workerform">
                         <p class="wemail">
                             <label>E-Mail-Adresse</label>
