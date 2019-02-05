@@ -368,43 +368,47 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     }
 }
 
-table#Employee-Car {
+table {
     border-collapse: separate;
     width: 80%;
     padding: auto;
     margin: 10px;
     border-spacing: 0;
-    background-color: #cbddee;
+    border: none;
+    font-size: 16px;
 }
 
-table#Employee-Car td, table#Employee-Car th { 
+td, th { 
     padding: 5px 12px;
 }
 
 th {
     height: 30px;
     text-align: left;
-    background-color: #f5a748;
-    border: solid 1px #f5a748;
+    background-color: #a7125c;
+    border: solid 1px #a7125c;
+    color: white;
 }
 
 td {
     background-color: #eee;
     border: solid 1px #eee;
+    font-size: 12px;
 }
 
-table#Employee-Car th:first-child {
+th:first-child {
     border-radius: 4px 0 0 0;
 }
 
-table#Employee-Car th:last-child {
+th:last-child {
     border-radius: 0 4px 0 0;
 }
 
-table#Employee-Car tbody tr:last-child td:first-child {
+tbody tr:last-child td:first-child {
     border-radius: 0 0 0 4px;
 }
-table#Employee-Car tbody tr:last-child td:last-child {
+
+tbody tr:last-child td:last-child {
     border-radius: 0 0 4px 0;
 }
 
