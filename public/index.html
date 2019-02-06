@@ -15,14 +15,14 @@
     <div class="container">
         <header class="kopfzeile">
             <div class="alertbox">
-                <div class="mitarbeiter-changealert">Mitarbeiter wurde erfolgreich bearbeitet</div>
-                <div class="mitarbeiter-deletealert"><i class="fa fa-trash-alt"></i> Mitarbeiter wurde erfolgreich gelöscht</div>
-                <div class="fahrzeug-changealert">Fahrzeug wurde erfolgreich bearbeitet</div>
-                <div class="fahrzeug-deletealert"><i class="fa fa-trash-alt"></i> Fahrzeug wurde erfolgreich gelöscht</div>
-                <div class="caralert"><i class="fa fa-check-circle"></i> Fahrzeug wurde zur Datenbank hinzugefügt </div>
-                <div class="licensealert"><i class="fa fa-check-circle"></i> Führerschein wurde bestätigt</div>
-                <div class="denialalert"><i class="fa fa-times-circle"></i> Führerschein wurde abgelehnt</div>
-                <div class="workeralert"><i class="fas fa-user-check"></i> Mitarbeiter wurde erfolgreich zur Datenbank hinzugefügt</div>
+                <div class="mitarbeiter-changealert alert">Mitarbeiter wurde erfolgreich bearbeitet</div>
+                <div class="mitarbeiter-deletealert alert"><i class="fa fa-trash-alt"></i> Mitarbeiter wurde erfolgreich gelöscht</div>
+                <div class="fahrzeug-changealert alert">Fahrzeug wurde erfolgreich bearbeitet</div>
+                <div class="fahrzeug-deletealert alert"><i class="fa fa-trash-alt"></i> Fahrzeug wurde erfolgreich gelöscht</div>
+                <div class="caralert alert"><i class="fa fa-check-circle"></i> Fahrzeug wurde zur Datenbank hinzugefügt </div>
+                <div class="licensealert alert"><i class="fa fa-check-circle"></i> Führerschein wurde bestätigt</div>
+                <div class="denialalert alert"><i class="fa fa-times-circle"></i> Führerschein wurde abgelehnt</div>
+                <div class="workeralert alert"><i class="fas fa-user-check"></i> Mitarbeiter wurde erfolgreich zur Datenbank hinzugefügt</div>
             </div>
             <h1 id="title">F U H R P A R K V E R W A L T U <span id='updown'>U</span> G</h1>
             <nav>
@@ -48,12 +48,12 @@
                     <li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
                             <span><i class="fa fa-edit"></i> E d i t o r</button></li></span>
                     <li><button class="rounded" id="uebersichtbutton" onclick="setHash('uebersicht')">
-                        <span><i class="fa fa-file-alt"></i> Ü b e r s i c h t<table></table></button></li></span>
+                        <span><i class="fa fa-file-alt"></i> Ü b e r s i c h t</button></li></span>
                     <li><button class="rounded" id='lobutton' onclick="googleLogout()">
-                            <span><i id="closedDoor" class="fa fa-sign-out-alt"></i> S i g n O u t</button></li></span>
+                            <span><i id="closedDoor" class="fa fa-power-off"></i> S i g n O u t</button></li></span>
                 </ul>
             </div>
-            <div class="useralert">Bitte melden Sie sich mit ihrem nterra Google-Konto an</div>
+            <div class="useralert alert">Bitte melden Sie sich mit ihrem nterra Google-Konto an</div>
             <div class="page home" style="display: none">
                 <div class="forms">
                     <table id="Employee-Car">
@@ -290,11 +290,13 @@
             </div>
 
             <div class="page fuehrerschein" style="display: none">
-                <button id="license-search">Führerscheine suchen</button>
-                <div class="nothingleftalert"><i class="fas fa-clipboard-check"></i> Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
+                <div class="license-info">
+                    <button id="license-search"><i class="fa fa-search"></i> Führerscheine suchen</button>
+                    <div class="nothingleftalert alert"><i class="fas fa-clipboard-check"></i> Zurzeit müssen keine weiteren Führerscheine überprüft werden</div>
+                </div>
                 <div class="license-box forms" id="license-box" style="display: none">
-                    <p id="license-user">Name:</p>
-                    <p id="license-date">Datum: </p>
+                    <h4 id="license-user"></h4>
+                    <h4 id="license-date"></h4>
                     <ul class="button-list">
                         <li><button id="front-pic" onclick="openFront()">Vorderseite</a></li>
                         <li><button id="back-pic" onclick="openBack()">Rückseite</a></li>
@@ -335,16 +337,12 @@
 
 
             <div class="page uebersicht" style="display: none">
-                <P>
                 <label>Firmenwagen</label>
                 <table id = "exporttablef">
                 </table>
-                </P>
-                <p>
                 <label>Mietwagen</label>
                 <table id = "exporttablem">
                 </table>
-                </p>
             </div>
         </div>
 

@@ -354,6 +354,7 @@ var currentFrontUrl = null;
 document.getElementById('license-search').addEventListener('click', searchLicenses);
 
 function searchLicenses() {
+    document.getElementById('ablehnung-box').style.display = 'none';
     licenseCounter = 1;
     licenseRef.get().then(function (querySnapshot) {
         data = querySnapshot.docs.map(function (documentSnapshot) {
@@ -467,7 +468,7 @@ function openFront() {
 
 function loadNext() {
     if (licenseCounter == data.length) {
-        document.querySelector('.nothingleftalert').style.display = 'block';
+        document.querySelector('.nothingleftalert').style.display = 'grid';
         document.getElementById('license-box').style.display = 'none';
         return;
     }

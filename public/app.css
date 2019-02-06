@@ -30,7 +30,7 @@ body{
 /* Styling Kopfleiste*/
 
 .kopfzeile{
-    background: linear-gradient(90deg, rgb(102,102,102) 75%, #f5a748 100%);
+    background: linear-gradient(90deg, rgb(102,102,102) 30%, #f5a748 100%);
     color: #fff;
     padding: 1em;
 }
@@ -52,6 +52,10 @@ body{
 
 .kopfzeile .alertbox{
     align-self: center;
+}
+
+.alert{
+    border-radius: 4px;
 }
 
 #userpic {
@@ -184,6 +188,7 @@ button{
     background: #589ce9;
     border: 0;
     text-transform: uppercase;
+    color: #000;
 }
 
 button:hover, button:focus, .datenbank #btSearch:hover{
@@ -262,6 +267,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     background: #f5a748;
     color: white;
     display: none;
+    font-size: 16px;
 }
 
 .mitarbeiter-deletealert ,.fahrzeug-deletealert{
@@ -289,11 +295,14 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 .fuehrerschein .license-box{
     display: grid;
     grid-template-columns: 30% 10% 60%;
-    grid-template-rows: 1fr 1fr 1fr;
-    align-items: center;
+    grid-template-rows: 1fr 9fr;
     height: auto;
 }
 
+.fuehrerschein #license-user, .fuehrerschein #license-date{
+    align-self: center;
+    justify-self: center;
+}
 
 .fuehrerschein button{
     color: white;
@@ -306,14 +315,16 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 }
 
 .fuehrerschein #license-search{
-    float: none;
     text-align: center;
-    height: 70px;
-    width:300px;
-    margin: 20px auto 0 auto;
-    font-size: 16px;
-    justify-content: center;
-    padding: 10px;
+    height: 50px;
+    width:150px;
+    font-size: 14px;
+}
+
+.fuehrerschein .license-infobox{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
 }
 
 .fuehrerschein #yesbutton{
