@@ -179,6 +179,14 @@ body{
     border: none;
 }
 
+.fahrzeuge #kennzeichen{
+    text-transform: uppercase;
+}
+
+.fahrzeuge #fahrer, .mitarbeiter #wemail{
+    text-transform: lowercase;
+}
+
 .error{
     background: #f5a748;
     color: white;
