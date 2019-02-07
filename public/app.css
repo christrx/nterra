@@ -188,7 +188,6 @@ button{
     background: #589ce9;
     border: 0;
     text-transform: uppercase;
-    color: #000;
 }
 
 button:hover, button:focus, .datenbank #btSearch:hover{
@@ -226,6 +225,14 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     color: white;
     margin-bottom: 10px;
     display: none
+}
+
+.hascaralert{
+    text-align: center;
+    padding: 10px;
+    background: rgb(253, 56, 56);
+    color: white;
+    display: none;
 }
 
 .useralert{
@@ -359,7 +366,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 
     .kopfzeile{
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-columns: 2fr 6fr 2fr;
     }
 
     .kopfzeile #title{

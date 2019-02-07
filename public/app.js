@@ -116,9 +116,12 @@ window.onhashchange = function () {
     }
     else if (currentHash == '#fahrzeuge') {
         document.getElementsByClassName('fahrzeuge')[0].style.display = 'grid';
+        document.getElementById('carform').reset();
+        resetCarform();
     }
     else if (currentHash == '#fuehrerschein') {
         document.getElementsByClassName('fuehrerschein')[0].style.display = 'grid';
+        document.getElementById('emailtext').value = "";
     }
     else if (currentHash == '#editor') {
         document.getElementsByClassName('editor')[0].style.display = 'grid';
@@ -280,6 +283,9 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
         Vertragsende: cende,
         Vertragsnummer: cnummer
     });
+    mitarbeiterRef.doc(fahrer).update({
+        hatFahrzeug: true
+    })
 }
 
 // Save rented car to firestore
@@ -293,6 +299,9 @@ function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zu
         Bruttolistenpreis: blp + " €",
         Fahrzeugklasse: fklasse,
         Zuzahlung: zuzahlung + " €"
+    });
+    mitarbeiterRef.doc(fahrer).update({
+        hatFahrzeug: true
     })
 }
 
@@ -316,7 +325,7 @@ function submitWorkerForm(e) {
     e.preventDefault();
 
     var wemail = getInputValues('wemail');
-    var wname = getInputValues('wname');
+    var wname = Name(wemail);
 
     saveMitarbeiter(wemail, wname);
 
@@ -334,7 +343,8 @@ function saveMitarbeiter(wemail, wname) {
         AktuellerFuehrerschein: "-1",
         Mail: wemail,
         Name: wname,
-        ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01))
+        ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
+        hatFahrzeug: false
     })
 }
 
