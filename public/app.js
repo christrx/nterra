@@ -752,15 +752,34 @@ function ResetEditor() {
     document.getElementById("Fahrzeug-Edit").style.display = 'none';
 }
 
-//alle Mails aus allen Documents
 async function getMa() {
-    const snapshot = await firebase.firestore().collection('Mitarbeiter').get()
+    const snapshot = await firebase.firestore().collection('Mitarbeiter').get();
     return snapshot.docs.map(doc => doc.data().Mail);
+}
+
+//alle Mails aus allen Documents
+async function getMaNew() {
+
+    var DatumArray = new Array();
+    var MitarbeiterArray = new Array();
+    const snapshot = await firebase.firestore().collection('Mitarbeiter').orderBy("LetzterUpload", "asc").get();
+    console.log(snapshot)
+    snapshot.forEach(function(doc) {
+        MitarbeiterArray.push(doc.data().Mail);
+        DatumArray.push(doc.data().LetzterUpload);
+    });
+
+    var gesamtArray = Array(DatumArray, MitarbeiterArray);
+
+    console.log(gesamtArray);
+
+    return gesamtArray
+
 }
 
 //alle Kennzeichen der Fahrzeuge
 async function getKennzeichen() {
-    const snapshot = await firebase.firestore().collection('Fahrzeuge').get()
+    const snapshot = await firebase.firestore().collection('Fahrzeuge').get();
     return snapshot.docs.map(doc => doc.data().Kennzeichen);
 }
 
@@ -896,17 +915,21 @@ function deleteCollection(collection) {
 
 async function exportCars(bool, tableid) {
 
+    var snapshot
     var exportstring
 
+    getMaNew();
+
     if (bool) {
+        snapshot = await fahrzeugeRef.orderBy("Vertragsende", "asc").get();
         exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th><th>BLP</th><th>Laufleistung</th>" +
             "<th>Vertragsende</th><th>Vertrag Nr.</th><th>KFZ Versicherungsnummer</th></tr>";
     } else {
+        snapshot = await fahrzeugeRef.get();
         exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th>" +
             "<th>BLP</th><th>Fahrzeugklasse</th><th>Übergabedatum</th></tr>";
     }
 
-    const snapshot = await fahrzeugeRef.get()
     snapshot.forEach(function (doc) {
 
         var data = doc.data();
@@ -938,7 +961,6 @@ async function exportCars(bool, tableid) {
         }
 
         exportstring += "</tr>";
-        console.log(exportstring);
 
     })
 
