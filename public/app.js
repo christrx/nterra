@@ -762,17 +762,22 @@ async function getMaNew() {
 
     var DatumArray = new Array();
     var MitarbeiterArray = new Array();
-    const snapshot = await firebase.firestore().collection('Mitarbeiter').orderBy("LetzterUpload", "asc").get();
-    console.log(snapshot)
+
+    const snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get();
     snapshot.forEach(function(doc) {
         MitarbeiterArray.push(doc.data().Mail);
-        DatumArray.push(doc.data().LetzterUpload);
+        DatumArray.push(doc.data().LetzterUpload.toLocaleDateString());
     });
+
+    const emptyma = await mitarbeiterRef.where("AktuellerFuehrerschein", "==", "-1").get();
+    emptyma.forEach(function(doc){
+        MitarbeiterArray.push(doc.data().Mail);
+        DatumArray.push("");
+    })
 
     var gesamtArray = Array(DatumArray, MitarbeiterArray);
 
     console.log(gesamtArray);
-
     return gesamtArray
 
 }
@@ -843,6 +848,11 @@ function newCarTable(Car, innerString) {
     return innerString;
 }
 
+function newDateTable(LicenseDate, innerString) {
+    innerString += '<td>' + LicenseDate + '</td>';
+    return innerString;
+}
+
 
 //Generiert automatisch die Tabelle mit den dazugehörigen Mitarbeitern und deren Autos
 async function GenerateTable() {
@@ -884,6 +894,47 @@ function Name(str) {
 
     return str
 }
+
+async function GenerateTableNew() {
+    var Employees = new Array()
+    var Cars = new Array()
+    var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th><th>Letzter Check</th></tr>'
+
+    const snapshot1 = await getMaNew()
+    Employees = snapshot1;
+
+    const snapshot = await getMAcars()
+    Cars = snapshot;
+
+    console.log(Cars)
+    console.log(Employees)
+
+    await getMa();
+
+    for (var i = 0; i < Employees[1].length; i++) {
+        innerstring += "<tr>"
+        innerstring = newMaTable(Employees[1][i], innerstring)
+        if (Cars[i] !== "placeholder") {
+            innerstring = newCarTable(Cars[i], innerstring)
+        } else {
+            innerstring += '<td></td>'
+        }
+            innerstring = newDateTable(Employees[0][i], innerstring)
+        innerstring += "</tr>"
+    }
+
+    document.getElementById("Employee-Car").innerHTML = innerstring;
+}
+
+function Name(str) {
+
+    str = str.replace(".", " ");
+    str = str.replace("@nterra.com", "");
+    str = str.replace(/\b\w/g, l => l.toUpperCase());
+
+    return str
+}
+
 
 function setinner(id, innerstring) {
     document.getElementById(id).innerHTML = innerstring;
