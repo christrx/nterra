@@ -19,7 +19,7 @@ function googleLogin() {
                 var userMail = firebase.auth().currentUser.email;
                 if (validAccount(userMail)) {
                     window.location.hash = "home"
-                    GenerateTable();
+                    GenerateTableNew();
                 }
                 else {
                     googleLogout();
@@ -908,8 +908,6 @@ async function GenerateTableNew() {
 
     console.log(Cars)
     console.log(Employees)
-
-    await getMa();
 
     for (var i = 0; i < Employees[1].length; i++) {
         innerstring += "<tr>"
