@@ -284,7 +284,8 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
         Vertragsnummer: cnummer
     });
     mitarbeiterRef.doc(fahrer).update({
-        hatFahrzeug: true
+        hatFahrzeug: true,
+        Kennzeichen: kennzeichen
     })
 }
 
@@ -301,7 +302,8 @@ function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zu
         Zuzahlung: zuzahlung + " €"
     });
     mitarbeiterRef.doc(fahrer).update({
-        hatFahrzeug: true
+        hatFahrzeug: true,
+        Kennzeichen: kennzeichen
     })
 }
 
@@ -344,7 +346,9 @@ function saveMitarbeiter(wemail, wname) {
         Mail: wemail,
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
-        hatFahrzeug: false
+        hatFahrzeug: false,
+        LetzterUpload: "",
+        Kennzeichen: ""
     })
 }
 
@@ -766,18 +770,17 @@ async function getMaNew() {
     const snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get();
     snapshot.forEach(function(doc) {
         MitarbeiterArray.push(doc.data().Mail);
-        DatumArray.push(doc.data().LetzterUpload.toLocaleDateString());
+        if (doc.data().LetzterUpload !== "") {
+        DatumArray.push(doc.data().LetzterUpload.toLocaleDateString())
+        } else {
+        DatumArray.push("")
+        }
+
     });
 
-    const emptyma = await mitarbeiterRef.where("AktuellerFuehrerschein", "==", "-1").get();
-    emptyma.forEach(function(doc){
-        MitarbeiterArray.push(doc.data().Mail);
-        DatumArray.push("");
-    })
 
     var gesamtArray = Array(DatumArray, MitarbeiterArray);
 
-    console.log(gesamtArray);
     return gesamtArray
 
 }
@@ -815,24 +818,22 @@ function fillDatalist(Typ, List) {
 
 //ordnet jedem Mitarbeiter sein Auto zu, falls vorhanden
 //funktioniert bisher nur für 0-1 Auto pro Person
-async function getMAcars() {
-    var mycars = new Array()
+function getMAcars(Employees) {
 
-    const snapshot = await getMa()
-    snapshot.forEach(function (employee) {
-        fahrzeugeRef.where("Fahrer", "==", employee).get().then(function (cars) {
+    Employees[1].forEach(function(employee){
+        fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars){
             if (!cars.empty) {
                 cars.forEach(car => {
-                    mycars.push(car.data().Kennzeichen);
+                    Employees[2].push(car.data().Kennzeichen);
                 })
             } else {
-                mycars.push("placeholder")
+                Employees[2].push("")
             }
-        })
-    }
-    );
+        })})
 
-    return mycars;
+    return new Promise(function(resolve){
+        resolve(Employees)
+    })
 
 }
 
@@ -895,33 +896,43 @@ function Name(str) {
     return str
 }
 
+async function newMAtest(){
+    var Employees = new Array(Array(), Array(), Array())
+
+    snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get()
+        snapshot.forEach(function(doc) {
+            Employees[1].push(doc.data().Mail);
+            if (doc.data().LetzterUpload !== "") {
+            Employees[0].push(doc.data().LetzterUpload.toLocaleDateString())
+            } else {
+            Employees[0].push("")
+            }
+            Employees[2].push(doc.data().Kennzeichen)
+        })
+
+        return Employees
+
+}
+
+
+
 async function GenerateTableNew() {
-    var Employees = new Array()
-    var Cars = new Array()
     var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th><th>Letzter Check</th></tr>'
+    
+    const result = await newMAtest()
 
-    const snapshot1 = await getMaNew()
-    Employees = snapshot1;
+    console.log(result)
 
-    const snapshot = await getMAcars()
-    Cars = snapshot;
-
-    console.log(Cars)
-    console.log(Employees)
-
-    for (var i = 0; i < Employees[1].length; i++) {
+    for (var i = 0; i < result[1].length; i++) {
         innerstring += "<tr>"
-        innerstring = newMaTable(Employees[1][i], innerstring)
-        if (Cars[i] !== "placeholder") {
-            innerstring = newCarTable(Cars[i], innerstring)
-        } else {
-            innerstring += '<td></td>'
-        }
-            innerstring = newDateTable(Employees[0][i], innerstring)
+        innerstring = newMaTable(result[1][i], innerstring)
+        innerstring = newCarTable(result[2][i], innerstring)
+        innerstring = newDateTable(result[0][i], innerstring)
         innerstring += "</tr>"
     }
 
     document.getElementById("Employee-Car").innerHTML = innerstring;
+
 }
 
 function Name(str) {
