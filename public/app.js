@@ -215,8 +215,8 @@ function submitForm(e) {
     if (getRadioValues() == "Firmenwagen") {
         var art = getRadioValues();
         var model = getInputValues('model');
-        var kennzeichen = getInputValues('kennzeichen');
-        var fahrer = getInputValues('fahrer');
+        var kennzeichen = getInputValues('kennzeichen').toUpperCase();
+        var fahrer = getInputValues('fahrer').toLowerCase();
         var blp = getInputValues('blp');
         var vnummer = getInputValues('vnummer');
         var zuzahlung = getInputValues('zuzahlung');
@@ -232,8 +232,9 @@ function submitForm(e) {
         var art = getRadioValues();
         var uedate = getInputValues('uedatum');
         var model = getInputValues('model');
-        var kennzeichen = getInputValues('kennzeichen');
-        var fahrer = getInputValues('fahrer');
+        var kennzeichen = getInputValues('kennzeichen').toUpperCase();
+        var fahrer = getInputValues('fahrer').toLowerCase()
+        console.log(fahrer);
         var blp = getInputValues('blp');
         var fklasse = getInputValues('fklasse');
         var zuzahlung = getInputValues('zuzahlung');
@@ -326,7 +327,7 @@ function submitWorkerForm(e) {
 
     e.preventDefault();
 
-    var wemail = getInputValues('wemail');
+    var wemail = getInputValues('wemail').toLowerCase();
     var wname = Name(wemail);
 
     saveMitarbeiter(wemail, wname);
@@ -410,7 +411,7 @@ function acceptLicense() {
             Aktuell: false
         })
     }
-    //TODO: deleteLicense(currentMitarbeiterID);
+    deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
 
@@ -440,7 +441,7 @@ function sendEmail() {
 
     document.getElementById('emailtext').value = "";
 
-    //TODO: deleteLicense(empfaenger);
+    deleteLicense(empfaenger);
 
     licenseCounter++;
 
