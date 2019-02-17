@@ -611,11 +611,33 @@ function FillEditMask(doc, bool, key) {
             } else {
                 setinner("lastupload", "keine Uploads");
             }
+        getDrives(key);
 
         })
     }
 }
 
+function getDrives(Mitarbeiter) {
+    mitarbeiterRef.doc(Mitarbeiter).collection("ImBuero").where("Datum", ">", lastcalendaryear()).get().then(function (Fahrten){
+        console.log(Fahrten)
+        if (!Fahrten.empty) {
+            console.log(Fahrten);
+            setinner("Fahrten", "Fahrten ins Büro im letzten Kalenderjahr: " + Fahrten.size)
+        } else {
+            setinner("Fahrten", "keine Fahrten im letzten Kalenderjahr")
+        }
+    })
+}
+
+function lastcalendaryear() {
+    var thisyear
+    var lastyear
+    
+    thisyear = (new Date()).getFullYear();
+    lastyear = new Date(thisyear, 0, 1)
+
+    return lastyear
+}
 
 async function EditFahrzeug(Key, Fahrzeugart) {
     var olddriver
@@ -1034,5 +1056,7 @@ function newcol(exportstring, datastring) {
 
     return newstring;
 }
+
+
 
 initFirebaseAuth();
