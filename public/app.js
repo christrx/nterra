@@ -679,6 +679,18 @@ function lastcalendaryear() {
     return lastyear
 }
 
+function lastcalendaryearplusonemonth() {
+
+    var today = new Date()
+    var Year = today.getFullYear()
+    var month = today.getMonth()
+    var day = today.getDate()
+    
+    var d = new Date(Year - 1, month + 1, day)
+
+    return d
+}
+
 
 async function EditFahrzeug(Key, Fahrzeugart) {
     var olddriver
@@ -837,7 +849,7 @@ function DeleteData(Art, Key) {
                     Fahrer: ""
                 })
             }
-            
+
             mitarbeiterRef.doc(Key).delete().then(function () {
                 document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
     
@@ -954,7 +966,18 @@ function newCarTable(Car, innerString) {
 }
 
 function newDateTable(LicenseDate, innerString) {
-    innerString += '<td>' + LicenseDate + '</td>';
+    var Today = new Date()
+    var LicenseDateString = ""
+    
+    if (LicenseDate !== "") {
+    LicenseDateString = LicenseDate.toLocaleDateString()
+    }
+
+    if (LicenseDate !== "" && LicenseDate < lastcalendaryearplusonemonth()) {
+    innerString += '<td><font color="red">' + LicenseDateString + '</font></td>';
+    } else {
+    innerString += '<td>' + LicenseDateString + '</td>'
+    }
     return innerString;
 }
 
@@ -1007,7 +1030,7 @@ async function newMAtest(){
         snapshot.forEach(function(doc) {
             Employees[1].push(doc.data().Mail);
             if (doc.data().LetzterUpload !== "") {
-            Employees[0].push(doc.data().LetzterUpload.toLocaleDateString())
+            Employees[0].push(doc.data().LetzterUpload)
             } else {
             Employees[0].push("")
             }
