@@ -639,6 +639,7 @@ function lastcalendaryear() {
     return lastyear
 }
 
+
 async function EditFahrzeug(Key, Fahrzeugart) {
     var olddriver
     var docRef
@@ -648,78 +649,90 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     var snapshot = await docRef.get()
     olddriver = snapshot.data().Fahrer;
 
-    if (Fahrzeugart == "Firmenwagen") {
-        db.collection('Fahrzeuge').doc(Key).update({
-            Fahrzeugart: Fahrzeugart,
-            Kennzeichen: Key,
-            Modell: document.getElementById('editmodel').value,
-            Fahrer: document.getElementById('editfahrer').value,
-            Bruttolistenpreis: document.getElementById('editblp').value,
-            Versicherungsnummer: document.getElementById('editvnummer').value,
-            Zuzahlung: document.getElementById('editzuzahlung').value,
-            Vertragsbestelldatum: document.getElementById('edittodatum').value,
-            Vertragsende: document.getElementById('editcende').value,
-            Vertragslaufleistung: document.getElementById('editmileage').value,
-            Vertragsnummer: document.getElementById('editcnummer').value,
-        })
-            .then(function () {
-                document.querySelector('.fahrzeug-changealert').style.display = 'block';
-
-                setTimeout(function () {
-                    document.querySelector('.fahrzeug-changealert').style.display = 'none';
-                }, 3000);
-                console.log("Document successfully written!");
-            })
-            .catch(function (error) {
-                document.getElementById('editfailed').style = 'block'
-                console.error("Error writing document: ", error);
-            });
-    } else {
-        docRef.update({
-            Fahrzeugart: Fahrzeugart,
-            Kennzeichen: Key,
-            Modell: document.getElementById('editmodel').value,
-            Fahrer: document.getElementById('editfahrer').value,
-            Bruttolistenpreis: document.getElementById('editblp').value,
-            Versicherungsnummer: document.getElementById('editvnummer').value,
-            Zuzahlung: document.getElementById('editzuzahlung').value,
-            Übergabedatum: document.getElementById('edituedatum').value,
-            Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
-        })
-            .then(function () {
-                document.querySelector('.fahrzeug-changealert').style.display = 'block';
-
-                setTimeout(function () {
-                    document.querySelector('.fahrzeug-changealert').style.display = 'none';
-                }, 3000);
-                console.log("Document successfully written!");
-            })
-            .catch(function (error) {
-                document.getElementById('editfailed').style = 'block'
-                console.error("Error writing document: ", error);
-            });
+    if (document.getElementById('editfahrer').value !== ""){
+    var newMAsnapshot = await mitarbeiterRef.doc(document.getElementById('editfahrer').value).get()
     }
 
-    if (document.getElementById('editfahrer').value !== olddriver) {
-        mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
-            Kennzeichen: Key
-        })
-        mitarbeiterRef.doc(olddriver).get().then(function(driver){
-            if(driver.data().Kennzeichen == Key){
-                mitarbeiterRef.doc(olddriver).update(
-                    {Kennzeichen: ""}
-                )
-            }
-        })
-        if (typeof snapshot.data().Verlauf !== "undefined") {
-            docRef.update({
-                Verlauf: snapshot.data().Verlauf + "; " + Name(olddriver)
-            })
-        } else {
+    if((document.getElementById('editfahrer').value !== "") && ((newMAsnapshot.data().Kennzeichen !== "") && (newMAsnapshot.data().Kennzeichen !== Key))) {
+        document.querySelector('.fahrzeug-denyalert').style.display = 'block';
 
-            docRef.set({
-                Verlauf: Name(olddriver)
-            }, { merge: true });
+        setTimeout(function () {
+            document.querySelector('.fahrzeug-denyalert').style.display = 'none';
+        }, 3000);
+    } else {
+        if (Fahrzeugart == "Firmenwagen") {
+            db.collection('Fahrzeuge').doc(Key).update({
+                Fahrzeugart: Fahrzeugart,
+                Kennzeichen: Key,
+                Modell: document.getElementById('editmodel').value,
+                Fahrer: document.getElementById('editfahrer').value,
+                Bruttolistenpreis: document.getElementById('editblp').value,
+                Versicherungsnummer: document.getElementById('editvnummer').value,
+                Zuzahlung: document.getElementById('editzuzahlung').value,
+                Vertragsbestelldatum: document.getElementById('edittodatum').value,
+                Vertragsende: document.getElementById('editcende').value,
+                Vertragslaufleistung: document.getElementById('editmileage').value,
+                Vertragsnummer: document.getElementById('editcnummer').value,
+            })
+                .then(function () {
+                    document.querySelector('.fahrzeug-changealert').style.display = 'block';
+
+                    setTimeout(function () {
+                        document.querySelector('.fahrzeug-changealert').style.display = 'none';
+                    }, 3000);
+                    console.log("Document successfully written!");
+                })
+                .catch(function (error) {
+                    document.getElementById('editfailed').style = 'block'
+                    console.error("Error writing document: ", error);
+                });
+        } else {
+            docRef.update({
+                Fahrzeugart: Fahrzeugart,
+                Kennzeichen: Key,
+                Modell: document.getElementById('editmodel').value,
+                Fahrer: document.getElementById('editfahrer').value,
+                Bruttolistenpreis: document.getElementById('editblp').value,
+                Versicherungsnummer: document.getElementById('editvnummer').value,
+                Zuzahlung: document.getElementById('editzuzahlung').value,
+                Übergabedatum: document.getElementById('edituedatum').value,
+                Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
+            })
+                .then(function () {
+                    document.querySelector('.fahrzeug-changealert').style.display = 'block';
+
+                    setTimeout(function () {
+                        document.querySelector('.fahrzeug-changealert').style.display = 'none';
+                    }, 3000);
+                    console.log("Document successfully written!");
+                })
+                .catch(function (error) {
+                    document.getElementById('editfailed').style = 'block'
+                    console.error("Error writing document: ", error);
+                });
+        }
+
+        if (document.getElementById('editfahrer').value !== olddriver) {
+            mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
+                Kennzeichen: Key
+            })
+            mitarbeiterRef.doc(olddriver).get().then(function(driver){
+                if(driver.data().Kennzeichen == Key){
+                    mitarbeiterRef.doc(olddriver).update(
+                        {Kennzeichen: ""}
+                    )
+                }
+            })
+            if (typeof snapshot.data().Verlauf !== "undefined") {
+                docRef.update({
+                    Verlauf: snapshot.data().Verlauf + "; " + Name(olddriver)
+                })
+            } else {
+
+                docRef.set({
+                    Verlauf: Name(olddriver)
+                }, { merge: true });
+            }
         }
     }
 }
