@@ -205,7 +205,28 @@ function changeFormMiet(e) {
 }
 
 // Listen for form submit
-document.getElementById('carform').addEventListener('submit', submitForm);
+document.getElementById('carform').addEventListener('submit', checkSubmit);
+
+function checkSubmit(e) {
+    e.preventDefault();
+
+    var docRef = fahrzeugeRef.doc(getInputValues('kennzeichen'));
+
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            // Show alert
+            document.querySelector('.caralreadyexistsalert').style.display = 'block';
+
+            // Hide alert after 3 seconds
+            setTimeout(function () {
+                document.querySelector('.caralreadyexistsalert').style.display = 'none';
+            }, 3000);
+        }
+        else {
+            submitForm(e);
+        }
+    })
+}
 
 // Submit Form
 function submitForm(e) {
@@ -285,7 +306,6 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
         Vertragsnummer: cnummer
     });
     mitarbeiterRef.doc(fahrer).update({
-        hatFahrzeug: true,
         Kennzeichen: kennzeichen
     })
 }
@@ -303,7 +323,6 @@ function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zu
         Zuzahlung: zuzahlung + " €"
     });
     mitarbeiterRef.doc(fahrer).update({
-        hatFahrzeug: true,
         Kennzeichen: kennzeichen
     })
 }
@@ -321,7 +340,29 @@ function resetCarform() {
 
 }
 
-document.getElementById('workerform').addEventListener('submit', submitWorkerForm);
+document.getElementById('workerform').addEventListener('submit', checkWorkerSubmit);
+
+
+function checkWorkerSubmit(e) {
+    e.preventDefault();
+
+    var docRef = mitarbeiterRef.doc(getInputValues('wemail'));
+
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            // Show alert
+            document.querySelector('.mitarbeiteralreadyexistsalert').style.display = 'block';
+
+            // Hide alert after 3 seconds
+            setTimeout(function () {
+                document.querySelector('.mitarbeiteralreadyexistsalert').style.display = 'none';
+            }, 3000);
+        }
+        else {
+            submitWorkerForm(e);
+        }
+    })
+}
 
 function submitWorkerForm(e) {
 
@@ -347,7 +388,6 @@ function saveMitarbeiter(wemail, wname) {
         Mail: wemail,
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
-        hatFahrzeug: false,
         LetzterUpload: "",
         Kennzeichen: ""
     })

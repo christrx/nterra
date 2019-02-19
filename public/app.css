@@ -285,7 +285,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     font-size: 16px;
 }
 
-.mitarbeiter-deletealert ,.fahrzeug-deletealert, .fahrzeug-denyalert{
+.mitarbeiter-deletealert ,.fahrzeug-deletealert, .fahrzeug-denyalert, .caralreadyexistsalert, .mitarbeiteralreadyexistsalert{
     text-align: center;
     padding: 10px;
     background: rgb(253, 56, 56);
