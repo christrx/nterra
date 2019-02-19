@@ -862,16 +862,6 @@ function DeleteData(Art, Key) {
             });
         })
 
-        mitarbeiterRef.doc(Key).delete().then(function () {
-            document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
-
-            setTimeout(function () {
-                document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
-            }, 3000);
-            console.log("Document successfully deleted!");
-        }).catch(function (error) {
-            console.error("Error removing document: ", error);
-        });
     }
 }
 
