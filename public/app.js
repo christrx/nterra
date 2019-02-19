@@ -74,7 +74,7 @@ function authStateObserver(user) {
         document.getElementById('workerbutton').style.display = 'inline';
         document.getElementById('carbutton').style.display = 'inline';
         document.getElementById('licensebutton').style.display = 'inline';
-        document.getElementById('editbutton').style.display = 'inline';
+        //document.getElementById('editbutton').style.display = 'inline';
         document.getElementById('libutton').style.display = 'none';
         document.getElementById('lobutton').style.display = 'inline';
         document.getElementById('userpic').style.display = 'inline-block';
@@ -87,7 +87,7 @@ function authStateObserver(user) {
         document.getElementById('workerbutton').style.display = 'none';
         document.getElementById('carbutton').style.display = 'none';
         document.getElementById('licensebutton').style.display = 'none';
-        document.getElementById('editbutton').style.display = 'none';
+        //document.getElementById('editbutton').style.display = 'none';
         document.getElementById('libutton').style.display = 'inline';
         document.getElementById('libutton').style.marginRight = '20px';
         document.getElementById('lobutton').style.display = 'none';
@@ -862,7 +862,16 @@ function DeleteData(Art, Key) {
             });
         })
 
-        
+        mitarbeiterRef.doc(Key).delete().then(function () {
+            document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
+
+            setTimeout(function () {
+                document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
+            }, 3000);
+            console.log("Document successfully deleted!");
+        }).catch(function (error) {
+            console.error("Error removing document: ", error);
+        });
     }
 }
 
