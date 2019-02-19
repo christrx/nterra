@@ -207,6 +207,7 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     color: #fff;
     outline: 0;
     transition: background-color 0.25s ease-out;
+    cursor: pointer;
 }
 
 .fuehrerschein #yesbutton:hover{
@@ -442,7 +443,7 @@ tbody tr:last-child td:last-child {
     border-radius: 0 0 4px 0;
 }
 
-.home button:hover {
+.home button:hover , .uebersicht button:hover{
     color: #0672ce;
 }
 
@@ -457,7 +458,7 @@ tbody tr:last-child td:last-child {
 }
 
 .home table td{
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .home table th{
@@ -467,4 +468,8 @@ tbody tr:last-child td:last-child {
 .uebersicht label{
     padding-bottom: 0;
     font-size: 16px;
+}
+
+.fahrzeuge .forms button, .mitarbeiter .forms button{
+    color: #fff;
 }

@@ -723,9 +723,9 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 Kennzeichen: Key,
                 Modell: document.getElementById('editmodel').value,
                 Fahrer: document.getElementById('editfahrer').value,
-                Bruttolistenpreis: document.getElementById('editblp').value,
+                Bruttolistenpreis: document.getElementById('editblp').value + "€",
                 Versicherungsnummer: document.getElementById('editvnummer').value,
-                Zuzahlung: document.getElementById('editzuzahlung').value,
+                Zuzahlung: document.getElementById('editzuzahlung').value + "€",
                 Vertragsbestelldatum: document.getElementById('edittodatum').value,
                 Vertragsende: document.getElementById('editcende').value,
                 Vertragslaufleistung: document.getElementById('editmileage').value,
@@ -749,9 +749,9 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 Kennzeichen: Key,
                 Modell: document.getElementById('editmodel').value,
                 Fahrer: document.getElementById('editfahrer').value,
-                Bruttolistenpreis: document.getElementById('editblp').value,
+                Bruttolistenpreis: document.getElementById('editblp').value + "€",
                 Versicherungsnummer: document.getElementById('editvnummer').value,
-                Zuzahlung: document.getElementById('editzuzahlung').value,
+                Zuzahlung: document.getElementById('editzuzahlung').value + "€",
                 Übergabedatum: document.getElementById('edituedatum').value,
                 Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
             })
