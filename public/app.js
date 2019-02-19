@@ -74,7 +74,7 @@ function authStateObserver(user) {
         document.getElementById('workerbutton').style.display = 'inline';
         document.getElementById('carbutton').style.display = 'inline';
         document.getElementById('licensebutton').style.display = 'inline';
-        document.getElementById('editbutton').style.display = 'inline';
+        //document.getElementById('editbutton').style.display = 'inline';
         document.getElementById('libutton').style.display = 'none';
         document.getElementById('lobutton').style.display = 'inline';
         document.getElementById('userpic').style.display = 'inline-block';
@@ -87,7 +87,7 @@ function authStateObserver(user) {
         document.getElementById('workerbutton').style.display = 'none';
         document.getElementById('carbutton').style.display = 'none';
         document.getElementById('licensebutton').style.display = 'none';
-        document.getElementById('editbutton').style.display = 'none';
+        //document.getElementById('editbutton').style.display = 'none';
         document.getElementById('libutton').style.display = 'inline';
         document.getElementById('libutton').style.marginRight = '20px';
         document.getElementById('lobutton').style.display = 'none';
@@ -205,28 +205,7 @@ function changeFormMiet(e) {
 }
 
 // Listen for form submit
-document.getElementById('carform').addEventListener('submit', checkSubmit);
-
-function checkSubmit(e) {
-    e.preventDefault();
-
-    var docRef = fahrzeugeRef.doc(getInputValues('kennzeichen'));
-
-    docRef.get().then(function (doc) {
-        if (doc.exists) {
-            // Show alert
-            document.querySelector('.caralreadyexistsalert').style.display = 'block';
-
-            // Hide alert after 3 seconds
-            setTimeout(function () {
-                document.querySelector('.caralreadyexistsalert').style.display = 'none';
-            }, 3000);
-        }
-        else {
-            submitForm(e);
-        }
-    })
-}
+document.getElementById('carform').addEventListener('submit', submitForm);
 
 // Submit Form
 function submitForm(e) {
@@ -306,6 +285,7 @@ function saveFirmenwagen(art, model, kennzeichen, fahrer, blp, vnummer, zuzahlun
         Vertragsnummer: cnummer
     });
     mitarbeiterRef.doc(fahrer).update({
+        hatFahrzeug: true,
         Kennzeichen: kennzeichen
     })
 }
@@ -323,6 +303,7 @@ function saveMietwagen(art, uedate, model, kennzeichen, fahrer, blp, fklasse, zu
         Zuzahlung: zuzahlung + " €"
     });
     mitarbeiterRef.doc(fahrer).update({
+        hatFahrzeug: true,
         Kennzeichen: kennzeichen
     })
 }
@@ -340,29 +321,7 @@ function resetCarform() {
 
 }
 
-document.getElementById('workerform').addEventListener('submit', checkWorkerSubmit);
-
-
-function checkWorkerSubmit(e) {
-    e.preventDefault();
-
-    var docRef = mitarbeiterRef.doc(getInputValues('wemail'));
-
-    docRef.get().then(function (doc) {
-        if (doc.exists) {
-            // Show alert
-            document.querySelector('.mitarbeiteralreadyexistsalert').style.display = 'block';
-
-            // Hide alert after 3 seconds
-            setTimeout(function () {
-                document.querySelector('.mitarbeiteralreadyexistsalert').style.display = 'none';
-            }, 3000);
-        }
-        else {
-            submitWorkerForm(e);
-        }
-    })
-}
+document.getElementById('workerform').addEventListener('submit', submitWorkerForm);
 
 function submitWorkerForm(e) {
 
@@ -388,6 +347,7 @@ function saveMitarbeiter(wemail, wname) {
         Mail: wemail,
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
+        hatFahrzeug: false,
         LetzterUpload: "",
         Kennzeichen: ""
     })
@@ -837,20 +797,18 @@ function DeleteData(Art, Key) {
                     Fahrer: ""
                 })
             }
-            
-            mitarbeiterRef.doc(Key).delete().then(function () {
-                document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
-    
-                setTimeout(function () {
-                    document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
-                }, 3000);
-                console.log("Document successfully deleted!");
-            }).catch(function (error) {
-                console.error("Error removing document: ", error);
-            });
         })
 
-        
+        mitarbeiterRef.doc(Key).delete().then(function () {
+            document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
+
+            setTimeout(function () {
+                document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
+            }, 3000);
+            console.log("Document successfully deleted!");
+        }).catch(function (error) {
+            console.error("Error removing document: ", error);
+        });
     }
 }
 

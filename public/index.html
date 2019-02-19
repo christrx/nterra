@@ -49,8 +49,8 @@
                             <span><i class="fa fa-car"></i> F a h r z e u g e</button></li></span>
                     <li><button class="rounded" id="licensebutton" onclick="setHash('fuehrerschein')">
                             <span><i class="fa fa-id-card"></i> F ü h r e r s c h e i n</button></li></span>
-                    <li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
-                            <span><i class="fa fa-edit"></i> E d i t o r</button></li></span>
+                    <!--<li><button class="rounded" id="editbutton" onclick="setHash('datenbank')">
+                            <span><i class="fa fa-edit"></i> E d i t o r</button></li></span>-->
                     <li><button class="rounded" id="uebersichtbutton" onclick="setHash('uebersicht')">
                         <span><i class="fa fa-file-alt"></i> Ü b e r s i c h t</button></li></span>
                     <li><button class="rounded" id='lobutton' onclick="googleLogout()">
@@ -77,8 +77,7 @@
                         </p>
                         <p class="kennzeichen">
                             <label>Kennzeichen</label>
-                            <input type="text" class="big" name="kennzeichen" id="editkennzeichen" placeholder="DA NT 0000"
-                                required>
+                            <input type="text" class="big" name="kennzeichen" id="editkennzeichen" placeholder="DA NT 0000" required readonly>
                         </p>
                         <p class="model">
                             <label>Modell</label>
@@ -96,8 +95,7 @@
                         </p>
                         <p class="vnummer" id="editvnummerid" style="display: none">
                             <label>Kfz-Versicherungsnummer</label>
-                            <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx"
-                                required>
+                            <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx" required>
                         </p>
                         <p class="zuzahlung">
                             <label>Zuzahlung in €</label>
@@ -157,7 +155,7 @@
                         </p>
                         <p class="nterraID">
                             <label>nterra ID</label>
-                            <input type="text" class="big" name="nterraID" id="editnterraid" required>
+                            <input type="text" class="big" name="nterraID" id="editnterraid" required readonly>
                         </p>
                         <h4 class="Führerschein-Status">Führerschein-Status</h4>
                         <br />
@@ -189,7 +187,7 @@
 
 
             <!--Datenbank Page-->
-            <div class="page datenbank" style="display: none">
+            <!--<div class="page datenbank" style="display: none">
                 <div class="forms">
                     <form id="databaseEdit">
                         <p class="askDataSet">
@@ -220,7 +218,7 @@
                             class="full" type="submit" id="btSearch">Suchen</button>
                     </P>
                 </div>
-            </div>
+            </div>-->
 
 
             <!-- hier den Code von datenbank.html einfügen-->
@@ -236,55 +234,54 @@
                         </p>
                         <p class="uedatum" style="visibility: hidden">
                             <label>Übergabedatum</label>
-                            <input type="date" class="big" name="uedatum" id="uedatum">
+                            <input type="date" class="big" name="uedatum" id="uedatum" autocomplete="off">
                         </p>
                         <p class="kennzeichen">
                             <label>Kennzeichen</label>
-                            <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000"
-                                required>
+                            <input type="text" class="big" name="kennzeichen" id="kennzeichen" placeholder="DA NT 0000" required autocomplete="off">
                         </p>
                         <p class="model">
                             <label>Modell</label>
-                            <input type="text" class="big" name="model" id="model" required>
+                            <input type="text" class="big" name="model" id="model" required autocomplete="off">
                         </p>
                         <p class="fahrer">
                             <label>Fahrer</label>
-                            <input type="email" class="big" name="fahrer" id="fahrer" list=Fahrerlist required>
+                            <input type="email" class="big" name="fahrer" id="fahrer" list=Fahrerlist required autocomplete="off">
                             <datalist id="Fahrerlist">
                             </datalist>
                         </p>
                         <p class="blp">
                             <label>Bruttolistenpreis in €</label>
-                            <input type="number" step="0.01" min="0" class="big" name="blp" id="blp" required>
+                            <input type="number" step="0.01" min="0" class="big" name="blp" id="blp" required autocomplete="off">
                         </p>
                         <p class="vnummer">
                             <label>Kfz-Versicherungsnummer</label>
-                            <input type="text" class="big" name="vnummer" id="vnummer" placeholder="VVD x.xxx.xxx">
+                            <input type="text" class="big" name="vnummer" id="vnummer" placeholder="VVD x.xxx.xxx" autocomplete="off">
                         </p>
                         <p class="fklasse" hidden>
                             <label>Fahrzeugklasse</label>
-                            <input type="text" class="big" name="fklasse" id="fklasse">
+                            <input type="text" class="big" name="fklasse" id="fklasse" autocomplete="off">
                         </p>
                         <p class="zuzahlung">
                             <label>Zuzahlung in €</label>
-                            <input type="number" step="0.01" min="0" class="big" name="zuzahlung" id="zuzahlung" required>
+                            <input type="number" step="0.01" min="0" class="big" name="zuzahlung" id="zuzahlung" required autocomplete="off">
                         </p>
                         <strong class="full vdaten">VERTRAGSDATEN</strong>
                         <p class="cnummer">
                             <label>Vertragsnummer</label>
-                            <input type="text" class="big" name="cnummer" id="cnummer">
+                            <input type="text" class="big" name="cnummer" id="cnummer" autocomplete="off">
                         </p>
                         <p class="odatum">
                             <label>Bestelldatum</label>
-                            <input type="date" class="big" name="odatum" id="odatum">
+                            <input type="date" class="big" name="odatum" id="odatum" autocomplete="off">
                         </p>
                         <p class="mileage">
                             <label>Laufleistung in km</label>
-                            <input type="number" step="0.01" min="0" class="big" name="mileage" id="mileage">
+                            <input type="number" step="0.01" min="0" class="big" name="mileage" id="mileage" autocomplete="off">
                         </p>
                         <p class="cende">
                             <label>Vertragsende</label>
-                            <input type="date" class="big" name="cende" id="cende">
+                            <input type="date" class="big" name="cende" id="cende" autocomplete="off" >
                         </p>
                         <p class="full">
                             <button type="submit">Absenden</button>
@@ -320,7 +317,7 @@
                     <form class="workerform" id="workerform">
                         <p class="wemail">
                             <label>E-Mail-Adresse</label>
-                            <input type="email" class="big" name="wemail" id="wemail" required>
+                            <input type="email" class="big" name="wemail" id="wemail" required autocomplete="off">
                         </p>
                         <p class="full">
                             <button type="submit">Absenden</button>

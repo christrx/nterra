@@ -179,6 +179,10 @@ body{
     border: none;
 }
 
+.forms #editkennzeichen, .forms #editnterraid{
+    background-color: rgb(232, 232, 232);
+}
+
 .fahrzeuge #kennzeichen{
     text-transform: uppercase;
 }
@@ -446,4 +450,21 @@ tbody tr:last-child td:last-child {
     background:none;
     border:none; 
     text-transform: none;
+}
+
+.home table button {
+    font-size:14px;
+}
+
+.home table td{
+    font-size: 15px;
+}
+
+.home table th{
+    font-size: 17px;
+}
+
+.uebersicht label{
+    padding-bottom: 0;
+    font-size: 16px;
 }
