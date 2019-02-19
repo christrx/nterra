@@ -646,7 +646,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     docRef = fahrzeugeRef.doc(Key);
 
     var snapshot = await docRef.get()
-    olddriver = Name(snapshot.data().Fahrer);
+    olddriver = snapshot.data().Fahrer;
 
     if (Fahrzeugart == "Firmenwagen") {
         db.collection('Fahrzeuge').doc(Key).update({
@@ -701,14 +701,24 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     }
 
     if (document.getElementById('editfahrer').value !== olddriver) {
+        mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
+            Kennzeichen: Key
+        })
+        mitarbeiterRef.doc(olddriver).get().then(function(driver){
+            if(driver.data().Kennzeichen == Key){
+                mitarbeiterRef.doc(olddriver).update(
+                    {Kennzeichen: ""}
+                )
+            }
+        })
         if (typeof snapshot.data().Verlauf !== "undefined") {
             docRef.update({
-                Verlauf: snapshot.data().Verlauf + "; " + olddriver
+                Verlauf: snapshot.data().Verlauf + "; " + Name(olddriver)
             })
         } else {
 
             docRef.set({
-                Verlauf: olddriver
+                Verlauf: Name(olddriver)
             }, { merge: true });
         }
     }
