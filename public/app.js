@@ -653,7 +653,12 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     var newMAsnapshot = await mitarbeiterRef.doc(document.getElementById('editfahrer').value).get()
     }
 
-    if((document.getElementById('editfahrer').value !== "") && ((newMAsnapshot.data().Kennzeichen !== "") && (newMAsnapshot.data().Kennzeichen !== Key))) {
+    //WENN:
+    // 1. ein Fahrer angegeben wurde
+    // 2. dieser Neue Fahrer ein Kennzeichen schon zugewiesen bekommen hat
+    // und 3. dieses Kennzeichen nicht das aktuelle ist: 
+    // DANN wirf einen Fehler aus 
+    if((document.getElementById('editfahrer').value !== "") && (newMAsnapshot.data().Kennzeichen !== "") && (newMAsnapshot.data().Kennzeichen !== Key)) {
         document.querySelector('.fahrzeug-denyalert').style.display = 'block';
 
         setTimeout(function () {
@@ -713,9 +718,12 @@ async function EditFahrzeug(Key, Fahrzeugart) {
         }
 
         if (document.getElementById('editfahrer').value !== olddriver) {
+
+            if (document.getElementById('editfahrer').value !== "") {
             mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
                 Kennzeichen: Key
             })
+            }
             mitarbeiterRef.doc(olddriver).get().then(function(driver){
                 if(driver.data().Kennzeichen == Key){
                     mitarbeiterRef.doc(olddriver).update(
@@ -782,6 +790,14 @@ function DeleteData(Art, Key) {
         if (typeof db.collection("Fuehrerschein").doc(Key) !== "undefined") {
             db.collection("Fuehrerschein").doc(Key).delete();
         }
+
+        mitarbeiterRef.doc(Key).get().then(function (doc) {
+            if (doc.data().Kennzeichen !== ""){
+                fahrzeugeRef.doc(doc.data().Kennzeichen).update({
+                    Fahrer: ""
+                })
+            }
+        })
 
         mitarbeiterRef.doc(Key).delete().then(function () {
             document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
