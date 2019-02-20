@@ -723,9 +723,9 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 Kennzeichen: Key,
                 Modell: document.getElementById('editmodel').value,
                 Fahrer: document.getElementById('editfahrer').value,
-                Bruttolistenpreis: document.getElementById('editblp').value + "€",
+                Bruttolistenpreis: document.getElementById('editblp').value,
                 Versicherungsnummer: document.getElementById('editvnummer').value,
-                Zuzahlung: document.getElementById('editzuzahlung').value + "€",
+                Zuzahlung: document.getElementById('editzuzahlung').value,
                 Vertragsbestelldatum: document.getElementById('edittodatum').value,
                 Vertragsende: document.getElementById('editcende').value,
                 Vertragslaufleistung: document.getElementById('editmileage').value,
@@ -738,6 +738,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
                     console.log("Document successfully written!");
+                    setHash('home');
                 })
                 .catch(function (error) {
                     document.getElementById('editfailed').style = 'block'
@@ -749,9 +750,9 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 Kennzeichen: Key,
                 Modell: document.getElementById('editmodel').value,
                 Fahrer: document.getElementById('editfahrer').value,
-                Bruttolistenpreis: document.getElementById('editblp').value + "€",
+                Bruttolistenpreis: document.getElementById('editblp').value,
                 Versicherungsnummer: document.getElementById('editvnummer').value,
-                Zuzahlung: document.getElementById('editzuzahlung').value + "€",
+                Zuzahlung: document.getElementById('editzuzahlung').value,
                 Übergabedatum: document.getElementById('edituedatum').value,
                 Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
             })
@@ -761,6 +762,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                     setTimeout(function () {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
+                    setHash('home');
                     console.log("Document successfully written!");
                 })
                 .catch(function (error) {
@@ -807,6 +809,7 @@ function EditMitarbeiter(Key) {
             setTimeout(function () {
                 document.querySelector('.mitarbeiter-changealert').style.display = 'none';
             }, 3000);
+            setHash('home');
             console.log("Document successfully written!");
         })
         .catch(function (error) {

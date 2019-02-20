@@ -407,8 +407,8 @@ button:hover, button:focus, .datenbank #btSearch:hover{
 table {
     border-collapse: separate;
     width: 80%;
-    padding: auto;
-    margin: 10px;
+    padding: none;
+    margin: none;
     border-spacing: 0;
     border: none;
     font-size: 16px;
