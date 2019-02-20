@@ -23,6 +23,13 @@ function googleLogin() {
                 }
                 else {
                     googleLogout();
+                    // Show alert
+                    document.querySelector('.useralert').style.display = 'block';
+
+                    // Hide alert after 3 seconds
+                    setTimeout(function () {
+                        document.querySelector('.useralert').style.display = 'none';
+                    }, 5000);
                 }
             })
         })
@@ -146,13 +153,6 @@ window.onhashchange = function () {
 // Sets the windows hash value according to which button is pressed in the bavigation bar
 function setHash(page) {
     if (!isUserSignedIn()) {
-        // Show alert
-        document.querySelector('.useralert').style.display = 'block';
-
-        // Hide alert after 3 seconds
-        setTimeout(function () {
-            document.querySelector('.useralert').style.display = 'none';
-        }, 5000);
         return;
     }
     else {
@@ -623,8 +623,8 @@ function FillEditMask(doc, bool, key) {
             document.getElementById('edittodatum').value = data.Vertragsbestelldatum;
             document.getElementById('editmileage').value = data.Vertragslaufleistung;
             document.getElementById('editcende').value = data.Vertragsende;
-            if (typeof data.Verlauf !== "undefined"){
-                document.getElementById('editplaceholder').style = 'none'; 
+            if (typeof data.Verlauf !== "undefined") {
+                document.getElementById('editplaceholder').style = 'none';
                 document.getElementById('edithistoryid').style.display = 'block';
                 document.getElementById('edithistoryid').value = data.Verlauf;
             }
@@ -633,8 +633,8 @@ function FillEditMask(doc, bool, key) {
             document.getElementById('editklasseid').style = 'block';
             document.getElementById('edituedatum').value = doc.data().Übergabedatum;
             document.getElementById('editfahrzeugklasse').value = doc.data().Fahrzeugklasse;
-            if (typeof data.Verlauf !== "undefined"){
-                document.getElementById('editplaceholder').style = 'block'; 
+            if (typeof data.Verlauf !== "undefined") {
+                document.getElementById('editplaceholder').style = 'block';
                 document.getElementById('edithistoryid').style.display = 'block';
                 document.getElementById('edithistory').value = data.Verlauf;
             }
@@ -651,14 +651,14 @@ function FillEditMask(doc, bool, key) {
             } else {
                 setinner("lastupload", "keine Uploads");
             }
-        getDrives(key);
+            getDrives(key);
 
         })
     }
 }
 
 function getDrives(Mitarbeiter) {
-    mitarbeiterRef.doc(Mitarbeiter).collection("ImBuero").where("Datum", ">", lastcalendaryear()).get().then(function (Fahrten){
+    mitarbeiterRef.doc(Mitarbeiter).collection("ImBuero").where("Datum", ">", lastcalendaryear()).get().then(function (Fahrten) {
         console.log(Fahrten)
         if (!Fahrten.empty) {
             console.log(Fahrten);
@@ -672,7 +672,7 @@ function getDrives(Mitarbeiter) {
 function lastcalendaryear() {
     var thisyear
     var lastyear
-    
+
     thisyear = (new Date()).getFullYear();
     lastyear = new Date(thisyear, 0, 1)
 
@@ -685,7 +685,7 @@ function lastcalendaryearplusonemonth() {
     var Year = today.getFullYear()
     var month = today.getMonth()
     var day = today.getDate()
-    
+
     var d = new Date(Year - 1, month + 1, day)
 
     return d
@@ -701,8 +701,8 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     var snapshot = await docRef.get()
     olddriver = snapshot.data().Fahrer;
 
-    if (document.getElementById('editfahrer').value !== ""){
-    var newMAsnapshot = await mitarbeiterRef.doc(document.getElementById('editfahrer').value).get()
+    if (document.getElementById('editfahrer').value !== "") {
+        var newMAsnapshot = await mitarbeiterRef.doc(document.getElementById('editfahrer').value).get()
     }
 
     //WENN:
@@ -710,7 +710,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     // 2. dieser Neue Fahrer ein Kennzeichen schon zugewiesen bekommen hat
     // und 3. dieses Kennzeichen nicht das aktuelle ist: 
     // DANN wirf einen Fehler aus 
-    if((document.getElementById('editfahrer').value !== "") && (newMAsnapshot.data().Kennzeichen !== "") && (newMAsnapshot.data().Kennzeichen !== Key)) {
+    if ((document.getElementById('editfahrer').value !== "") && (newMAsnapshot.data().Kennzeichen !== "") && (newMAsnapshot.data().Kennzeichen !== Key)) {
         document.querySelector('.fahrzeug-denyalert').style.display = 'block';
 
         setTimeout(function () {
@@ -772,14 +772,14 @@ async function EditFahrzeug(Key, Fahrzeugart) {
         if (document.getElementById('editfahrer').value !== olddriver) {
 
             if (document.getElementById('editfahrer').value !== "") {
-            mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
-                Kennzeichen: Key
-            })
+                mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
+                    Kennzeichen: Key
+                })
             }
-            mitarbeiterRef.doc(olddriver).get().then(function(driver){
-                if(driver.data().Kennzeichen == Key){
+            mitarbeiterRef.doc(olddriver).get().then(function (driver) {
+                if (driver.data().Kennzeichen == Key) {
                     mitarbeiterRef.doc(olddriver).update(
-                        {Kennzeichen: ""}
+                        { Kennzeichen: "" }
                     )
                 }
             })
@@ -844,7 +844,7 @@ function DeleteData(Art, Key) {
         }
 
         mitarbeiterRef.doc(Key).get().then(function (doc) {
-            if (doc.data().Kennzeichen !== ""){
+            if (doc.data().Kennzeichen !== "") {
                 fahrzeugeRef.doc(doc.data().Kennzeichen).update({
                     Fahrer: ""
                 })
@@ -852,7 +852,7 @@ function DeleteData(Art, Key) {
 
             mitarbeiterRef.doc(Key).delete().then(function () {
                 document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
-    
+
                 setTimeout(function () {
                     document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
                 }, 3000);
@@ -883,12 +883,12 @@ async function getMaNew() {
     var MitarbeiterArray = new Array();
 
     const snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get();
-    snapshot.forEach(function(doc) {
+    snapshot.forEach(function (doc) {
         MitarbeiterArray.push(doc.data().Mail);
         if (doc.data().LetzterUpload !== "") {
-        DatumArray.push(doc.data().LetzterUpload.toLocaleDateString())
+            DatumArray.push(doc.data().LetzterUpload.toLocaleDateString())
         } else {
-        DatumArray.push("")
+            DatumArray.push("")
         }
 
     });
@@ -935,8 +935,8 @@ function fillDatalist(Typ, List) {
 //funktioniert bisher nur für 0-1 Auto pro Person
 function getMAcars(Employees) {
 
-    Employees[1].forEach(function(employee){
-        fahrzeugeRef.where("Fahrer", "==", employee).get().then(function(cars){
+    Employees[1].forEach(function (employee) {
+        fahrzeugeRef.where("Fahrer", "==", employee).get().then(function (cars) {
             if (!cars.empty) {
                 cars.forEach(car => {
                     Employees[2].push(car.data().Kennzeichen);
@@ -944,9 +944,10 @@ function getMAcars(Employees) {
             } else {
                 Employees[2].push("")
             }
-        })})
+        })
+    })
 
-    return new Promise(function(resolve){
+    return new Promise(function (resolve) {
         resolve(Employees)
     })
 
@@ -967,15 +968,15 @@ function newCarTable(Car, innerString) {
 function newDateTable(LicenseDate, innerString) {
     var Today = new Date()
     var LicenseDateString = ""
-    
+
     if (LicenseDate !== "") {
-    LicenseDateString = LicenseDate.toLocaleDateString()
+        LicenseDateString = LicenseDate.toLocaleDateString()
     }
 
     if (LicenseDate !== "" && LicenseDate < lastcalendaryearplusonemonth()) {
-    innerString += '<td><font color="red">' + LicenseDateString + '</font></td>';
+        innerString += '<td><font color="red">' + LicenseDateString + '</font></td>';
     } else {
-    innerString += '<td>' + LicenseDateString + '</td>'
+        innerString += '<td>' + LicenseDateString + '</td>'
     }
     return innerString;
 }
@@ -1022,29 +1023,29 @@ function Name(str) {
     return str
 }
 
-async function newMAtest(){
+async function newMAtest() {
     var Employees = new Array(Array(), Array(), Array())
 
     snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get()
-        snapshot.forEach(function(doc) {
-            Employees[1].push(doc.data().Mail);
-            if (doc.data().LetzterUpload !== "") {
+    snapshot.forEach(function (doc) {
+        Employees[1].push(doc.data().Mail);
+        if (doc.data().LetzterUpload !== "") {
             Employees[0].push(doc.data().LetzterUpload)
-            } else {
+        } else {
             Employees[0].push("")
-            }
-            Employees[2].push(doc.data().Kennzeichen)
-        })
+        }
+        Employees[2].push(doc.data().Kennzeichen)
+    })
 
-        return Employees
+    return Employees
 
 }
 
 
 
 async function GenerateTableNew() {
-    var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th><th>Letzter Check</th></tr>'
-    
+    var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th><th>Letzter Upload</th></tr>'
+
     const result = await newMAtest()
 
     console.log(result)
