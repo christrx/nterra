@@ -215,6 +215,10 @@ button:hover, button:focus, .datenbank #btSearch:hover{
     cursor: pointer;
 }
 
+input[type=radio]:hover{
+    cursor:pointer;
+}
+
 .fuehrerschein #yesbutton:hover{
     background: #17a345;
     transition: background-color 0.25s ease-out;
