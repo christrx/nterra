@@ -388,7 +388,7 @@ function saveMitarbeiter(wemail, wname) {
         Mail: wemail,
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
-        LetzterUpload: "",
+        LetzterUpload: null,
         Kennzeichen: ""
     })
 }
