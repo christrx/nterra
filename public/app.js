@@ -278,6 +278,9 @@ function submitForm(e) {
     // Reset the form fields
     resetCarform();
 
+    // Return to the top of the page
+    jumpToTop();
+
 }
 
 // Function to get form values
@@ -388,7 +391,7 @@ function saveMitarbeiter(wemail, wname) {
         Mail: wemail,
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
-        LetzterUpload: "",
+        LetzterUpload: null,
         Kennzeichen: ""
     })
 }
@@ -538,7 +541,10 @@ function loadNext() {
     currentFrontUrl = data[licenseCounter].URLFront;
 }
 
-//TODO: Ablehnung des Führerscheins behandeln
+function jumpToTop(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
@@ -738,7 +744,8 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
                     console.log("Document successfully written!");
-                    setHash('home');
+                    setHash('uebersicht');
+                    jumpToTop();
                 })
                 .catch(function (error) {
                     document.getElementById('editfailed').style = 'block'
@@ -762,7 +769,8 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                     setTimeout(function () {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
-                    setHash('home');
+                    setHash('uebersicht');
+                    jumpToTop();
                     console.log("Document successfully written!");
                 })
                 .catch(function (error) {
@@ -809,7 +817,8 @@ function EditMitarbeiter(Key) {
             setTimeout(function () {
                 document.querySelector('.mitarbeiter-changealert').style.display = 'none';
             }, 3000);
-            setHash('home');
+            setHash('uebersicht');
+            jumpToTop();
             console.log("Document successfully written!");
         })
         .catch(function (error) {
@@ -827,6 +836,8 @@ function DeleteData(Art, Key) {
             setTimeout(function () {
                 document.querySelector('.fahrzeug-deletealert').style.display = 'none';
             }, 3000);
+            setHash('uebersicht');
+            jumpToTop();
             console.log("Document successfully deleted!");
         }).catch(function (error) {
             console.error("Error removing document: ", error);
@@ -859,6 +870,8 @@ function DeleteData(Art, Key) {
                 setTimeout(function () {
                     document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
                 }, 3000);
+                setHash('uebersicht');
+                jumpToTop();
                 console.log("Document successfully deleted!");
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
