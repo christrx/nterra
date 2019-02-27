@@ -1112,12 +1112,12 @@ async function exportCars(bool, tableid) {
 
     if (bool) {
         snapshot = await fahrzeugeRef.orderBy("Vertragsende", "asc").get();
-        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th><th>BLP</th><th>Laufleistung</th>" +
+        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung (€)</th><th>BLP (€)</th><th>Laufleistung</th>" +
             "<th>Vertragsende</th><th>Vertrag Nr.</th><th>KFZ Versicherungsnummer</th></tr>";
     } else {
         snapshot = await fahrzeugeRef.get();
-        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung</th>" +
-            "<th>BLP</th><th>Fahrzeugklasse</th><th>Übergabedatum</th></tr>";
+        exportstring = "<tr><th>Kennzeichen</th><th>aktueller Fahrer</th><th>Modell</th><th>Zuzahlung (€)</th>" +
+            "<th>BLP (€)</th><th>Fahrzeugklasse</th><th>Übergabedatum</th></tr>";
     }
 
     snapshot.forEach(function (doc) {
@@ -1134,7 +1134,7 @@ async function exportCars(bool, tableid) {
                 exportstring = newcol(exportstring, data.Zuzahlung);
                 exportstring = newcol(exportstring, data.Bruttolistenpreis);
                 exportstring = newcol(exportstring, data.Vertragslaufleistung);
-                exportstring = newcol(exportstring, data.Vertragsende);
+                exportstring = newcol(exportstring, dateForm(data.Vertragsende));
                 exportstring = newcol(exportstring, data.Vertragsnummer);
                 exportstring = newcol(exportstring, data.Versicherungsnummer);
             }
@@ -1146,7 +1146,7 @@ async function exportCars(bool, tableid) {
                 exportstring = newcol(exportstring, data.Zuzahlung);
                 exportstring = newcol(exportstring, data.Bruttolistenpreis);
                 exportstring = newcol(exportstring, data.Fahrzeugklasse);
-                exportstring = newcol(exportstring, data.Übergabedatum);
+                exportstring = newcol(exportstring, dateForm(data.Übergabedatum));
             }
         }
 
@@ -1164,6 +1164,16 @@ function newcol(exportstring, datastring) {
     return newstring;
 }
 
+function dateForm(date) {
+    if (date == "") {
+        return date;
+    }
+    else {
+    var splitted = date.split("-");
+    var dateObject = new Date(splitted[0], splitted [1] - 1, +splitted[2]).toLocaleDateString();
+    return dateObject;
+    }
+}
 
 
 initFirebaseAuth();

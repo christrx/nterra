@@ -409,12 +409,12 @@ input[type=radio]:hover{
 }
 
 table {
-    border-collapse: separate;
+    border-collapse: collapse;
     width: 80%;
     padding: none;
     margin: none;
+    justify-self: center;
     border-spacing: 0;
-    border: none;
     font-size: 16px;
 }
 
@@ -426,13 +426,13 @@ th {
     height: 30px;
     text-align: left;
     background-color: #a7125c;
-    border: solid 1px #a7125c;
+    border: none;
     color: white;
 }
 
 td {
     background-color: #eee;
-    border: solid 1px #eee;
+    border: solid 1px rgb(102, 102, 102);
     font-size: 12px;
 }
 
@@ -475,8 +475,9 @@ tbody tr:last-child td:last-child {
 }
 
 .uebersicht label{
-    padding-bottom: 0;
-    font-size: 16px;
+    padding-bottom: 30px;
+    font-size: 24px;
+    justify-self: center;
 }
 
 .fahrzeuge .forms button, .mitarbeiter .forms button, .editor button{
