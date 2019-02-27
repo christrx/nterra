@@ -888,7 +888,7 @@ async function getMaNew() {
     const snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get();
     snapshot.forEach(function (doc) {
         MitarbeiterArray.push(doc.data().Mail);
-        if (doc.data().LetzterUpload !== "") {
+        if (doc.data().LetzterUpload !== null) {
             DatumArray.push(doc.data().LetzterUpload.toLocaleDateString())
         } else {
             DatumArray.push("")
@@ -1032,7 +1032,7 @@ async function newMAtest() {
     snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get()
     snapshot.forEach(function (doc) {
         Employees[1].push(doc.data().Mail);
-        if (doc.data().LetzterUpload !== "") {
+        if (doc.data().LetzterUpload !== null) {
             Employees[0].push(doc.data().LetzterUpload)
         } else {
             Employees[0].push("")
