@@ -831,9 +831,11 @@ function EditMitarbeiter(Key) {
 function DeleteData(Art, Key) {
     if (Art == "Fahrzeug") {
         fahrzeugeRef.doc(Key).get().then(function (doc) {
+        if (doc.data().Fahrer !== ""){
         mitarbeiterRef.doc(doc.data().Fahrer).update({
             Kennzeichen: ""
         })
+    }
         fahrzeugeRef.doc(Key).delete().then(function () {
             document.querySelector('.fahrzeug-deletealert').style.display = 'block';
 
@@ -983,6 +985,12 @@ function newMaTable(Mitarbeiter, innerString) {
 
 function newCarTable(Car, innerString) {
     innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `' + Car +
+        '`)">' + Car + '</button></td>';
+    return innerString;
+}
+
+function newCarTableRed(Car, innerString) {
+    innerString += '<td><button class="redlink" onclick="getEditor(`Fahrzeug`, `' + Car +
         '`)">' + Car + '</button></td>';
     return innerString;
 }
@@ -1142,12 +1150,18 @@ async function exportCars(bool, tableid) {
     snapshot.forEach(function (doc) {
 
         var data = doc.data();
-
+        var red;
         exportstring += "<tr>";
+
+        if (data.Bruttolistenpreis == " €") {red = true}
 
         if (bool) {
             if (data.Fahrzeugart == "Firmenwagen") {
+                if (red) {
+                exportstring = newCarTableRed(data.Kennzeichen, exportstring);
+                } else {
                 exportstring = newCarTable(data.Kennzeichen, exportstring);
+                }
                 exportstring = newMaTable(data.Fahrer, exportstring);
                 exportstring = newcol(exportstring, data.Modell);
                 exportstring = newcol(exportstring, data.Zuzahlung);
@@ -1159,7 +1173,11 @@ async function exportCars(bool, tableid) {
             }
         } else {
             if (data.Fahrzeugart == "Mietwagen") {
+                if (red) {
+                exportstring = newCarTableRed(data.Kennzeichen, exportstring);
+                } else {
                 exportstring = newCarTable(data.Kennzeichen, exportstring);
+                }
                 exportstring = newMaTable(data.Fahrer, exportstring);
                 exportstring = newcol(exportstring, data.Modell);
                 exportstring = newcol(exportstring, data.Zuzahlung);
