@@ -830,6 +830,10 @@ function EditMitarbeiter(Key) {
 //Fehlt: Nachricht erfolgreich
 function DeleteData(Art, Key) {
     if (Art == "Fahrzeug") {
+        fahrzeugeRef.doc(Key).get().then(function (doc) {
+        mitarbeiterRef.doc(doc.data().Fahrer).update({
+            Kennzeichen: ""
+        })
         fahrzeugeRef.doc(Key).delete().then(function () {
             document.querySelector('.fahrzeug-deletealert').style.display = 'block';
 
@@ -842,7 +846,9 @@ function DeleteData(Art, Key) {
         }).catch(function (error) {
             console.error("Error removing document: ", error);
         });
+    })
     }
+
 
     if (Art == "Mitarbeiter") {
         if (typeof mitarbeiterRef.doc(Key).collection("ImBuero") !== "undefined") {
