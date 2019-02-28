@@ -430,7 +430,11 @@ th {
     color: white;
 }
 
-td {
+.home td{
+    background-color: #eee;
+}
+
+.uebersicht td {
     background-color: #eee;
     border: solid 1px rgb(102, 102, 102);
     font-size: 12px;
