@@ -392,7 +392,8 @@ function saveMitarbeiter(wemail, wname) {
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
         LetzterUpload: null,
-        Kennzeichen: ""
+        Kennzeichen: "",
+        CheckHistorie: ""
     })
 }
 
@@ -408,6 +409,8 @@ var currentGuy = null;
 var currentBackUrl = null;
 
 var currentFrontUrl = null;
+
+var oldHistory = null;
 
 document.getElementById('license-search').addEventListener('click', searchLicenses);
 
@@ -430,6 +433,10 @@ function acceptLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
     var oldLicenseID = currentGuy.AktuellerFuehrerschein;
     var newLicenseID = String(parseInt(currentGuy.AktuellerFuehrerschein) + 1);
+    var Today = (new Date()).toLocaleDateString();
+
+    console.log(Today);
+
     mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(newLicenseID).set({
         MitarbeiterID: currentMitarbeiterID,
         URLFront: data[licenseCounter].URLFront,
@@ -441,14 +448,16 @@ function acceptLicense() {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID,
             LetzterUpload: data[licenseCounter].UploadZeitpunkt,
-            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp()
+            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp(),
+            CheckHistorie: Today
         })
     }
     else {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID,
             LetzterUpload: data[licenseCounter].UploadZeitpunkt,
-            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp()
+            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp(),
+            CheckHistorie: oldHistory + "</br>" + Today
         })
         mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(oldLicenseID).update({
             Aktuell: false
@@ -466,6 +475,8 @@ function acceptLicense() {
         document.querySelector('.licensealert').style.display = 'none';
     }, 3000);
 }
+
+
 
 function denyLicense() {
     document.getElementById('ablehnung-box').style.display = 'block';
@@ -532,6 +543,8 @@ function loadNext() {
     }
     mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function (documentSnapshot) {
         currentGuy = documentSnapshot.data();
+        oldHistory = currentGuy.CheckHistorie;
+
     })
     document.querySelector('.nothingleftalert').style.display = 'none';
     document.getElementById('license-box').style.display = 'grid';
@@ -657,10 +670,17 @@ function FillEditMask(doc, bool, key) {
             } else {
                 setinner("lastupload", "keine Uploads");
             }
-            getDrives(key);
 
+            getDrives(key);
+            getChecks(key);
         })
     }
+}
+
+function getChecks(Mitarbeiter) {
+    mitarbeiterRef.doc(Mitarbeiter).get().then(function(doc){
+        setinner("lastCheck", "Checks: </br>" + doc.data().CheckHistorie);
+    })
 }
 
 function getDrives(Mitarbeiter) {
