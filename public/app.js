@@ -679,7 +679,11 @@ function FillEditMask(doc, bool, key) {
 
 function getChecks(Mitarbeiter) {
     mitarbeiterRef.doc(Mitarbeiter).get().then(function(doc){
+        if (typeof doc.data().CheckHistorie !== "undefined") {
         setinner("lastCheck", "Checks: </br>" + doc.data().CheckHistorie);
+        } else {
+            setinner("lastCheck", "keine Checks");
+        }
     })
 }
 
