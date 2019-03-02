@@ -331,6 +331,7 @@ input[type=radio]:hover{
 .fuehrerschein #license-user, .fuehrerschein #license-date{
     align-self: center;
     justify-self: center;
+    color: rgb(102, 102, 102);
 }
 
 .fuehrerschein button{
@@ -425,7 +426,7 @@ td, th {
 th {
     height: 30px;
     text-align: left;
-    background-color: #a7125c;
+    background-color: #f5a748;
     border: none;
     color: white;
 }
@@ -489,6 +490,7 @@ button.redlink {
     padding-bottom: 30px;
     font-size: 24px;
     justify-self: center;
+    color: rgb(102, 102, 102);
 }
 
 .fahrzeuge .forms button, .mitarbeiter .forms button, .editor button{
