@@ -460,10 +460,17 @@ tbody tr:last-child td:last-child {
     color: #0672ce;
 }
 
-  button.link {
+button.link {
     background:none;
     border:none; 
     text-transform: none;
+}
+
+button.redlink {
+    background:none;
+    border:none; 
+    text-transform: none;
+    color: red;
 }
 
 .home table button {

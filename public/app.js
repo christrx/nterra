@@ -278,6 +278,9 @@ function submitForm(e) {
     // Reset the form fields
     resetCarform();
 
+    // Return to the top of the page
+    jumpToTop();
+
 }
 
 // Function to get form values
@@ -388,8 +391,9 @@ function saveMitarbeiter(wemail, wname) {
         Mail: wemail,
         Name: wname,
         ErfolgreichePruefungDatum: new Date(Date.UTC(2000, 00, 01)),
-        LetzterUpload: "",
-        Kennzeichen: ""
+        LetzterUpload: null,
+        Kennzeichen: "",
+        CheckHistorie: ""
     })
 }
 
@@ -405,6 +409,8 @@ var currentGuy = null;
 var currentBackUrl = null;
 
 var currentFrontUrl = null;
+
+var oldHistory = null;
 
 document.getElementById('license-search').addEventListener('click', searchLicenses);
 
@@ -427,6 +433,10 @@ function acceptLicense() {
     var currentMitarbeiterID = data[licenseCounter].MitarbeiterID;
     var oldLicenseID = currentGuy.AktuellerFuehrerschein;
     var newLicenseID = String(parseInt(currentGuy.AktuellerFuehrerschein) + 1);
+    var Today = (new Date()).toLocaleDateString();
+
+    console.log(Today);
+
     mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(newLicenseID).set({
         MitarbeiterID: currentMitarbeiterID,
         URLFront: data[licenseCounter].URLFront,
@@ -438,14 +448,16 @@ function acceptLicense() {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID,
             LetzterUpload: data[licenseCounter].UploadZeitpunkt,
-            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp()
+            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp(),
+            CheckHistorie: Today
         })
     }
     else {
         mitarbeiterRef.doc(currentMitarbeiterID).update({
             AktuellerFuehrerschein: newLicenseID,
             LetzterUpload: data[licenseCounter].UploadZeitpunkt,
-            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp()
+            ErfolgreichePruefungDatum: firebase.firestore.FieldValue.serverTimestamp(),
+            CheckHistorie: oldHistory + "</br>" + Today
         })
         mitarbeiterRef.doc(currentMitarbeiterID).collection('Fuehrerscheine').doc(oldLicenseID).update({
             Aktuell: false
@@ -463,6 +475,8 @@ function acceptLicense() {
         document.querySelector('.licensealert').style.display = 'none';
     }, 3000);
 }
+
+
 
 function denyLicense() {
     document.getElementById('ablehnung-box').style.display = 'block';
@@ -529,6 +543,8 @@ function loadNext() {
     }
     mitarbeiterRef.doc(data[licenseCounter].MitarbeiterID).get().then(function (documentSnapshot) {
         currentGuy = documentSnapshot.data();
+        oldHistory = currentGuy.CheckHistorie;
+
     })
     document.querySelector('.nothingleftalert').style.display = 'none';
     document.getElementById('license-box').style.display = 'grid';
@@ -538,7 +554,10 @@ function loadNext() {
     currentFrontUrl = data[licenseCounter].URLFront;
 }
 
-//TODO: Ablehnung des Führerscheins behandeln
+function jumpToTop(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
 
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
@@ -609,8 +628,8 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editkennzeichen').value = data.Kennzeichen;
         document.getElementById('editmodel').value = data.Modell;
         document.getElementById('editfahrer').value = data.Fahrer;
-        document.getElementById('editblp').value = data.Bruttolistenpreis;
-        document.getElementById('editzuzahlung').value = data.Zuzahlung;
+        document.getElementById('editblp').value = data.Bruttolistenpreis.replace(" €", "");
+        document.getElementById('editzuzahlung').value = data.Zuzahlung.replace(" €", "");
         if (doc.data().Fahrzeugart == "Firmenwagen") {
             document.getElementById('editnummerid').style = 'block';
             document.getElementById('edittodatumid').style = 'block';
@@ -651,10 +670,21 @@ function FillEditMask(doc, bool, key) {
             } else {
                 setinner("lastupload", "keine Uploads");
             }
-            getDrives(key);
 
+            getDrives(key);
+            getChecks(key);
         })
     }
+}
+
+function getChecks(Mitarbeiter) {
+    mitarbeiterRef.doc(Mitarbeiter).get().then(function(doc){
+        if (typeof doc.data().CheckHistorie !== "undefined") {
+        setinner("lastCheck", "Checks: </br>" + doc.data().CheckHistorie);
+        } else {
+            setinner("lastCheck", "keine Checks");
+        }
+    })
 }
 
 function getDrives(Mitarbeiter) {
@@ -723,9 +753,9 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 Kennzeichen: Key,
                 Modell: document.getElementById('editmodel').value,
                 Fahrer: document.getElementById('editfahrer').value,
-                Bruttolistenpreis: document.getElementById('editblp').value,
+                Bruttolistenpreis: document.getElementById('editblp').value + " €",
                 Versicherungsnummer: document.getElementById('editvnummer').value,
-                Zuzahlung: document.getElementById('editzuzahlung').value,
+                Zuzahlung: document.getElementById('editzuzahlung').value + " €",
                 Vertragsbestelldatum: document.getElementById('edittodatum').value,
                 Vertragsende: document.getElementById('editcende').value,
                 Vertragslaufleistung: document.getElementById('editmileage').value,
@@ -738,7 +768,8 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
                     console.log("Document successfully written!");
-                    setHash('home');
+                    setHash('uebersicht');
+                    jumpToTop();
                 })
                 .catch(function (error) {
                     document.getElementById('editfailed').style = 'block'
@@ -750,9 +781,9 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 Kennzeichen: Key,
                 Modell: document.getElementById('editmodel').value,
                 Fahrer: document.getElementById('editfahrer').value,
-                Bruttolistenpreis: document.getElementById('editblp').value,
+                Bruttolistenpreis: document.getElementById('editblp').value + " €",
                 Versicherungsnummer: document.getElementById('editvnummer').value,
-                Zuzahlung: document.getElementById('editzuzahlung').value,
+                Zuzahlung: document.getElementById('editzuzahlung').value + " €",
                 Übergabedatum: document.getElementById('edituedatum').value,
                 Fahrzeugklasse: document.getElementById('editfahrzeugklasse').value
             })
@@ -762,7 +793,8 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                     setTimeout(function () {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
-                    setHash('home');
+                    setHash('uebersicht');
+                    jumpToTop();
                     console.log("Document successfully written!");
                 })
                 .catch(function (error) {
@@ -809,7 +841,8 @@ function EditMitarbeiter(Key) {
             setTimeout(function () {
                 document.querySelector('.mitarbeiter-changealert').style.display = 'none';
             }, 3000);
-            setHash('home');
+            setHash('uebersicht');
+            jumpToTop();
             console.log("Document successfully written!");
         })
         .catch(function (error) {
@@ -821,17 +854,27 @@ function EditMitarbeiter(Key) {
 //Fehlt: Nachricht erfolgreich
 function DeleteData(Art, Key) {
     if (Art == "Fahrzeug") {
+        fahrzeugeRef.doc(Key).get().then(function (doc) {
+        if (doc.data().Fahrer !== ""){
+        mitarbeiterRef.doc(doc.data().Fahrer).update({
+            Kennzeichen: ""
+        })
+    }
         fahrzeugeRef.doc(Key).delete().then(function () {
             document.querySelector('.fahrzeug-deletealert').style.display = 'block';
 
             setTimeout(function () {
                 document.querySelector('.fahrzeug-deletealert').style.display = 'none';
             }, 3000);
+            setHash('uebersicht');
+            jumpToTop();
             console.log("Document successfully deleted!");
         }).catch(function (error) {
             console.error("Error removing document: ", error);
         });
+    })
     }
+
 
     if (Art == "Mitarbeiter") {
         if (typeof mitarbeiterRef.doc(Key).collection("ImBuero") !== "undefined") {
@@ -859,6 +902,8 @@ function DeleteData(Art, Key) {
                 setTimeout(function () {
                     document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
                 }, 3000);
+                setHash('uebersicht');
+                jumpToTop();
                 console.log("Document successfully deleted!");
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
@@ -964,6 +1009,12 @@ function newMaTable(Mitarbeiter, innerString) {
 
 function newCarTable(Car, innerString) {
     innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `' + Car +
+        '`)">' + Car + '</button></td>';
+    return innerString;
+}
+
+function newCarTableRed(Car, innerString) {
+    innerString += '<td><button class="redlink" onclick="getEditor(`Fahrzeug`, `' + Car +
         '`)">' + Car + '</button></td>';
     return innerString;
 }
@@ -1123,12 +1174,18 @@ async function exportCars(bool, tableid) {
     snapshot.forEach(function (doc) {
 
         var data = doc.data();
-
+        var red;
         exportstring += "<tr>";
+
+        if (data.Bruttolistenpreis == " €") {red = true}
 
         if (bool) {
             if (data.Fahrzeugart == "Firmenwagen") {
+                if (red) {
+                exportstring = newCarTableRed(data.Kennzeichen, exportstring);
+                } else {
                 exportstring = newCarTable(data.Kennzeichen, exportstring);
+                }
                 exportstring = newMaTable(data.Fahrer, exportstring);
                 exportstring = newcol(exportstring, data.Modell);
                 exportstring = newcol(exportstring, data.Zuzahlung);
@@ -1140,7 +1197,11 @@ async function exportCars(bool, tableid) {
             }
         } else {
             if (data.Fahrzeugart == "Mietwagen") {
+                if (red) {
+                exportstring = newCarTableRed(data.Kennzeichen, exportstring);
+                } else {
                 exportstring = newCarTable(data.Kennzeichen, exportstring);
+                }
                 exportstring = newMaTable(data.Fahrer, exportstring);
                 exportstring = newcol(exportstring, data.Modell);
                 exportstring = newcol(exportstring, data.Zuzahlung);

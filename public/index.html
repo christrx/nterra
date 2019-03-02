@@ -15,9 +15,9 @@
     <div class="container">
         <header class="kopfzeile">
             <div class="alertbox">
-                <div class="mitarbeiter-changealert alert">Mitarbeiter wurde erfolgreich bearbeitet</div>
+                <div class="mitarbeiter-changealert alert"><i class="fa fa-check-circle"></i> Mitarbeiter wurde erfolgreich bearbeitet</div>
                 <div class="mitarbeiter-deletealert alert"><i class="fa fa-trash-alt"></i> Mitarbeiter wurde erfolgreich gelöscht</div>
-                <div class="fahrzeug-changealert alert">Fahrzeug wurde erfolgreich bearbeitet</div>
+                <div class="fahrzeug-changealert alert"><i class="fa fa-check-circle"></i> Fahrzeug wurde erfolgreich bearbeitet</div>
                 <div class="caralreadyexistsalert alert"><i class="fa fa-exclamation-triangle"></i> Fahrzeug existiert bereits</div>
                 <div class="mitarbeiteralreadyexistsalert alert"><i class="fa fa-exclamation-triangle"></i> Mitarbeiter existiert bereits</div>
                 <div class="fahrzeug-denyalert alert"> Der neue Fahrer hat bereits ein Fahrzeug! Bitte entferne den Mitarbeiter vom alten Fahrzeug.</div>
@@ -90,16 +90,16 @@
                             </datalist>
                         </p>
                         <p class="blp">
-                            <label>Bruttolistenpreis in €</label>
-                            <input type="text" class="big" name="blp" id="editblp" required>
+                            <label>Bruttolistenpreis</label>
+                            <input type="number" step="0.01" min="0" class="big" name="blp" id="editblp" required>
                         </p>
                         <p class="vnummer" id="editvnummerid" style="display: none">
                             <label>Kfz-Versicherungsnummer</label>
                             <input type="text" class="big" name="vnummer" id="editvnummer" placeholder="xx-xxxx-xxxx-xx" required>
                         </p>
                         <p class="zuzahlung">
-                            <label>Zuzahlung in €</label>
-                            <input type="text" class="big" name="zuzahlung" id="editzuzahlung" required>
+                            <label>Zuzahlung</label>
+                            <input type="number" step="0.01" min="0" class="big" name="zuzahlung" id="editzuzahlung" required>
                         </p>
                         <p class="Fahrzeugklasse" id="editklasseid" style="display: none">
                             <label>Fahrzeugklasse</label>
@@ -252,7 +252,7 @@
                         </p>
                         <p class="blp">
                             <label>Bruttolistenpreis in €</label>
-                            <input type="number" step="0.01" min="0" class="big" name="blp" id="blp" required autocomplete="off">
+                            <input type="number" step="0.01" min="0" class="big" name="blp" id="blp" autocomplete="off">
                         </p>
                         <p class="vnummer">
                             <label>Kfz-Versicherungsnummer</label>
