@@ -19,7 +19,7 @@ function googleLogin() {
                 var userMail = firebase.auth().currentUser.email;
                 if (validAccount(userMail)) {
                     window.location.hash = "home"
-                    GenerateTableNew();
+                    GenerateTable();
                 }
                 else {
                     googleLogout();
@@ -831,6 +831,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     }
 }
 
+//Edits an Employee with the new Data-Input by the User
 function EditMitarbeiter(Key) {
     db.collection('Mitarbeiter').doc(Key).update({
         Name: document.getElementById('editname').value,
@@ -924,29 +925,6 @@ async function getMa() {
     return snapshot.docs.map(doc => doc.data().Mail);
 }
 
-//alle Mails aus allen Documents
-async function getMaNew() {
-
-    var DatumArray = new Array();
-    var MitarbeiterArray = new Array();
-
-    const snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get();
-    snapshot.forEach(function (doc) {
-        MitarbeiterArray.push(doc.data().Mail);
-        if (doc.data().LetzterUpload !== null) {
-            DatumArray.push(doc.data().LetzterUpload.toLocaleDateString())
-        } else {
-            DatumArray.push("")
-        }
-
-    });
-
-
-    var gesamtArray = Array(DatumArray, MitarbeiterArray);
-
-    return gesamtArray
-
-}
 
 //alle Kennzeichen der Fahrzeuge
 async function getKennzeichen() {
@@ -1001,24 +979,29 @@ function getMAcars(Employees) {
 
 }
 
+//Generates a new Column in an html table, filled with the value "Mitarbeiter" by appending the column onto "innerstring"
 function newMaTable(Mitarbeiter, innerString) {
     innerString += '<td><button class="link" onclick="getEditor(`Mitarbeiter`, `' + Mitarbeiter +
         '`)">' + Name(Mitarbeiter) + '</button></td>';
     return innerString;
 }
 
+//Generates a new Column in an html table, filled with the value "Car" by appending the column onto "innerstring"
 function newCarTable(Car, innerString) {
     innerString += '<td><button class="link" onclick="getEditor(`Fahrzeug`, `' + Car +
         '`)">' + Car + '</button></td>';
     return innerString;
 }
 
+//Generates a new RED Column in an html table, filled with the value "Car" by appending the column onto "innerstring"
 function newCarTableRed(Car, innerString) {
     innerString += '<td><button class="redlink" onclick="getEditor(`Fahrzeug`, `' + Car +
         '`)">' + Car + '</button></td>';
     return innerString;
 }
 
+//Generates a new Column in an html table, filled with the value "LicenceDate" by appending the column onto "innerstring"
+//Date turns red if the Date lies 11 Months or more in the past
 function newDateTable(LicenseDate, innerString) {
     var Today = new Date()
     var LicenseDateString = ""
@@ -1036,48 +1019,10 @@ function newDateTable(LicenseDate, innerString) {
 }
 
 
-//Generiert automatisch die Tabelle mit den dazugehörigen Mitarbeitern und deren Autos
-async function GenerateTable() {
-    var Employees = new Array()
-    var Cars = new Array()
-    var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th></tr>'
 
-    getMa().then(function (Mitarbeiter) {
-        Mitarbeiter.map(mail => Employees.push(mail))
-    });
-
-    const snapshot = await getMAcars()
-    Cars = snapshot;
-
-    console.log(Cars)
-    console.log(Employees)
-
-    await getMa();
-
-    for (var i = 0; i < Employees.length; i++) {
-        innerstring += "<tr>"
-        innerstring = newMaTable(Employees[i], innerstring)
-        if (Cars[i] !== "placeholder") {
-            innerstring = newCarTable(Cars[i], innerstring)
-        } else {
-            innerstring += '<td></td>'
-        }
-        innerstring += "</tr>"
-    }
-
-    document.getElementById("Employee-Car").innerHTML = innerstring;
-}
-
-function Name(str) {
-
-    str = str.replace(".", " ");
-    str = str.replace("@nterra.com", "");
-    str = str.replace(/\b\w/g, l => l.toUpperCase());
-
-    return str
-}
-
-async function newMAtest() {
+//gets Employee Data out of the 'Mitarbeiter' Collection and puts it into an Array
+//return Array: "Employees"
+async function getEmployeeData() {
     var Employees = new Array(Array(), Array(), Array())
 
     snapshot = await mitarbeiterRef.orderBy("LetzterUpload", "asc").get()
@@ -1096,26 +1041,29 @@ async function newMAtest() {
 }
 
 
+//Generiert die Home Tabelle
+//Holt sich die Daten aus der Firebase Database in einem Array
+//Schneidet sich einen String aus den MitarbeiterDaten zusammen, welches direkt als innerHTML in die HTML Tabelle "Employee-Car-Table" gesetzt wird
+async function GenerateTable() {
+    var tableString = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th><th>Letzter Upload</th></tr>'
 
-async function GenerateTableNew() {
-    var innerstring = '<tr><th>Mitarbeiter</th><th>Fahrzeug</th><th>Letzter Upload</th></tr>'
+    const EmployeeData = await getEmployeeData()
 
-    const result = await newMAtest()
+    console.log(EmployeeData)
 
-    console.log(result)
-
-    for (var i = 0; i < result[1].length; i++) {
-        innerstring += "<tr>"
-        innerstring = newMaTable(result[1][i], innerstring)
-        innerstring = newCarTable(result[2][i], innerstring)
-        innerstring = newDateTable(result[0][i], innerstring)
-        innerstring += "</tr>"
+    for (var i = 0; i < EmployeeData[1].length; i++) {
+        tableString += "<tr>"
+        tableString = newMaTable(EmployeeData[1][i], tableString)
+        tableString = newCarTable(EmployeeData[2][i], tableString)
+        tableString = newDateTable(EmployeeData[0][i], tableString)
+        tableString += "</tr>"
     }
 
-    document.getElementById("Employee-Car").innerHTML = innerstring;
+    document.getElementById("Employee-Car-Table").innerHTML = tableString;
 
 }
 
+//cuts the Name out of an nterra Email "str"
 function Name(str) {
 
     str = str.replace(".", " ");
@@ -1125,7 +1073,7 @@ function Name(str) {
     return str
 }
 
-
+//sets innerhtml of the element with the ID "id" with the value "innerstring"
 function setinner(id, innerstring) {
     document.getElementById(id).innerHTML = innerstring;
 }
@@ -1137,7 +1085,7 @@ function generateURLString(URLFront, URLBack) {
     return innerstring;
 }
 
-//deletes 
+//deletes Collection with the ID "collection"
 function deleteCollection(collection) {
 
     collection.get().then(function (querySnapshot) {
@@ -1153,13 +1101,15 @@ function deleteCollection(collection) {
     });
 }
 
-
+//Erstellt die Übersicht Tabelle im Übersicht Tab
+//Parameter: 
+//          bool: true  -> Firmenwagen
+//                false -> Mietwagen
+//tableid: ID der html Tabelle, in welcher der exportstring geschrieben wird
 async function exportCars(bool, tableid) {
 
     var snapshot
     var exportstring
-
-    getMaNew();
 
     if (bool) {
         snapshot = await fahrzeugeRef.orderBy("Vertragsende", "asc").get();
@@ -1219,6 +1169,8 @@ async function exportCars(bool, tableid) {
 
 }
 
+//Füllt eine Spalte einer html Tabelle mit dem Wert "datastring", 
+//indem er den dazugehörtigen html code an "exportstring" anhängt
 function newcol(exportstring, datastring) {
     var newstring = exportstring + "<td>" + datastring + "</td>";
 
