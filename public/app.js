@@ -643,9 +643,9 @@ function FillEditMask(doc, bool, key) {
             document.getElementById('editmileage').value = data.Vertragslaufleistung;
             document.getElementById('editcende').value = data.Vertragsende;
             if (typeof data.Verlauf !== "undefined") {
-                document.getElementById('editplaceholder').style = 'none';
+                document.getElementById('editplaceholder').style.display = 'none';
                 document.getElementById('edithistoryid').style.display = 'block';
-                document.getElementById('edithistoryid').value = data.Verlauf;
+                document.getElementById('edithistory').value = data.Verlauf;
             }
         } else {
             document.getElementById('editdatumid').style = 'block';
