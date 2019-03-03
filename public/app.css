@@ -328,7 +328,7 @@ input[type=radio]:hover{
     height: auto;
 }
 
-.fuehrerschein #license-user, .fuehrerschein #license-date{
+.fuehrerschein #license-user, .fuehrerschein #license-date, .fuehrerschein strong{
     align-self: center;
     justify-self: center;
     color: rgb(102, 102, 102);
