@@ -319,6 +319,7 @@ input[type=radio]:hover{
     list-style: none;
     display:inline;
     justify-self: stretch;
+    padding-inline-start: 10px;
 }
 
 .fuehrerschein .license-box{
