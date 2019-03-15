@@ -688,7 +688,7 @@ function getChecks(Mitarbeiter) {
 }
 
 function getDrives(Mitarbeiter) {
-    mitarbeiterRef.doc(Mitarbeiter).collection("ImBuero").where("Datum", ">", lastcalendaryear()).get().then(function (Fahrten) {
+    mitarbeiterRef.doc(Mitarbeiter).collection("ImBuero").where("Datum", ">=", lastcalendaryear()).get().then(function (Fahrten) {
         console.log(Fahrten)
         if (!Fahrten.empty) {
             console.log(Fahrten);
