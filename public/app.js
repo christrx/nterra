@@ -559,6 +559,8 @@ function jumpToTop(){
     document.documentElement.scrollTop = 0;
 }
 
+
+//!!NOT IN USE!!
 //gets the InputWindow for the key of the desired Dataset
 function getDataMask(Datensatz) {
     fillDatalist(Datensatz, "MAList");
@@ -575,7 +577,9 @@ function getDataMask(Datensatz) {
     }
 }
 
+//takes a Key of an Object ans specifies whether it is an employee or car ("Datensatz")
 //opens the Editor-Page
+//It opens the sub function seatchdatabase with the key and a boolean value, depending on "Datensatz"
 function getEditor(Datensatz, Key) {
     ResetEditor();
     setHash('editor')
@@ -589,6 +593,9 @@ function getEditor(Datensatz, Key) {
     }
 }
 
+
+//Takes the key and searches for the document in the firestore database and returns it ot a sub function
+//The function then fills the formula on the website with the function FIllEditmask
 function searchDatabase(key, bool) {
     if (bool) {
         var docRef = fahrzeugeRef.doc(key);
@@ -611,7 +618,12 @@ function searchDatabase(key, bool) {
 var startdate = new Date(new Date().getFullYear(), 0, 1)
 var enddate = new Date(new Date().getFullYear() + 1, 0, 1)
 
+
+//This function is responsible for making the right input fields visible, depending on the dataset,
+//and fills them with the data from the database
+//Doc: The Dataset in use, Car or Employee
 function FillEditMask(doc, bool, key) {
+    //First hide all inputs
     var data = doc.data();
     document.getElementById('edithistoryid').style.display = 'none';
     document.getElementById('editplaceholder').style.display = 'none';
@@ -623,6 +635,7 @@ function FillEditMask(doc, bool, key) {
     document.getElementById('editdatumid').style.display = 'none';
     document.getElementById('editplaceholder').style.display = 'none';
     document.getElementById('editklasseid').style.display = 'none';
+    //If the dataset is a car show inputs for car
     if (bool) {
         document.getElementById('editfahrzeugart').value = data.Fahrzeugart;
         document.getElementById('editkennzeichen').value = data.Kennzeichen;
@@ -630,6 +643,7 @@ function FillEditMask(doc, bool, key) {
         document.getElementById('editfahrer').value = data.Fahrer;
         document.getElementById('editblp').value = data.Bruttolistenpreis.replace(" €", "");
         document.getElementById('editzuzahlung').value = data.Zuzahlung.replace(" €", "");
+        //show inputs specifically for Firmenwagen
         if (doc.data().Fahrzeugart == "Firmenwagen") {
             document.getElementById('editnummerid').style = 'block';
             document.getElementById('edittodatumid').style = 'block';
@@ -642,12 +656,14 @@ function FillEditMask(doc, bool, key) {
             document.getElementById('edittodatum').value = data.Vertragsbestelldatum;
             document.getElementById('editmileage').value = data.Vertragslaufleistung;
             document.getElementById('editcende').value = data.Vertragsende;
+            //and if there is one, the Driver History
             if (typeof data.Verlauf !== "undefined") {
                 document.getElementById('editplaceholder').style.display = 'none';
                 document.getElementById('edithistoryid').style.display = 'block';
                 document.getElementById('edithistory').value = data.Verlauf;
             }
         } else {
+            //else show the specific fields for Mietwagen
             document.getElementById('editdatumid').style = 'block';
             document.getElementById('editklasseid').style = 'block';
             document.getElementById('edituedatum').value = doc.data().Übergabedatum;
@@ -660,6 +676,8 @@ function FillEditMask(doc, bool, key) {
         }
     }
 
+
+    //Or it is an Employee, then show the datamask for the Employee
     else {
         var numberdays
         document.getElementById('editname').value = data.Name;
@@ -677,6 +695,7 @@ function FillEditMask(doc, bool, key) {
     }
 }
 
+//Gets every License Check of an Employee and writes it into the Editor Page for the Employee
 function getChecks(Mitarbeiter) {
     mitarbeiterRef.doc(Mitarbeiter).get().then(function(doc){
         if (typeof doc.data().CheckHistorie !== "undefined") {
@@ -687,6 +706,7 @@ function getChecks(Mitarbeiter) {
     })
 }
 
+//Gets the numbers Drives an employee has made in the drivers app in the current calendar year, and writes the number onto his page
 function getDrives(Mitarbeiter) {
     mitarbeiterRef.doc(Mitarbeiter).collection("ImBuero").where("Datum", ">=", lastcalendaryear()).get().then(function (Fahrten) {
         console.log(Fahrten)
@@ -699,6 +719,7 @@ function getDrives(Mitarbeiter) {
     })
 }
 
+//Gets the last calendar year
 function lastcalendaryear() {
     var thisyear
     var lastyear
@@ -709,6 +730,8 @@ function lastcalendaryear() {
     return lastyear
 }
 
+
+//Gets Today Day Minus eleven Months
 function lastcalendaryearplusonemonth() {
 
     var today = new Date()
@@ -721,7 +744,7 @@ function lastcalendaryearplusonemonth() {
     return d
 }
 
-
+//Edits an Car Dataset with the inputted Data on the Editor page
 async function EditFahrzeug(Key, Fahrzeugart) {
     var olddriver
     var docRef
@@ -729,8 +752,10 @@ async function EditFahrzeug(Key, Fahrzeugart) {
     docRef = fahrzeugeRef.doc(Key);
 
     var snapshot = await docRef.get()
+    //saves the old driver of the car
     olddriver = snapshot.data().Fahrer;
 
+    //also get the Employee Dataset of the current car so his car can be changed later
     if (document.getElementById('editfahrer').value !== "") {
         var newMAsnapshot = await mitarbeiterRef.doc(document.getElementById('editfahrer').value).get()
     }
@@ -747,6 +772,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
             document.querySelector('.fahrzeug-denyalert').style.display = 'none';
         }, 3000);
     } else {
+        //Updates Firmenwagen
         if (Fahrzeugart == "Firmenwagen") {
             db.collection('Fahrzeuge').doc(Key).update({
                 Fahrzeugart: Fahrzeugart,
@@ -776,6 +802,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                     console.error("Error writing document: ", error);
                 });
         } else {
+            //Updates Mietwagen
             docRef.update({
                 Fahrzeugart: Fahrzeugart,
                 Kennzeichen: Key,
@@ -803,13 +830,17 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                 });
         }
 
+        //if the current driver is not the same driver as before then
         if (document.getElementById('editfahrer').value !== olddriver) {
 
+            //Edit the car of the new driver
             if (document.getElementById('editfahrer').value !== "") {
                 mitarbeiterRef.doc(document.getElementById('editfahrer').value).update({
                     Kennzeichen: Key
                 })
             }
+
+            //If the Old driver still has this car in his data then set it to ""
             mitarbeiterRef.doc(olddriver).get().then(function (driver) {
                 if (driver.data().Kennzeichen == Key) {
                     mitarbeiterRef.doc(olddriver).update(
@@ -817,10 +848,14 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                     )
                 }
             })
+
+            //If theres not a driver history yet make one
             if (typeof snapshot.data().Verlauf !== "undefined") {
                 docRef.update({
                     Verlauf: snapshot.data().Verlauf + "; " + Name(olddriver)
                 })
+
+                //save the old driver in the history
             } else {
 
                 docRef.set({
@@ -853,14 +888,19 @@ function EditMitarbeiter(Key) {
 }
 
 //Fehlt: Nachricht erfolgreich
+//Deletes Data
 function DeleteData(Art, Key) {
+    //If its a car
     if (Art == "Fahrzeug") {
         fahrzeugeRef.doc(Key).get().then(function (doc) {
+
+        //Set the car of the current driver of the to be deleted car to ""
         if (doc.data().Fahrer !== ""){
         mitarbeiterRef.doc(doc.data().Fahrer).update({
             Kennzeichen: ""
         })
     }
+    //and then delete
         fahrzeugeRef.doc(Key).delete().then(function () {
             document.querySelector('.fahrzeug-deletealert').style.display = 'block';
 
@@ -876,8 +916,9 @@ function DeleteData(Art, Key) {
     })
     }
 
-
+//Delete an Employee
     if (Art == "Mitarbeiter") {
+        //If the Employee still has subcollections then delete them first
         if (typeof mitarbeiterRef.doc(Key).collection("ImBuero") !== "undefined") {
             deleteCollection(mitarbeiterRef.doc(Key).collection("ImBuero"));
         }
@@ -886,10 +927,12 @@ function DeleteData(Art, Key) {
             deleteCollection(mitarbeiterRef.doc(Key).collection("Fuehrerscheine"));
         }
 
+        //then delete the employee himself
         if (typeof db.collection("Fuehrerschein").doc(Key) !== "undefined") {
             db.collection("Fuehrerschein").doc(Key).delete();
         }
 
+        //If the employee had a car, set the driver to ""
         mitarbeiterRef.doc(Key).get().then(function (doc) {
             if (doc.data().Kennzeichen !== "") {
                 fahrzeugeRef.doc(doc.data().Kennzeichen).update({
@@ -897,6 +940,7 @@ function DeleteData(Art, Key) {
                 })
             }
 
+            //then delete the employee
             mitarbeiterRef.doc(Key).delete().then(function () {
                 document.querySelector('.mitarbeiter-deletealert').style.display = 'block';
 
@@ -920,19 +964,20 @@ function ResetEditor() {
     document.getElementById("Fahrzeug-Edit").style.display = 'none';
 }
 
+//Gets an Employee Dataset
 async function getMa() {
     const snapshot = await firebase.firestore().collection('Mitarbeiter').get();
     return snapshot.docs.map(doc => doc.data().Mail);
 }
 
 
-//alle Kennzeichen der Fahrzeuge
+//holt alle Kennzeichen aller Fahrzeuge
 async function getKennzeichen() {
     const snapshot = await firebase.firestore().collection('Fahrzeuge').get();
     return snapshot.docs.map(doc => doc.data().Kennzeichen);
 }
 
-//Füllt Datalists der Inputfelder, mit denen dann das Dropdown generiert wird
+//Füllt Datalists der Inputfelder, mit denen dann das Dropdown Menüs generiert wird
 function fillDatalist(Typ, List) {
     var myMa = new Array();
     var options = '';
@@ -959,6 +1004,7 @@ function fillDatalist(Typ, List) {
 
 //ordnet jedem Mitarbeiter sein Auto zu, falls vorhanden
 //funktioniert bisher nur für 0-1 Auto pro Person
+//returnt sie als array
 function getMAcars(Employees) {
 
     Employees[1].forEach(function (employee) {
