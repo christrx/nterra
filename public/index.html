@@ -14,6 +14,7 @@
 <body>
     <div class="container">
         <header class="kopfzeile">
+            <!-- alerts -->
             <div class="alertbox">
                 <div class="mitarbeiter-changealert alert"><i class="fa fa-check-circle"></i> Mitarbeiter wurde erfolgreich bearbeitet</div>
                 <div class="mitarbeiter-deletealert alert"><i class="fa fa-trash-alt"></i> Mitarbeiter wurde erfolgreich gelöscht</div>
@@ -28,6 +29,7 @@
                 <div class="denialalert alert"><i class="fa fa-times-circle"></i> Führerschein wurde abgelehnt</div>
                 <div class="workeralert alert"><i class="fas fa-user-check"></i> Mitarbeiter wurde erfolgreich zur Datenbank hinzugefügt</div>
             </div>
+            <!-- Kopfzeile -->
             <h1 id="title">F U H R P A R K V E R W A L T U <span id='updown'>U</span> G</h1>
             <nav>
                 <ul>
@@ -58,13 +60,14 @@
                             <span><i id="closedDoor" class="fa fa-power-off"></i> S i g n O u t</button></li></span>
                 </ul>
             </div>
+            <!-- Homepage -->
             <div class="page home" style="display: none">
                 <div class="forms">
                     <table id="Employee-Car-Table">
                     </table>
                 </div>
             </div>
-
+            <!-- Editorpage -->
             <div class="page editor" style="display: none">
                 <div class="forms" id="Fahrzeug-Edit" style="display: none">
                     <form id="editorform">
@@ -143,7 +146,7 @@
                     </form>
                 </div>
 
-                <!--Ab hier Mitarbeiter-Form-->
+                <!-- Ab hier Mitarbeiter-Form -->
 
                 <div class="forms" id="Mitarbeiter-Edit" style="display: none">
                     <form id="editorform">
@@ -183,46 +186,8 @@
                     </form>
                 </div>
             </div>
-
-
-
-            <!--Datenbank Page-->
-            <!--<div class="page datenbank" style="display: none">
-                <div class="forms">
-                    <form id="databaseEdit">
-                        <p class="askDataSet">
-                            Welche Daten möchten sie ändern oder einsehen?
-                        </p>
-                        <p class="Placeholder">
-                        </p>
-                        <p>
-                            <button onclick="getDataMask('Mitarbeiter')" class="full" type="button">Mitarbeiter</button>
-                        </p>
-                        <p>
-                            <button onclick="getDataMask('Fahrzeug')" class="full" type="button">Fahrzeug</button>
-                        </p>
-                    </form>
-
-                    <p id="keylabel" style="display:none">
-                        Bitte geben sie den Schlüssel ein
-                    </p>
-                    <p id="keyinput" style="display:none">
-                        <label id="keyLabel">Schlüssel</label><br />
-                        <input type="text" class="big" name="keyinsert" id="keyinsert" list="MAList">
-                        <datalist id="MAList">
-                        </datalist>
-
-                    </p>
-                    <P id="keybutton" style="display:none">
-                        <button onclick="getEditor(document.getElementById('keyLabel').innerHTML == 'Name' ? 'Mitarbeiter' : 'Fahrzeug', getInputValues('keyinsert'))"
-                            class="full" type="submit" id="btSearch">Suchen</button>
-                    </P>
-                </div>
-            </div>-->
-
-
-            <!-- hier den Code von datenbank.html einfügen-->
-
+            
+            <!-- Fahrzeugepage -->
             <div class="page fahrzeuge" style="display: none">
                 <div class="forms">
                     <form id="carform">
@@ -290,6 +255,7 @@
                 </div>
             </div>
 
+            <!-- Führerscheinpage -->
             <div class="page fuehrerschein" style="display: none">
                 <div class="license-info">
                     <button id="license-search"><i class="fa fa-search"></i> Führerscheine suchen</button>
@@ -312,6 +278,7 @@
                 </div>
             </div>
 
+            <!-- Mitarbeiterpage -->
             <div class="page mitarbeiter" style="display:none">
                 <div class="forms">
                     <form class="workerform" id="workerform">
@@ -327,12 +294,12 @@
             </div>
 
 
-
+            <!-- Error beim Log-In -->
             <div class="page error" style="display: none">
                 <h1>Oops something must have went wrong :(</h1>
             </div>
 
-
+            <!-- Übersichtspage -->
             <div class="page uebersicht" style="display: none">
                 <label><strong>FIRMENWAGEN</strong></label>
                 <table id = "exporttablef">

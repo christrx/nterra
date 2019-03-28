@@ -343,9 +343,10 @@ function resetCarform() {
 
 }
 
+// Listen for submit on the form Mitarbeiter
 document.getElementById('workerform').addEventListener('submit', checkWorkerSubmit);
 
-
+// Checks if Mitarbeiter already exists
 function checkWorkerSubmit(e) {
     e.preventDefault();
 
@@ -367,6 +368,7 @@ function checkWorkerSubmit(e) {
     })
 }
 
+// Submit form for Mitarbeiter 
 function submitWorkerForm(e) {
 
     e.preventDefault();
@@ -385,6 +387,7 @@ function submitWorkerForm(e) {
     document.getElementById('workerform').reset();
 }
 
+// Saves new Mitarbeiter
 function saveMitarbeiter(wemail, wname) {
     mitarbeiterRef.doc(wemail).set({
         AktuellerFuehrerschein: "-1",
@@ -412,6 +415,7 @@ var currentFrontUrl = null;
 
 var oldHistory = null;
 
+// Listen for click on the form to search for new licenses
 document.getElementById('license-search').addEventListener('click', searchLicenses);
 
 function searchLicenses() {
@@ -426,6 +430,7 @@ function searchLicenses() {
     })
 }
 
+// Listen for click on the form when accepted or denied
 document.getElementById('yesbutton').addEventListener('click', acceptLicense);
 document.getElementById('nobutton').addEventListener('click', denyLicense);
 
@@ -463,6 +468,7 @@ function acceptLicense() {
             Aktuell: false
         })
     }
+    // old License gets deleted
     deleteLicense(currentMitarbeiterID);
 
     licenseCounter++;
@@ -482,8 +488,10 @@ function denyLicense() {
     document.getElementById('ablehnung-box').style.display = 'block';
 }
 
+// Listen for click on the form to send E-Mail when license denied
 document.getElementById('sendMail').addEventListener('click', sendEmail);
 
+// To send an E-Mail with the reason for the denial
 function sendEmail() {
     var empfaenger = data[licenseCounter].MitarbeiterID;
     var betreff = "Ihr Führerschein-Upload in der ndriver App wurde abgelehnt";
@@ -525,16 +533,19 @@ function deleteLicense(currentMitarbeiterID) {
     licenseRef.doc(currentMitarbeiterID).delete();
 }
 
+// opens backside of picture
 function openBack() {
     var win = window.open(currentBackUrl, '_blank');
     win.focus();
 }
 
+// opens frontside of picture
 function openFront() {
     var win2 = window.open(currentFrontUrl, '_blank');
     win2.focus();
 }
 
+// next License gets loaded
 function loadNext() {
     if (licenseCounter == data.length) {
         document.querySelector('.nothingleftalert').style.display = 'grid';
@@ -887,8 +898,6 @@ function EditMitarbeiter(Key) {
         });
 }
 
-//Fehlt: Nachricht erfolgreich
-//Deletes Data
 function DeleteData(Art, Key) {
     //If its a car
     if (Art == "Fahrzeug") {
