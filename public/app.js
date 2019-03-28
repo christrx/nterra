@@ -475,6 +475,8 @@ function acceptLicense() {
 
     loadNext();
 
+    jumpToTop();
+
     document.querySelector('.licensealert').style.display = 'block';
 
     setTimeout(function () {
@@ -805,7 +807,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
                     console.log("Document successfully written!");
-                    setHash('uebersicht');
+                    setHash('home');
                     jumpToTop();
                 })
                 .catch(function (error) {
@@ -831,7 +833,7 @@ async function EditFahrzeug(Key, Fahrzeugart) {
                     setTimeout(function () {
                         document.querySelector('.fahrzeug-changealert').style.display = 'none';
                     }, 3000);
-                    setHash('uebersicht');
+                    setHash('home');
                     jumpToTop();
                     console.log("Document successfully written!");
                 })
@@ -888,7 +890,7 @@ function EditMitarbeiter(Key) {
             setTimeout(function () {
                 document.querySelector('.mitarbeiter-changealert').style.display = 'none';
             }, 3000);
-            setHash('uebersicht');
+            setHash('home');
             jumpToTop();
             console.log("Document successfully written!");
         })
@@ -916,7 +918,7 @@ function DeleteData(Art, Key) {
             setTimeout(function () {
                 document.querySelector('.fahrzeug-deletealert').style.display = 'none';
             }, 3000);
-            setHash('uebersicht');
+            setHash('home');
             jumpToTop();
             console.log("Document successfully deleted!");
         }).catch(function (error) {
@@ -956,7 +958,7 @@ function DeleteData(Art, Key) {
                 setTimeout(function () {
                     document.querySelector('.mitarbeiter-deletealert').style.display = 'none';
                 }, 3000);
-                setHash('uebersicht');
+                setHash('home');
                 jumpToTop();
                 console.log("Document successfully deleted!");
             }).catch(function (error) {
